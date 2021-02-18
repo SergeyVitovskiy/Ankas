@@ -195,7 +195,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
                     .into(img_item);
-            txt_price.setText(String.valueOf(products.getPrice()));
+            txt_price.setText(String.valueOf(products.getPrice()) + " ₽");
             txt_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
             if(products.getQuantity() >= 1)
                 txt_nal.setText("В наличии");
@@ -215,7 +215,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
                         .into(img1_item);
-                txt1_price.setText(String.valueOf(products.getPrice()));
+                txt1_price.setText(String.valueOf(products.getPrice())  + " ₽");
                 txt1_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
                 if (products.getQuantity() >= 1)
                     txt1_nal.setText("В наличии");

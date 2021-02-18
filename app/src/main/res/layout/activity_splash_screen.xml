@@ -17,6 +17,7 @@
         app:srcCompat="@drawable/logo" />
 
     <TextView
+        android:id="@+id/txt_organiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
@@ -25,7 +26,21 @@
         android:textSize="20sp"
         android:textColor="@color/colorBlack"
         android:text="Интернет магазин\nдля\nкомерческой организации\nООО ''Анкас''" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/creator"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/txt_organiz"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="0dp" />
+
     <TextView
+        android:id="@+id/creator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -34,4 +49,6 @@
         android:gravity="right"
         android:textSize="14sp"
         android:text="Выполнил:\nСтудент грвппы: ПР-401\nВитовский Сергей Михайлович" />
+
+
 </RelativeLayout>
