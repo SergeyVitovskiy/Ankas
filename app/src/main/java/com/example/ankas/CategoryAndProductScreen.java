@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,12 +33,17 @@ import java.util.List;
 
 public class CategoryAndProductScreen extends AppCompatActivity {
 
+    // Иерархия переходов
+    TextView txt_hierarchy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_and_product);
         // Получить категорию с другой формы
         int id_ = getIntent().getIntExtra("id_item", 0);
+        // Получить и вывести иерархию переводов
+        txt_hierarchy = findViewById(R.id.txt_hierarchy);
+        txt_hierarchy.setText(getIntent().getStringExtra("hierarchy"));
         // Если не передалось значение
         if (id_ == 0) {
             Intent intent = new Intent(CategoryAndProductScreen.this, MainScreen.class);
@@ -45,6 +51,8 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         }
         // Запрос товаров или категорий
         new getCategoryAndProduct().execute(String.valueOf(id_));
+        // Кнопки верхнего меню
+        toolBarBtn();
     }
 
     // Получение товаров или категорий
@@ -144,6 +152,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(CategoryAndProductScreen.this, CategoryAndProductScreen.class);
                     intent.putExtra("id_item", category.getId_());
+                    intent.putExtra("hierarchy", txt_hierarchy.getText().toString() + " > " + category.getName());
                     startActivity(intent);
                 }
             });
@@ -160,6 +169,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, CategoryAndProductScreen.class);
                         intent.putExtra("id_item", category1.getId_());
+                        intent.putExtra("hierarchy", txt_hierarchy.getText().toString() + " > " + category1.getName());
                         startActivity(intent);
                     }
                 });
@@ -194,7 +204,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             TextView txt1_nal = viewItem_product.findViewById(R.id.txt1_nal);
             // Присвоение значений компанентам
             // Первый элемент
-            Products products = productsArrayList.get(item);
+            final Products products = productsArrayList.get(item);
             txt_name.setText(products.getName());
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
@@ -211,6 +221,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
+                    intent.putExtra("id_item",products.getId_());
                     startActivity(intent);
                 }
             });
@@ -218,18 +229,19 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     dialogBasket();
+                    addBasket(products.getId_());
                 }
             });
             // Второй элемент
             if (productsArrayList.size() > item + 1) {
-                products = productsArrayList.get(item + 1);
-                txt1_name.setText(products.getName());
+                final Products products1 = productsArrayList.get(item + 1);
+                txt1_name.setText(products1.getName());
                 Picasso.with(this)
-                        .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
+                        .load("http://anndroidankas.h1n.ru/image/" + products1.getName_image())
                         .into(img1_item);
-                txt1_price.setText(String.valueOf(products.getPrice()) + " ₽");
-                txt1_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
-                if (products.getQuantity() >= 1)
+                txt1_price.setText(String.valueOf(products1.getPrice()) + " ₽");
+                txt1_brand.setText(products1.getBrand_name() + "," + products1.getBrand_country());
+                if (products1.getQuantity() >= 1)
                     txt1_nal.setText("В наличии");
                 else
                     txt1_nal.setText("Под заказ");
@@ -237,6 +249,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
+                        intent.putExtra("id_item",products.getId_());
                         startActivity(intent);
                     }
                 });
@@ -245,12 +258,20 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         dialogBasket();
+                        addBasket(products1.getId_());
                     }
                 });
             }
         }
     }
-    private void dialogBasket(){
+
+    // Добавление товара в корзину
+    private void addBasket(int id_) {
+        Log.d("Products: ", "product add Basket. id: " + id_);
+    }
+
+    // Дилог при нажатии 'купить'
+    private void dialogBasket() {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         View viewDialog = View.inflate(this, R.layout.dialog_basket, null);
         // Обьявление компонетов
@@ -274,5 +295,17 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         });
         // Показать диалог
         dialog.show();
+    }
+
+    // Кнопки верхнего меню
+    private void toolBarBtn(){
+        ImageView btn_basket = findViewById(R.id.btn_basket);
+        btn_basket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
+                startActivity(intent);
+            }
+        });
     }
 }

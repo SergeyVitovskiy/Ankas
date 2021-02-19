@@ -11,6 +11,7 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,13 +20,26 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_hierarchy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textSize="12sp"
+                android:background="@color/colorWhite"
+                android:layout_marginBottom="2dp"
+                android:text="Название > Название > Название"/>
 
             <LinearLayout
                 android:id="@+id/layout_items"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
+            <!-- Нижнее меню -->
+            <include layout="@layout/bottom_menu"/>
         </LinearLayout>
 
     </ScrollView>

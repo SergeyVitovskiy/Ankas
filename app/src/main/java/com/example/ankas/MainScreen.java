@@ -42,6 +42,8 @@ public class MainScreen extends AppCompatActivity {
         new getBanner().execute();
         // Получение категорий
         new getCategory().execute();
+        // Кнопки верхнего меню
+        toolBarBtn();
     }
     // Получить баннер
     private class getBanner extends AsyncTask<Void, Void, String>{
@@ -167,6 +169,7 @@ public class MainScreen extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainScreen.this, CategoryAndProductScreen.class);
                     intent.putExtra("id_item", finalCategory.getId_());
+                    intent.putExtra("hierarchy", finalCategory.getName());
                     startActivity(intent);
                 }
             });
@@ -183,11 +186,23 @@ public class MainScreen extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(MainScreen.this, CategoryAndProductScreen.class);
                     intent.putExtra("id_item", finalCategory1.getId_());
+                    intent.putExtra("hierarchy", finalCategory1.getName());
                     startActivity(intent);
                 }
             });
             // Вывод на экрна
             layout_category.addView(viewItem_category);
         }
+    }
+    // Кнопки верхнего меню
+    private void toolBarBtn(){
+        ImageView btn_basket = findViewById(R.id.btn_basket);
+        btn_basket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainScreen.this, BasketScreen.class);
+                startActivity(intent);
+            }
+        });
     }
 }

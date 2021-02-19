@@ -10,16 +10,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="200dp"
+            android:id="@+id/txt_name_characteristics"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:text="Название"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorGrayDark"
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/txt_characteristics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Характеристика"
+            android:textColor="@color/colorBlack"
             android:textSize="14sp" />
     </LinearLayout>
 
