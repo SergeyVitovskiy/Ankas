@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/img_item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ico" />
@@ -102,7 +102,7 @@
             <ImageView
                 android:id="@+id/img1_item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ico" />

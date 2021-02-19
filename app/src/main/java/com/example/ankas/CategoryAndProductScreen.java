@@ -1,7 +1,9 @@
 package com.example.ankas;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,15 +39,16 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         // Получить категорию с другой формы
         int id_ = getIntent().getIntExtra("id_item", 0);
         // Если не передалось значение
-        if(id_ == 0){
+        if (id_ == 0) {
             Intent intent = new Intent(CategoryAndProductScreen.this, MainScreen.class);
             startActivity(intent);
         }
         // Запрос товаров или категорий
         new getCategoryAndProduct().execute(String.valueOf(id_));
     }
+
     // Получение товаров или категорий
-    private class getCategoryAndProduct extends AsyncTask<String, Void, String>{
+    private class getCategoryAndProduct extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
@@ -58,7 +61,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 StringBuffer result = new StringBuffer();
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
                 return result.toString();
@@ -73,17 +76,15 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(!result.equals(""))
-            {
+            if (!result.equals("")) {
                 List<Category> categoriesArrayList = new ArrayList<>();
                 List<Products> productsArrayList = new ArrayList<>();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     // Категории
-                    if(jsonObject.getString("Param").equals("Category"))
-                    {
+                    if (jsonObject.getString("Param").equals("Category")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("Category");
-                        for (int i =0;i<jsonArray.length();i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObjectCategory = jsonArray.getJSONObject(i);
                             Category category = new Category(
                                     jsonObjectCategory.getInt("id_"),
@@ -95,10 +96,9 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                         addCategoryMainScrean(categoriesArrayList);
                     }
                     // Товары
-                    else
-                    {
+                    else {
                         JSONArray jsonArray = jsonObject.getJSONArray("Product");
-                        for(int i = 0 ;i<jsonArray.length();i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObjectProduct = jsonArray.getJSONObject(i);
                             Products products = new Products(
                                     jsonObjectProduct.getInt("id_"),
@@ -119,6 +119,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             }
         }
     }
+
     // Добавлние категорий на экран
     private void addCategoryMainScrean(List<Category> categoryArrayList) {
         LinearLayout layout_items = findViewById(R.id.layout_items);
@@ -133,6 +134,8 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             final Category category = categoryArrayList.get(item);
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
+                    .placeholder(R.drawable.ico_small)
+                    .error(R.drawable.ico_small)
                     .into(item_image);
             txt_name.setText(category.getName());
             // Обработка нажатия
@@ -145,7 +148,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 }
             });
             // Второй элемент
-            if(categoryArrayList.size()>item+1) {
+            if (categoryArrayList.size() > item + 1) {
                 final Category category1 = categoryArrayList.get(item + 1);
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + category1.getImage())
@@ -170,10 +173,11 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             layout_items.addView(viewItem_category);
         }
     }
+
     // Добавление товаров на экран
-    private void addProductMainScreen(List<Products> productsArrayList){
+    private void addProductMainScreen(List<Products> productsArrayList) {
         LinearLayout layout_items = findViewById(R.id.layout_items);
-        for (int item = 0;item<productsArrayList.size();item+=2){
+        for (int item = 0; item < productsArrayList.size(); item += 2) {
             View viewItem_product = View.inflate(this, R.layout.item_product, null);
             // Обьявление компонетов
             TextView txt_name = viewItem_product.findViewById(R.id.txt_name);
@@ -194,34 +198,42 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             txt_name.setText(products.getName());
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
+                    .placeholder(R.drawable.ico_small)
+                    .error(R.drawable.ico_small)
                     .into(img_item);
             txt_price.setText(String.valueOf(products.getPrice()) + " ₽");
             txt_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
-            if(products.getQuantity() >= 1)
+            if (products.getQuantity() >= 1)
                 txt_nal.setText("В наличии");
             else
                 txt_nal.setText("Под заказ");
-            btn_by.setOnClickListener(new View.OnClickListener() {
+            img_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
                     startActivity(intent);
                 }
             });
+            btn_by.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogBasket();
+                }
+            });
             // Второй элемент
-            if(productsArrayList.size() > item+1) {
+            if (productsArrayList.size() > item + 1) {
                 products = productsArrayList.get(item + 1);
                 txt1_name.setText(products.getName());
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
                         .into(img1_item);
-                txt1_price.setText(String.valueOf(products.getPrice())  + " ₽");
+                txt1_price.setText(String.valueOf(products.getPrice()) + " ₽");
                 txt1_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
                 if (products.getQuantity() >= 1)
                     txt1_nal.setText("В наличии");
                 else
                     txt1_nal.setText("Под заказ");
-                btn1_by.setOnClickListener(new View.OnClickListener() {
+                img1_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
@@ -229,7 +241,38 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     }
                 });
                 layout_items.addView(viewItem_product);
+                btn1_by.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogBasket();
+                    }
+                });
             }
         }
+    }
+    private void dialogBasket(){
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        View viewDialog = View.inflate(this, R.layout.dialog_basket, null);
+        // Обьявление компонетов
+        Button btn_basket = viewDialog.findViewById(R.id.btn_basket);
+        Button btn_close = viewDialog.findViewById(R.id.btn_close);
+        dialogBuilder.setView(viewDialog);
+        final Dialog dialog = dialogBuilder.create();
+        // Присвоение кнопок
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        btn_basket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
+                startActivity(intent);
+            }
+        });
+        // Показать диалог
+        dialog.show();
     }
 }

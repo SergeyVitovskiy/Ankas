@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".BasketScreen"></activity>
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +22,7 @@
         </activity>
         <activity android:name=".ProductScreen" />
         <activity android:name=".CategoryAndProductScreen" />
-        <activity android:name=".MainScreen">
-        </activity>
+        <activity android:name=".MainScreen"></activity>
     </application>
 
 </manifest>

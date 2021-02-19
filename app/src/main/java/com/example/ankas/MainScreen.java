@@ -80,6 +80,8 @@ public class MainScreen extends AppCompatActivity {
                 }
                 Picasso.with(MainScreen.this)
                         .load("http://anndroidankas.h1n.ru/image/" + banerArrayList.get(0))
+                        .placeholder(R.drawable.ico_small)
+                        .error(R.drawable.ico_small)
                         .into(img_baner);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -154,6 +156,8 @@ public class MainScreen extends AppCompatActivity {
             Category category = categoryArrayList.get(item);
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
+                    .placeholder(R.drawable.ico_small)
+                    .error(R.drawable.ico_small)
                     .into(item_image);
             txt_name.setText(category.getName());
             // Обработка нажатия
