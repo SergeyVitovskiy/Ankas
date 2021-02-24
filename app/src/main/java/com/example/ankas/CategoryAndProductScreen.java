@@ -35,6 +35,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
 
     // Иерархия переходов
     TextView txt_hierarchy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +143,6 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             final Category category = categoryArrayList.get(item);
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
-                    .placeholder(R.drawable.ico_small)
                     .error(R.drawable.ico_small)
                     .into(item_image);
             txt_name.setText(category.getName());
@@ -161,6 +161,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 final Category category1 = categoryArrayList.get(item + 1);
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + category1.getImage())
+                        .error(R.drawable.ico_small)
                         .into(item1_image);
                 txt1_name.setText(category1.getName());
                 // Обработка нажатия
@@ -212,8 +213,10 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     .into(img_item);
             // Кореция вывод цены
             StringBuffer price = new StringBuffer(products.getPrice() + " ₽");
-            if (price.length() >= 6)
+            if (price.length() >= 5)
                 price = price.insert((price.length() - 5), " ");
+            if (price.length() >= 9)
+                price = price.insert((price.length() - 9), " ");
             txt_price.setText(price);
             txt_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
             if (products.getQuantity() >= 1)
@@ -224,7 +227,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
-                    intent.putExtra("id_item",products.getId_());
+                    intent.putExtra("id_item", products.getId_());
                     startActivity(intent);
                 }
             });
@@ -241,10 +244,13 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 txt1_name.setText(products1.getName());
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + products1.getName_image())
+                        .error(R.drawable.ico_small)
                         .into(img1_item);
                 price = new StringBuffer(products1.getPrice() + " ₽");
                 if (price.length() >= 6)
                     price = price.insert((price.length() - 5), " ");
+                if (price.length() >= 9)
+                    price = price.insert((price.length() - 9), " ");
                 txt1_price.setText(price);
                 txt1_brand.setText(products1.getBrand_name() + "," + products1.getBrand_country());
                 if (products1.getQuantity() >= 1)
@@ -255,7 +261,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
-                        intent.putExtra("id_item",products.getId_());
+                        intent.putExtra("id_item", products.getId_());
                         startActivity(intent);
                     }
                 });
@@ -295,6 +301,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         btn_basket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.cancel();
                 Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
                 startActivity(intent);
             }
@@ -304,7 +311,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
     }
 
     // Кнопки верхнего меню
-    private void toolBarBtn(){
+    private void toolBarBtn() {
         ImageView btn_basket = findViewById(R.id.btn_basket);
         btn_basket.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,346 +21,250 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <!-- Название -->
-            <TextView
-                android:id="@+id/txt_name"
+            <!-- Изображение загрузки -->
+            <ImageView
+                android:id="@+id/loadingImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:text="Название"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp" />
-            <!-- Изображения -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorWhite">
-
-                <AdapterViewFlipper
-                    android:id="@+id/imageFlipper"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorWhite"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="0dp"
-                    app:srcCompat="@drawable/right_24" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/left_24" />
-            </RelativeLayout>
-            <!-- Цена, покупка, бренд, Код товара -->
+                android:layout_height="100dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ico_small" />
+            <!-- Товар -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txt_codProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/border_text_black"
-                        android:text="код на сайте: 1"
-                        android:textColor="@color/colorBlack" />
-
-                    <TextView
-                        android:id="@+id/txt_brand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/border_text_black"
-                        android:text="Benza, Россия"
-                        android:textColor="@color/colorBlack" />
-                </LinearLayout>
-
-                <LinearLayout
+                <!-- Название -->
+                <TextView
+                    android:id="@+id/txt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:background="@color/colorWhite"
+                    android:padding="5dp"
+                    android:text="Название"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp" />
+                <!-- Изображения -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@color/colorWhite">
 
-                    <TextView
-                        android:id="@+id/txt_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="33 500 ₽"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="26sp" />
-
-                    <Button
+                    <AdapterViewFlipper
+                        android:id="@+id/imageFlipper"
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@color/colorGreen"
-                        android:text="Купить"
-                        android:textColor="@color/colorWhite" />
-                </LinearLayout>
-                <!-- Иконки -->
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite" />
+
+                    <ImageView
+                        android:id="@+id/image_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="0dp"
+                        app:srcCompat="@drawable/right_24" />
+
+                    <ImageView
+                        android:id="@+id/image_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/left_24" />
+                </RelativeLayout>
+                <!-- Цена, покупка, бренд, Код товара -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorWhite"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:srcCompat="@drawable/map" />
-
+                        android:layout_marginLeft="5dp"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+                        <!-- Код товара -->
                         <TextView
+                            android:id="@+id/txt_codProduct"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="В наличии: Челябинск"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp" />
+                            android:background="@drawable/border_text_black"
+                            android:text="код на сайте: 1"
+                            android:textColor="@color/colorBlack" />
+                        <!-- Бренд -->
+                        <TextView
+                            android:id="@+id/txt_brand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/border_text_black"
+                            android:text="Benza, Россия"
+                            android:textColor="@color/colorBlack" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:srcCompat="@drawable/gelivery" />
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
 
                         <TextView
+                            android:id="@+id/txt_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="Очень быстрая доставка в г. Челябинск"
+                            android:text="33 500 ₽"
                             android:textColor="@color/colorBlack"
-                            android:textSize="14sp" />
+                            android:textSize="26sp" />
+
+                        <Button
+                            android:id="@+id/btn_by"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@color/colorGreen"
+                            android:text="Купить"
+                            android:textColor="@color/colorWhite" />
                     </LinearLayout>
-
+                    <!-- Иконки -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:srcCompat="@drawable/point" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:text="Самовывоз в г. Челябинск, ул. Газизуллина, 2Б"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp" />
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:srcCompat="@drawable/map" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="В наличии: Челябинск"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:srcCompat="@drawable/gelivery" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="Очень быстрая доставка в г. Челябинск"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:srcCompat="@drawable/point" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="Самовывоз в г. Челябинск, ул. Газизуллина, 2Б"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="14sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <!-- Описание -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:layout_marginBottom="2dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Описание товара"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="14sp" />
-            </LinearLayout>
-            <!-- Характеристики -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Основные характеристики"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
+                <!-- Описание -->
                 <LinearLayout
+                    android:id="@+id/layout_description"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorWhite"
                     android:orientation="vertical"
-                    android:id="@+id/layout_characteristic"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
-            <!-- Нижнее меню -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    android:padding="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="2dp"
-                    android:text="* Технические характеристики и комплект поставки могут быть изменены производителем без предварительного уведомления."
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Описание товара"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGreen" />
-
-                <TextView
+                    <org.sufficientlysecure.htmltextview.HtmlTextView
+                        android:id="@+id/txt_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+                <!-- Характеристики -->
+                <LinearLayout
+                    android:id="@+id/layout_characteristics"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Связь с нами"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp" />
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/telephone_call"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Основные характеристики"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:text="Системы оплат"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp" />
-
+                    <LinearLayout
+                        android:id="@+id/layout_characteristic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical" />
+                </LinearLayout>
+                <!-- Нижнее меню -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:gravity="center">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <ImageView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/apple_pay" />
+                        android:background="@color/colorWhite"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="* Технические характеристики и комплект поставки могут быть изменены производителем без предварительного уведомления."
+                        android:textSize="12sp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/google_pay" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorGreen" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/mastercard" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/visa" />
+                    <include layout="@layout/bottom_menu" />
                 </LinearLayout>
-                <!-- Отзыв компании -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:text="Оставить отзыв о компании"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/vk" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/youtube" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/instagram" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/facebook" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:padding="1dp"
-                    android:text="@string/bottom_description1"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="right"
-                    android:text="© Компания ''Анкас'', 2013-2021. Все права защищены."
-                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
