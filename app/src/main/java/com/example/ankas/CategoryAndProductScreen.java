@@ -208,10 +208,13 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             txt_name.setText(products.getName());
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + products.getName_image())
-                    .placeholder(R.drawable.ico_small)
                     .error(R.drawable.ico_small)
                     .into(img_item);
-            txt_price.setText(String.valueOf(products.getPrice()) + " ₽");
+            // Кореция вывод цены
+            StringBuffer price = new StringBuffer(products.getPrice() + " ₽");
+            if (price.length() >= 6)
+                price = price.insert((price.length() - 5), " ");
+            txt_price.setText(price);
             txt_brand.setText(products.getBrand_name() + "," + products.getBrand_country());
             if (products.getQuantity() >= 1)
                 txt_nal.setText("В наличии");
@@ -239,7 +242,10 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 Picasso.with(this)
                         .load("http://anndroidankas.h1n.ru/image/" + products1.getName_image())
                         .into(img1_item);
-                txt1_price.setText(String.valueOf(products1.getPrice()) + " ₽");
+                price = new StringBuffer(products1.getPrice() + " ₽");
+                if (price.length() >= 6)
+                    price = price.insert((price.length() - 5), " ");
+                txt1_price.setText(price);
                 txt1_brand.setText(products1.getBrand_name() + "," + products1.getBrand_country());
                 if (products1.getQuantity() >= 1)
                     txt1_nal.setText("В наличии");

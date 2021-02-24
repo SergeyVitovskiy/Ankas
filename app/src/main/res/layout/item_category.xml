@@ -24,7 +24,7 @@
                 android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:gravity="center_vertical"
+                android:gravity="start"
                 android:text="Название"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
@@ -34,8 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:padding="5dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ico_small" />
+                android:scaleType="fitCenter" />
         </LinearLayout>
         <!-- Второй элемент -->
         <LinearLayout
@@ -51,7 +50,7 @@
                 android:id="@+id/txt1_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:gravity="center_vertical"
+                android:gravity="start"
                 android:text="Название"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
@@ -61,8 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:padding="5dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ico_small" />
+                android:scaleType="fitCenter" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

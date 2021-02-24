@@ -36,17 +36,18 @@
                 android:layout_height="300dp"
                 android:background="@color/colorWhite">
 
+                <AdapterViewFlipper
+                    android:id="@+id/imageFlipper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite"/>
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="0dp"
                     app:srcCompat="@drawable/right_24" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ico_small" />
 
                 <ImageView
                     android:layout_width="wrap_content"

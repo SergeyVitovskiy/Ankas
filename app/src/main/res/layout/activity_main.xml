@@ -55,7 +55,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp">
 
+                <AdapterViewFlipper
+                    android:id="@+id/img_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
+
                 <ImageView
+                    android:id="@+id/btn_bannerRight"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
@@ -63,19 +70,10 @@
                     app:srcCompat="@drawable/right_24" />
 
                 <ImageView
-                    android:id="@+id/img_baner"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="@color/colorWhite"
-                    app:srcCompat="@drawable/ico_small" />
-
-                <ImageView
+                    android:id="@+id/btn_bannerLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/left_24" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
             </RelativeLayout>
             <!-- Категории товаров -->
             <LinearLayout
@@ -113,13 +111,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <!-- Название -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@color/colorWhite"
                     android:gravity="bottom">
-                    <!-- Название -->
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,17 +126,25 @@
                         android:text="Хиты продаж"
                         android:textColor="@color/colorBlack"
                         android:textSize="18sp" />
+
                 </LinearLayout>
+                <!-- Вкладки популярных категрий -->
+               <com.google.android.material.tabs.TabLayout
+                   android:id="@+id/tabLayout_topCategories"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:tabMode="scrollable"/>
             </LinearLayout>
             <!-- Нижнее меню -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:padding="2dp"
                 android:text="@string/bottom_description"
-                android:textSize="12sp"
-                android:layout_margin="5dp"/>
-            <include layout="@layout/bottom_menu"/>
+                android:textSize="12sp" />
+
+            <include layout="@layout/bottom_menu" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterViewFlipper;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ankas.Adapter.FlipperBannerAdapter;
 import com.example.ankas.Class.Category;
 import com.squareup.picasso.Picasso;
 
@@ -29,15 +31,11 @@ import java.util.List;
 public class MainScreen extends AppCompatActivity {
 
     private List<Category> categoryArrayList = new ArrayList<>();
-    private List<String> banerArrayList = new ArrayList<>();
-
-    ImageView img_baner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        img_baner = findViewById(R.id.img_baner);
         // Получить баннеры
         new getBanner().execute();
         // Получение категорий
@@ -45,8 +43,9 @@ public class MainScreen extends AppCompatActivity {
         // Кнопки верхнего меню
         toolBarBtn();
     }
+
     // Получить баннер
-    private class getBanner extends AsyncTask<Void, Void, String>{
+    private class getBanner extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -59,7 +58,7 @@ public class MainScreen extends AppCompatActivity {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuffer result = new StringBuffer();
                 String line = "";
-                while ((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
                 return result.toString();
@@ -75,21 +74,20 @@ public class MainScreen extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
+                // Созлание и заполние листа с названиями изображений
+                List<String> bannerArrayList = new ArrayList<>();
                 JSONArray jsonArray = new JSONArray(result);
-                for(int i = 0 ;i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    banerArrayList.add(jsonObject.getString("name_image"));
+                    bannerArrayList.add(jsonObject.getString("name_image"));
                 }
-                Picasso.with(MainScreen.this)
-                        .load("http://anndroidankas.h1n.ru/image/" + banerArrayList.get(0))
-                        .placeholder(R.drawable.ico_small)
-                        .error(R.drawable.ico_small)
-                        .into(img_baner);
+                banner(bannerArrayList);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
+
     // Получить категории
     private class getCategory extends AsyncTask<Void, Void, String> {
 
@@ -144,6 +142,7 @@ public class MainScreen extends AppCompatActivity {
 
 
     }
+
     // Добавлние категорий на экран
     private void addCategoryMainScrean() {
         LinearLayout layout_category = findViewById(R.id.layout_category);
@@ -158,7 +157,6 @@ public class MainScreen extends AppCompatActivity {
             Category category = categoryArrayList.get(item);
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
-                    .placeholder(R.drawable.ico_small)
                     .error(R.drawable.ico_small)
                     .into(item_image);
             txt_name.setText(category.getName());
@@ -174,9 +172,10 @@ public class MainScreen extends AppCompatActivity {
                 }
             });
             // Второй элемент
-            category = categoryArrayList.get(item+1);
+            category = categoryArrayList.get(item + 1);
             Picasso.with(this)
                     .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
+                    .error(R.drawable.ico_small)
                     .into(item1_image);
             txt1_name.setText(category.getName());
             // Обработка нажатия
@@ -194,14 +193,39 @@ public class MainScreen extends AppCompatActivity {
             layout_category.addView(viewItem_category);
         }
     }
+
     // Кнопки верхнего меню
-    private void toolBarBtn(){
+    private void toolBarBtn() {
         ImageView btn_basket = findViewById(R.id.btn_basket);
         btn_basket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainScreen.this, BasketScreen.class);
                 startActivity(intent);
+            }
+        });
+    }
+    // Банер
+    private void banner(List<String> bannerArrayList){
+        // Вывод изображений на экран
+        final AdapterViewFlipper img_banner = findViewById(R.id.img_banner);
+        img_banner.setAdapter(new FlipperBannerAdapter(MainScreen.this, bannerArrayList));
+        img_banner.setFlipInterval(1000);
+        img_banner.startFlipping();
+        ImageView btn_bannerRight = findViewById(R.id.btn_bannerRight);
+        ImageView btn_bannerLeft = findViewById(R.id.btn_bannerLeft);
+        // Дальше
+        btn_bannerRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img_banner.showNext();
+            }
+        });
+        // Вернуться назад
+        btn_bannerLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                img_banner.showPrevious();
             }
         });
     }
