@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ankas.Adapter.FlipperBannerAdapter;
+import com.example.ankas.Class.Basket;
 import com.example.ankas.Class.Category;
 import com.squareup.picasso.Picasso;
 
@@ -204,6 +205,8 @@ public class MainScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
     }
     // Банер
     private void banner(List<String> bannerArrayList){

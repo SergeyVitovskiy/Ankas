@@ -25,19 +25,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 android:text="Ваша корзина"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
             <!-- Товары в корзине -->
             <LinearLayout
+                android:id="@+id/linear_basket"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:orientation="vertical">
 
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
                 android:text="Оформление заказа"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
@@ -192,9 +197,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="Нажимая '''Оформить заказ''', я подтверждаю, что ознакомлен с информацией о товаре и принимаю условия пользовательского соглашения , и даю согласие на обработку моих персональных данных."/>
+                    android:text="Нажимая '''Оформить заказ''', я подтверждаю, что ознакомлен с информацией о товаре и принимаю условия пользовательского соглашения , и даю согласие на обработку моих персональных данных." />
             </LinearLayout>
-            <include layout="@layout/bottom_menu"/>
+
+            <include layout="@layout/bottom_menu" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

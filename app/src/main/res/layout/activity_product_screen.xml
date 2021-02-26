@@ -61,12 +61,14 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="0dp"
+                        android:visibility="gone"
                         app:srcCompat="@drawable/right_24" />
 
                     <ImageView
                         android:id="@+id/image_left"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         app:srcCompat="@drawable/left_24" />
                 </RelativeLayout>
                 <!-- Цена, покупка, бренд, Код товара -->

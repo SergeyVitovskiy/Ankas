@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ankas.Class.Basket;
 import com.example.ankas.Class.Category;
 import com.example.ankas.Class.Products;
 import com.squareup.picasso.Picasso;
@@ -235,7 +236,8 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     dialogBasket();
-                    addBasket(products.getId_());
+                    Basket.addItemBasket(products.getId_());
+                    toolBarBtn();
                 }
             });
             // Второй элемент
@@ -270,17 +272,14 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         dialogBasket();
-                        addBasket(products1.getId_());
+                        Basket.addItemBasket(products1.getId_());
+                        toolBarBtn();
                     }
                 });
             }
         }
     }
 
-    // Добавление товара в корзину
-    private void addBasket(int id_) {
-        Log.d("Products: ", "product add Basket. id: " + id_);
-    }
 
     // Дилог при нажатии 'купить'
     private void dialogBasket() {
@@ -320,5 +319,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
     }
 }

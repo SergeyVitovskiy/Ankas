@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ankas.Adapter.ImageProductAdapter;
+import com.example.ankas.Class.Basket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,13 +49,7 @@ public class ProductScreen extends AppCompatActivity {
         // Кнопки верхнего меню
         toolBarBtn();
         // Кнопка купить
-        Button btn_by = findViewById(R.id.btn_by);
-        btn_by.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBasket();
-            }
-        });
+        dialogBasket(idProduct);
     }
 
     // Информация о товаре
@@ -142,7 +138,7 @@ public class ProductScreen extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return "";
         }
 
         @Override
@@ -184,9 +180,13 @@ public class ProductScreen extends AppCompatActivity {
                 imageFlipper.showNext();
             }
         });
+        Log.d("ProductActivity", "ImageCount: " + imageFlipper.getCount());
         if (imageFlipper.getCount() <= 1) {
             image_left.setVisibility(View.GONE);
             image_right.setVisibility(View.GONE);
+        } else {
+            image_left.setVisibility(View.VISIBLE);
+            image_right.setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,31 +244,41 @@ public class ProductScreen extends AppCompatActivity {
     }
 
     // Дилог при нажатии 'купить'
-    private void dialogBasket() {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        View viewDialog = View.inflate(this, R.layout.dialog_basket, null);
-        // Обьявление компонетов
-        Button btn_basket = viewDialog.findViewById(R.id.btn_basket);
-        Button btn_close = viewDialog.findViewById(R.id.btn_close);
-        dialogBuilder.setView(viewDialog);
-        final Dialog dialog = dialogBuilder.create();
-        // Присвоение кнопок
-        btn_close.setOnClickListener(new View.OnClickListener() {
+    private void dialogBasket(final int idProduct) {
+        Button btn_by = findViewById(R.id.btn_by);
+        btn_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.cancel();
+                // Добавить в корзину
+                Basket.addItemBasket(idProduct);
+                toolBarBtn();
+                // Показ диалога
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductScreen.this);
+                View viewDialog = View.inflate(ProductScreen.this, R.layout.dialog_basket, null);
+                // Обьявление компонетов
+                Button btn_basket = viewDialog.findViewById(R.id.btn_basket);
+                Button btn_close = viewDialog.findViewById(R.id.btn_close);
+                dialogBuilder.setView(viewDialog);
+                final Dialog dialog = dialogBuilder.create();
+                // Присвоение кнопок
+                btn_close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                btn_basket.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                        Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
+                        startActivity(intent);
+                    }
+                });
+                // Показать диалог
+                dialog.show();
             }
         });
-        btn_basket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-                Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
-                startActivity(intent);
-            }
-        });
-        // Показать диалог
-        dialog.show();
     }
 
     // Кнопки верхнего меню
@@ -281,5 +291,7 @@ public class ProductScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
     }
 }

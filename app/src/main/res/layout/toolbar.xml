@@ -38,14 +38,34 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorGray" />
 
-            <ImageView
-                android:id="@+id/btn_basket"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:adjustViewBounds="true"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/basket" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/btn_basket"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/basket" />
+
+                <TextView
+                    android:id="@+id/txt_countBasket"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="23dp"
+                    android:background="@drawable/circle_green"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="0"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
 
             <View
                 android:layout_width="2dp"

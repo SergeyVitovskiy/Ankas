@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- Изображение товара -->
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/ico" />
+                <!-- Название товара -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:maxLines="4"
+                    android:text="Название\nНазвание\nНазвание\nНазвание"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+                <!-- Цена товара -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="999 999 999 ₽"/>
+                <!-- Кол-во товара -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="right">
+                    <!-- + -->
+                    <TextView
+                        android:background="@drawable/border_gray_light"
+                        android:layout_width="20dp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="20sp"
+                        android:text="-" />
+                    <TextView
+                        android:background="@drawable/border_gray_light"
+                        android:layout_width="80dp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="1" />
+                    <!-- - -->
+                    <TextView
+                        android:background="@drawable/border_gray_light"
+                        android:layout_width="20dp"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="20sp"
+                        android:text="+" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <!-- Линия -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorGray" />
+        <!-- Общая стоимость -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="16sp"
+            android:text="Общая стоимость товара: 999 999 999₽" />
+    </LinearLayout>
+</LinearLayout>
