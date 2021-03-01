@@ -19,7 +19,8 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         // Получение товаров из памяти устройства
-        Basket.getProductSystem();
+        Basket.setContext(SplashScreen.this);
+        Basket.getProductSystem(SplashScreen.this);
 
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(300);
@@ -40,7 +41,6 @@ public class SplashScreen extends AppCompatActivity {
                             timer.cancel();
                             Intent intent = new Intent(SplashScreen.this, MainScreen.class);
                             startActivity(intent);
-
                         }
                     }
                 });

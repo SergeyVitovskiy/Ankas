@@ -43,6 +43,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/image_applePay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -51,6 +52,7 @@
                 app:srcCompat="@drawable/apple_pay" />
 
             <ImageView
+                android:id="@+id/image_googlePay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -59,6 +61,7 @@
                 app:srcCompat="@drawable/google_pay" />
 
             <ImageView
+                android:id="@+id/image_mastercard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -67,6 +70,7 @@
                 app:srcCompat="@drawable/mastercard" />
 
             <ImageView
+                android:id="@+id/iamge_visa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -91,6 +95,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/image_VK"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -99,6 +104,7 @@
                 app:srcCompat="@drawable/vk" />
 
             <ImageView
+                android:id="@+id/image_YouTube"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -107,6 +113,7 @@
                 app:srcCompat="@drawable/youtube" />
 
             <ImageView
+                android:id="@+id/image_Inst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -115,6 +122,7 @@
                 app:srcCompat="@drawable/instagram" />
 
             <ImageView
+                android:id="@+id/image_Facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"

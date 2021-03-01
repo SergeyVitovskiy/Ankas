@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.Button;
@@ -28,7 +27,6 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -50,6 +48,8 @@ public class ProductScreen extends AppCompatActivity {
         toolBarBtn();
         // Кнопка купить
         dialogBasket(idProduct);
+        // Кнопки нижнего меню
+        bottomMenu();
     }
 
     // Информация о товаре
@@ -90,7 +90,7 @@ public class ProductScreen extends AppCompatActivity {
                 // Корректирование описания
                 String description = jsonObjectProduct.getString("description");
                 // Есть ли описание у товара
-                if (description.equals("")) {
+                if (description.equals("") || description.equals("null") || description == null) {
                     LinearLayout layout_description = findViewById(R.id.layout_description);
                     layout_description.setVisibility(View.GONE);
                 } else {
@@ -218,25 +218,29 @@ public class ProductScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(!result.equals("")) {
+            if (!result.equals("")) {
                 try {
                     LinearLayout layout_characteristic = findViewById(R.id.layout_characteristic);
                     // Вывод информации
                     JSONArray jsonArray = new JSONArray(result);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        View item_characteristics = View.inflate(ProductScreen.this, R.layout.item_characteristics, null);
-                        TextView txt_name_characteristics = item_characteristics.findViewById(R.id.txt_name_characteristics);
-                        TextView txt_characteristics = item_characteristics.findViewById(R.id.txt_characteristics);
-                        txt_name_characteristics.setText(jsonObject.getString("name"));
-                        txt_characteristics.setText(jsonObject.getString("characteristic"));
-                        layout_characteristic.addView(item_characteristics);
+                    if (jsonArray.length() != 0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            View item_characteristics = View.inflate(ProductScreen.this, R.layout.item_characteristics, null);
+                            TextView txt_name_characteristics = item_characteristics.findViewById(R.id.txt_name_characteristics);
+                            TextView txt_characteristics = item_characteristics.findViewById(R.id.txt_characteristics);
+                            txt_name_characteristics.setText(jsonObject.getString("name"));
+                            txt_characteristics.setText(jsonObject.getString("characteristic"));
+                            layout_characteristic.addView(item_characteristics);
+                        }
+                    } else {
+                        LinearLayout layout_characteristics = findViewById(R.id.layout_characteristics);
+                        layout_characteristics.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 LinearLayout layout_characteristics = findViewById(R.id.layout_characteristics);
                 layout_characteristics.setVisibility(View.GONE);
             }
@@ -245,40 +249,55 @@ public class ProductScreen extends AppCompatActivity {
 
     // Дилог при нажатии 'купить'
     private void dialogBasket(final int idProduct) {
-        Button btn_by = findViewById(R.id.btn_by);
+        final Button btn_by = findViewById(R.id.btn_by);
+        if (Basket.checkBasket(idProduct)) {
+            btn_by.setText("В корзине");
+        } else {
+            btn_by.setText("Купить");
+        }
         btn_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Добавить в корзину
-                Basket.addItemBasket(idProduct);
-                toolBarBtn();
-                // Показ диалога
-                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductScreen.this);
-                View viewDialog = View.inflate(ProductScreen.this, R.layout.dialog_basket, null);
-                // Обьявление компонетов
-                Button btn_basket = viewDialog.findViewById(R.id.btn_basket);
-                Button btn_close = viewDialog.findViewById(R.id.btn_close);
-                dialogBuilder.setView(viewDialog);
-                final Dialog dialog = dialogBuilder.create();
-                // Присвоение кнопок
-                btn_close.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
-                btn_basket.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                        Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
-                        startActivity(intent);
-                    }
-                });
-                // Показать диалог
-                dialog.show();
+                // Перейти в корзину
+                if (btn_by.getText().equals("В корзине")) {
+                    Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
+                    startActivity(intent);
+                } else if(btn_by.getText().equals("Купить")) {
+                    // Открыть диалоговое окно
+                    // Добавить в корзину
+                    Basket.setContext(ProductScreen.this);
+                    btn_by.setText("В корзине");
+                    Basket.addItemBasket(idProduct, ProductScreen.this);
+                    toolBarBtn();
+                    // Показ диалога
+                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductScreen.this);
+                    View viewDialog = View.inflate(ProductScreen.this, R.layout.dialog_basket, null);
+                    // Обьявление компонетов
+                    Button btn_basket = viewDialog.findViewById(R.id.btn_basket);
+                    Button btn_close = viewDialog.findViewById(R.id.btn_close);
+                    dialogBuilder.setView(viewDialog);
+                    final Dialog dialog = dialogBuilder.create();
+                    // Присвоение кнопок
+                    btn_close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.cancel();
+                        }
+                    });
+                    btn_basket.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.cancel();
+                            Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
+                            startActivity(intent);
+                        }
+                    });
+                    // Показать диалог
+                    dialog.show();
+                }
             }
         });
+
     }
 
     // Кнопки верхнего меню
@@ -293,5 +312,75 @@ public class ProductScreen extends AppCompatActivity {
         });
         TextView txt_countBasket = findViewById(R.id.txt_countBasket);
         txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
+    }
+
+    // Нижнее меню
+    private void bottomMenu() {
+        // Банки
+        ImageView image_applePay = findViewById(R.id.image_applePay);
+        image_applePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_googlePay = findViewById(R.id.image_googlePay);
+        image_googlePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_mastercard = findViewById(R.id.image_mastercard);
+        image_mastercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView iamge_visa = findViewById(R.id.iamge_visa);
+        iamge_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
+                startActivity(browserIntent);
+            }
+        });
+        // Соц сетия
+        ImageView image_VK = findViewById(R.id.image_VK);
+        image_VK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_YouTube = findViewById(R.id.image_YouTube);
+        image_YouTube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Inst = findViewById(R.id.image_Inst);
+        image_Inst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Facebook = findViewById(R.id.image_Facebook);
+        image_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
+                startActivity(browserIntent);
+            }
+        });
     }
 }

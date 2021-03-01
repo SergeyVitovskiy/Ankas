@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +55,8 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         new getCategoryAndProduct().execute(String.valueOf(id_));
         // Кнопки верхнего меню
         toolBarBtn();
+        // Кнопки нижнего меню
+        bottomMenu();
     }
 
     // Получение товаров или категорий
@@ -198,8 +200,8 @@ public class CategoryAndProductScreen extends AppCompatActivity {
             ImageView img1_item = viewItem_product.findViewById(R.id.img1_item);
             TextView txt_price = viewItem_product.findViewById(R.id.txt_price);
             TextView txt1_price = viewItem_product.findViewById(R.id.txt1_price);
-            Button btn_by = viewItem_product.findViewById(R.id.btn_by);
-            Button btn1_by = viewItem_product.findViewById(R.id.btn1_by);
+            final Button btn_by = viewItem_product.findViewById(R.id.btn_by);
+            final Button btn1_by = viewItem_product.findViewById(R.id.btn1_by);
             TextView txt_brand = viewItem_product.findViewById(R.id.txt_brand);
             TextView txt1_brand = viewItem_product.findViewById(R.id.txt1_brand);
             TextView txt_nal = viewItem_product.findViewById(R.id.txt_nal);
@@ -232,12 +234,25 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            if (Basket.checkBasket(products.getId_())) {
+                btn_by.setText("В корзине");
+            } else {
+                btn_by.setText("Купить");
+            }
             btn_by.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialogBasket();
-                    Basket.addItemBasket(products.getId_());
-                    toolBarBtn();
+                    if (btn_by.getText().equals("Купить")) {
+                        dialogBasket();
+                        // Добавление в корзину
+                        Basket.setContext(CategoryAndProductScreen.this);
+                        btn_by.setText("В корзине");
+                        Basket.addItemBasket(products.getId_(), CategoryAndProductScreen.this);
+                        toolBarBtn();
+                    } else if (btn_by.getText().equals("В корзине")) {
+                        Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
+                        startActivity(intent);
+                    }
                 }
             });
             // Второй элемент
@@ -263,23 +278,34 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, ProductScreen.class);
-                        intent.putExtra("id_item", products.getId_());
+                        intent.putExtra("id_item", products1.getId_());
                         startActivity(intent);
                     }
                 });
                 layout_items.addView(viewItem_product);
+                if (Basket.checkBasket(products1.getId_())) {
+                    btn1_by.setText("В корзине");
+                } else {
+                    btn1_by.setText("Купить");
+                }
                 btn1_by.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialogBasket();
-                        Basket.addItemBasket(products1.getId_());
-                        toolBarBtn();
+                        if (btn1_by.getText().equals("Купить")) {
+                            dialogBasket();
+                            Basket.setContext(CategoryAndProductScreen.this);
+                            btn1_by.setText("В корзине");
+                            Basket.addItemBasket(products1.getId_(), CategoryAndProductScreen.this);
+                            toolBarBtn();
+                        } else if (btn1_by.getText().equals("В корзине")) {
+                            Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
+                            startActivity(intent);
+                        }
                     }
                 });
             }
         }
     }
-
 
     // Дилог при нажатии 'купить'
     private void dialogBasket() {
@@ -321,5 +347,75 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         });
         TextView txt_countBasket = findViewById(R.id.txt_countBasket);
         txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
+    }
+
+    // Нижнее меню
+    private void bottomMenu() {
+        // Банки
+        ImageView image_applePay = findViewById(R.id.image_applePay);
+        image_applePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_googlePay = findViewById(R.id.image_googlePay);
+        image_googlePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_mastercard = findViewById(R.id.image_mastercard);
+        image_mastercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView iamge_visa = findViewById(R.id.iamge_visa);
+        iamge_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
+                startActivity(browserIntent);
+            }
+        });
+        // Соц сетия
+        ImageView image_VK = findViewById(R.id.image_VK);
+        image_VK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_YouTube = findViewById(R.id.image_YouTube);
+        image_YouTube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Inst = findViewById(R.id.image_Inst);
+        image_Inst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Facebook = findViewById(R.id.image_Facebook);
+        image_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
+                startActivity(browserIntent);
+            }
+        });
     }
 }

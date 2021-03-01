@@ -38,6 +38,22 @@
                 android:orientation="vertical">
 
             </LinearLayout>
+            <!-- Пустая корзина -->
+            <LinearLayout
+                android:id="@+id/layout_loading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:background="@color/colorWhite"
+                android:layout_height="300dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ваша корзина пуста"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_marginTop="40dp"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -162,6 +178,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_sumProduct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
@@ -176,6 +193,7 @@
                         android:background="@color/colorGray" />
 
                     <TextView
+                        android:id="@+id/txt_sum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
