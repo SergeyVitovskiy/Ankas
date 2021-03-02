@@ -61,6 +61,13 @@ public class Basket {
         }
     }
 
+    // получение кол-ва товара из памяти
+    public static int getCountBasketSystem(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("BasketCount", 0);
+    }
+
+    // Есть ли товар в корзине
     public static boolean checkBasket(int id_) {
         for (int i = 0; i < basketList.size(); i++) {
             if (basketList.get(i).id_ == id_)
@@ -79,6 +86,7 @@ public class Basket {
         }
         return count;
     }
+
 
     // Получене товаров из корзины
     public static List<Basket> getBasketList() {

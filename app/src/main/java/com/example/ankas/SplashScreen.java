@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.ankas.Class.Basket;
@@ -21,7 +23,9 @@ public class SplashScreen extends AppCompatActivity {
         // Получение товаров из памяти устройства
         Basket.setContext(SplashScreen.this);
         Basket.getProductSystem(SplashScreen.this);
-
+        // Вращение изображения
+        ImageView image_ico_rotate = findViewById(R.id.image_ico_rotate);
+        image_ico_rotate.startAnimation(AnimationUtils.loadAnimation(SplashScreen.this, R.anim.rotate_corner));
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(300);
 

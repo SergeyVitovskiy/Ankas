@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +38,9 @@ public class CategoryAndProductScreen extends AppCompatActivity {
     // Иерархия переходов
     TextView txt_hierarchy;
 
+    LinearLayout layout_loading;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,9 @@ public class CategoryAndProductScreen extends AppCompatActivity {
         toolBarBtn();
         // Кнопки нижнего меню
         bottomMenu();
+        layout_loading = findViewById(R.id.layout_loading);
+        ImageView image_loading = findViewById(R.id.image_loading);
+        image_loading.setAnimation(AnimationUtils.loadAnimation(CategoryAndProductScreen.this, R.anim.rotate_corner));
     }
 
     // Получение товаров или категорий
@@ -134,6 +141,11 @@ public class CategoryAndProductScreen extends AppCompatActivity {
 
     // Добавлние категорий на экран
     private void addCategoryMainScrean(List<Category> categoryArrayList) {
+        // Отключений экрана загрузки
+        layout_loading.setVisibility(View.GONE);
+        LinearLayout layout_content = findViewById(R.id.layout_content);
+        layout_content.setVisibility(View.VISIBLE);
+        // Добавление компонентов
         LinearLayout layout_items = findViewById(R.id.layout_items);
         for (int item = 0; item < categoryArrayList.size(); item += 2) {
             View viewItem_category = View.inflate(this, R.layout.item_category, null);
@@ -190,6 +202,11 @@ public class CategoryAndProductScreen extends AppCompatActivity {
 
     // Добавление товаров на экран
     private void addProductMainScreen(List<Products> productsArrayList) {
+        // Отключений экрана загрузки
+        layout_loading.setVisibility(View.GONE);
+        LinearLayout layout_content = findViewById(R.id.layout_content);
+        layout_content.setVisibility(View.VISIBLE);
+        // Добавление компонентов
         LinearLayout layout_items = findViewById(R.id.layout_items);
         for (int item = 0; item < productsArrayList.size(); item += 2) {
             View viewItem_product = View.inflate(this, R.layout.item_product, null);
@@ -249,6 +266,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                         btn_by.setText("В корзине");
                         Basket.addItemBasket(products.getId_(), CategoryAndProductScreen.this);
                         toolBarBtn();
+                        addItemBasket();
                     } else if (btn_by.getText().equals("В корзине")) {
                         Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
                         startActivity(intent);
@@ -282,12 +300,14 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                // Какую кнопку отобразить
                 layout_items.addView(viewItem_product);
                 if (Basket.checkBasket(products1.getId_())) {
                     btn1_by.setText("В корзине");
                 } else {
                     btn1_by.setText("Купить");
                 }
+                // Купить
                 btn1_by.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -297,6 +317,7 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                             btn1_by.setText("В корзине");
                             Basket.addItemBasket(products1.getId_(), CategoryAndProductScreen.this);
                             toolBarBtn();
+                            addItemBasket();
                         } else if (btn1_by.getText().equals("В корзине")) {
                             Intent intent = new Intent(CategoryAndProductScreen.this, BasketScreen.class);
                             startActivity(intent);
@@ -345,8 +366,21 @@ public class CategoryAndProductScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        ImageView img_logo = findViewById(R.id.img_logo);
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoryAndProductScreen.this, MainScreen.class);
+                startActivity(intent);
+            }
+        });
         TextView txt_countBasket = findViewById(R.id.txt_countBasket);
         txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
+    }
+    // Прибавление кол-во элементов в корзине
+    private void addItemBasket(){
+        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket.setText(String.valueOf((Integer.valueOf(txt_countBasket.getText().toString())) + 1));
     }
 
     // Нижнее меню

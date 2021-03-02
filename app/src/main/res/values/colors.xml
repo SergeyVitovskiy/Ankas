@@ -5,4 +5,5 @@
     <color name="colorGrayDark">#717171</color>
     <color name="colorGray">#DCDCDC</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRead">#FF0000</color>
 </resources>

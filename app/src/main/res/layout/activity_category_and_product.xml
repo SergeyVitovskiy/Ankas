@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:background="@drawable/bg"
     tools:context=".CategoryAndProductScreen">
+    <!-- Градиент -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient" />
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,26 +24,57 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/txt_hierarchy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="12sp"
-                android:background="@color/colorWhite"
-                android:layout_marginBottom="2dp"
-                android:text="Название > Название > Название"/>
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- Загрузка -->
             <LinearLayout
-                android:id="@+id/layout_items"
+                android:id="@+id/layout_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" />
+                android:layout_below="@+id/toolbar"
+                android:layout_marginTop="0dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="50dp"
+                    app:srcCompat="@drawable/ico" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Загрузка..." />
+            </LinearLayout>
+            <!-- Контент -->
+            <LinearLayout
+                android:id="@+id/layout_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_hierarchy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorWhite"
+                    android:padding="5dp"
+                    android:text="Название > Название > Название"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </LinearLayout>
             <!-- Нижнее меню -->
-            <include layout="@layout/bottom_menu"/>
+            <include layout="@layout/bottom_menu" />
         </LinearLayout>
 
     </ScrollView>

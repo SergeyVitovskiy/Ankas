@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterViewFlipper;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,8 +54,9 @@ public class MainScreen extends AppCompatActivity {
         // Кнопки нижнего меню
         bottomMenu();
     }
+
     // Звонки
-    private void call(){
+    private void call() {
         // Позвонить компании
         TextView txt_tell = findViewById(R.id.txt_tell);
         txt_tell.setOnClickListener(new View.OnClickListener() {
@@ -255,10 +257,11 @@ public class MainScreen extends AppCompatActivity {
             }
         });
         TextView txt_countBasket = findViewById(R.id.txt_countBasket);
-        txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
+        txt_countBasket.setText(String.valueOf(Basket.getCountBasketSystem(MainScreen.this)));
     }
+
     // Банер
-    private void banner(List<String> bannerArrayList){
+    private void banner(List<String> bannerArrayList) {
         // Вывод изображений на экран
         final AdapterViewFlipper img_banner = findViewById(R.id.img_banner);
         img_banner.setAdapter(new FlipperBannerAdapter(MainScreen.this, bannerArrayList));
@@ -281,8 +284,9 @@ public class MainScreen extends AppCompatActivity {
             }
         });
     }
+
     // Нижнее меню
-    private void bottomMenu(){
+    private void bottomMenu() {
         // Банки
         ImageView image_applePay = findViewById(R.id.image_applePay);
         image_applePay.setOnClickListener(new View.OnClickListener() {

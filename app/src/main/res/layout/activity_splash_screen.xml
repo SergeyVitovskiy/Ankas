@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".SplashScreen">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="100dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="40dp"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/logo" />
 
@@ -25,7 +26,15 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="@color/colorBlack"
-        android:text="Интернет магазин\nдля\nкомерческой организации\nООО ''Анкас''" />
+        android:text="Интернет магазин для\nкомерческой организации\nООО ''Анкас''" />
+
+    <ImageView
+        android:id="@+id/image_ico_rotate"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/progressBar"
+        android:layout_marginBottom="20dp"
+        app:srcCompat="@drawable/ico" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -35,9 +44,7 @@
         android:layout_above="@+id/creator"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_below="@+id/txt_organiz"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginBottom="50dp" />
 
     <TextView
         android:id="@+id/creator"
@@ -48,7 +55,7 @@
         android:layout_marginRight="10dp"
         android:gravity="right"
         android:textSize="14sp"
-        android:text="Выполнил:\nСтудент грвппы: ПР-401\nВитовский Сергей Михайлович" />
+        android:text="Выполнили:\nСтуденты грвппы: ПР-401\nВитовский Сергей Михайлович\nПереверзева Татьяна Сергеевна" />
 
 
 </RelativeLayout>

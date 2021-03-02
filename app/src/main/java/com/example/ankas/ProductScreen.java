@@ -262,13 +262,14 @@ public class ProductScreen extends AppCompatActivity {
                 if (btn_by.getText().equals("В корзине")) {
                     Intent intent = new Intent(ProductScreen.this, BasketScreen.class);
                     startActivity(intent);
-                } else if(btn_by.getText().equals("Купить")) {
+                } else if (btn_by.getText().equals("Купить")) {
                     // Открыть диалоговое окно
                     // Добавить в корзину
                     Basket.setContext(ProductScreen.this);
                     btn_by.setText("В корзине");
                     Basket.addItemBasket(idProduct, ProductScreen.this);
                     toolBarBtn();
+                    addItemBasket();
                     // Показ диалога
                     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProductScreen.this);
                     View viewDialog = View.inflate(ProductScreen.this, R.layout.dialog_basket, null);
@@ -310,8 +311,22 @@ public class ProductScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        ImageView img_logo = findViewById(R.id.img_logo);
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductScreen.this, MainScreen.class);
+                startActivity(intent);
+            }
+        });
         TextView txt_countBasket = findViewById(R.id.txt_countBasket);
         txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
+    }
+
+    // Прибавление кол-во элементов в корзине
+    private void addItemBasket() {
+        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket.setText(String.valueOf((Integer.valueOf(txt_countBasket.getText().toString())) + 1));
     }
 
     // Нижнее меню

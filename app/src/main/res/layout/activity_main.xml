@@ -4,12 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:background="@drawable/bg"
     tools:context=".MainScreen">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient" />
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+
+
     <!-- Пролистывание основного контента -->
     <ScrollView
         android:layout_width="match_parent"
@@ -21,122 +28,156 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <!-- Обратный звонок -->
+            <!-- Загрузка -->
             <LinearLayout
-                android:id="@+id/layout_callBack"
+                android:id="@+id/layout_loading"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
+                android:visibility="gone"
                 android:layout_below="@+id/toolbar"
                 android:layout_marginTop="0dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/colorWhite"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp">
-
-                <TextView
-                    android:id="@+id/txt_tell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="+7(351) 751-40-12"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Обратный звонок"
-                    android:id="@+id/txt_callBack"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="16sp" />
-            </LinearLayout>
-            <!-- Банер -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="250dp">
-
-                <AdapterViewFlipper
-                    android:id="@+id/img_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorWhite" />
-
-                <ImageView
-                    android:id="@+id/btn_bannerRight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="0dp"
-                    app:srcCompat="@drawable/right_24" />
-
-                <ImageView
-                    android:id="@+id/btn_bannerLeft"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/left_24" />
-            </RelativeLayout>
-            <!-- Категории товаров -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/image_loading"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/colorWhite"
-                    android:gravity="bottom">
-                    <!-- Название -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="1dp"
-                        android:text="Категории товаров"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
-                </LinearLayout>
+                    android:layout_height="100dp"
+                    android:layout_marginTop="50dp"
+                    app:srcCompat="@drawable/ico" />
 
-                <LinearLayout
-                    android:id="@+id/layout_category"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Загрузка..." />
+            </LinearLayout>
+            <!-- Контент -->
+            <LinearLayout
+                android:id="@+id/layout_content"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!-- Обратный звонок -->
+                <LinearLayout
+                    android:id="@+id/layout_callBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/toolbar"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorWhite"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/txt_tell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="+7(351) 751-40-12"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/txt_callBack"
+                        android:inputType="phone"
+                        android:maxLength="12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Обратный звонок"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <!-- Банер -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                    <AdapterViewFlipper
+                        android:id="@+id/img_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite" />
+
+                    <ImageView
+                        android:id="@+id/btn_bannerRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="0dp"
+                        app:srcCompat="@drawable/right_24" />
+
+                    <ImageView
+                        android:id="@+id/btn_bannerLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/left_24" />
+                </RelativeLayout>
+                <!-- Категории товаров -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="bottom">
+                        <!-- Название -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="1dp"
+                            android:text="Категории товаров"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <!-- Хит продаж -->
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!-- Название -->
+                <!-- Хит продаж -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/colorWhite"
-                    android:gravity="bottom">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <!-- Название -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/colorWhite"
+                        android:gravity="bottom">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="1dp"
+                            android:text="Хиты продаж"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+                    <!-- Вкладки популярных категрий -->
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout_topCategories"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="1dp"
-                        android:text="Хиты продаж"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
-
+                        app:tabMode="scrollable" />
                 </LinearLayout>
-                <!-- Вкладки популярных категрий -->
-               <com.google.android.material.tabs.TabLayout
-                   android:id="@+id/tabLayout_topCategories"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   app:tabMode="scrollable"/>
             </LinearLayout>
             <!-- Нижнее меню -->
             <TextView
