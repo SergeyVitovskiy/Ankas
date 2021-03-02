@@ -26,9 +26,12 @@
             android:layout_marginBottom="5dp"
             android:text="Для заказа обратного звонка введите свой номер телефона"/>
         <EditText
+            android:id="@+id/eText_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="+7 (xxx) xxx-xx-xx"
+            android:inputType="phone"
+            android:maxLength="12"
             android:textSize="14sp"
             android:layout_marginBottom="5dp"
             android:padding="10dp"

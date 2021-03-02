@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,9 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ankas.Adapter.ImageProductAdapter;
 import com.example.ankas.Class.Basket;
@@ -48,6 +51,8 @@ public class ProductScreen extends AppCompatActivity {
         toolBarBtn();
         // Кнопка купить
         dialogBasket(idProduct);
+        // Сообщение об ошибке
+        errorMessage();
         // Кнопки нижнего меню
         bottomMenu();
     }
@@ -395,6 +400,65 @@ public class ProductScreen extends AppCompatActivity {
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
                 startActivity(browserIntent);
+            }
+        });
+    }
+
+    // Сообщений об ошибке
+    private void errorMessage() {
+        TextView txt_error_message = findViewById(R.id.txt_error_message);
+        txt_error_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Context context = ProductScreen.this;
+                // Создание диалога
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                View viewItemDialog = View.inflate(context,
+                        R.layout.dialog_error_message, null);
+                builder.setView(viewItemDialog);
+                final Dialog dialog = builder.create();
+                // Обьявление компонентов
+                final EditText eText_mail =viewItemDialog.findViewById(R.id.eText_mail);
+                final EditText eText_message = viewItemDialog.findViewById(R.id.eText_message);
+                TextView push = viewItemDialog.findViewById(R.id.push);
+                TextView dialog_cancel = viewItemDialog.findViewById(R.id.dialog_cancel);
+                // Отбработка отправки сообщения
+                push.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int checkEText =0;
+                        // Почта
+                        if(!eText_mail.getText().toString().equals("") &&
+                                eText_mail.getText().toString().matches("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$")) {
+                            checkEText++;
+                        }
+                        else {
+                            Toast.makeText(context, "Ошибка [E-mail]", Toast.LENGTH_SHORT).show();
+                        }
+                        // Сообщение
+                        if(!eText_message.getText().toString().equals("") && eText_message.getText().toString().length() >= 20) {
+                            checkEText++;
+
+                        } else {
+                            Toast.makeText(context, "Не заполнено поле сообщения или слишком короткое (Минимум 20 символов)",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        // Проверка полей
+                        if(checkEText >= 2){
+                            Toast.makeText(context, "Сообщение отправлено", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+                    }
+                });
+                // Закрытие диалога
+                dialog_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                // Вывод диалога
+                dialog.show();
             }
         });
     }

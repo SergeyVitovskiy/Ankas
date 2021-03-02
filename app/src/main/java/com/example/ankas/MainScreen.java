@@ -4,14 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterViewFlipper;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,21 +72,30 @@ public class MainScreen extends AppCompatActivity {
         txt_callBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View viewItem = View.inflate(MainScreen.this, R.layout.dialog_call_back, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
+                // Создание диалога
+                final Context context = MainScreen.this;
+                View viewItem = View.inflate(context, R.layout.dialog_call_back, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setView(viewItem);
                 final Dialog dialog = builder.create();
-                // Запросить обрытный звноко
+                // Обьявление компонентов диалога
                 TextView call = viewItem.findViewById(R.id.call);
+                final EditText eText_phone = findViewById(R.id.eText_phone);
+                TextView dialog_cancle = viewItem.findViewById(R.id.dialog_cancle);
+                // Запросить обрытный звноко
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialog.cancel();
-                        Toast.makeText(MainScreen.this, "Заявка оформлена, оператор позвонит в течении 15 минут", Toast.LENGTH_LONG);
+                        if (!eText_phone.getText().toString().equals("") &&
+                                eText_phone.getText().toString().length() >=5) {
+                            dialog.cancel();
+                            Toast.makeText(context, "Заявка оформлена, оператор позвонит в течении 15 минут", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(context, "Неверно указан номер телефона", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
                 // Закрыть диалого
-                TextView dialog_cancle = viewItem.findViewById(R.id.dialog_cancle);
                 dialog_cancle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -265,7 +274,7 @@ public class MainScreen extends AppCompatActivity {
         // Вывод изображений на экран
         final AdapterViewFlipper img_banner = findViewById(R.id.img_banner);
         img_banner.setAdapter(new FlipperBannerAdapter(MainScreen.this, bannerArrayList));
-        img_banner.setFlipInterval(1000);
+        img_banner.setFlipInterval(5000);
         img_banner.startFlipping();
         ImageView btn_bannerRight = findViewById(R.id.btn_bannerRight);
         ImageView btn_bannerLeft = findViewById(R.id.btn_bannerLeft);

@@ -33,10 +33,10 @@
                 android:id="@+id/layout_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_below="@+id/toolbar"
                 android:layout_marginTop="0dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/image_loading"
@@ -56,22 +56,21 @@
             <LinearLayout
                 android:id="@+id/layout_content"
                 android:layout_width="match_parent"
-                android:visibility="visible"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
                 <!-- Обратный звонок -->
                 <LinearLayout
                     android:id="@+id/layout_callBack"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/toolbar"
-                    android:layout_marginTop="0dp"
                     android:layout_marginBottom="2dp"
                     android:background="@color/colorWhite"
                     android:gravity="bottom"
                     android:orientation="horizontal"
                     android:paddingBottom="5dp">
-
+                    <!-- Номер телефона -->
                     <TextView
                         android:id="@+id/txt_tell"
                         android:layout_width="wrap_content"
@@ -82,15 +81,27 @@
                         android:textColor="@color/colorGreen"
                         android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/txt_callBack"
-                        android:inputType="phone"
-                        android:maxLength="12"
+                    <!-- Обратный звонок -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Обратный звонок"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="16sp" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_callBack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="Обратный звонок"
+                            android:textColor="@color/colorGreen"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/colorGreen" />
+                    </LinearLayout>
+
                 </LinearLayout>
                 <!-- Банер -->
                 <RelativeLayout

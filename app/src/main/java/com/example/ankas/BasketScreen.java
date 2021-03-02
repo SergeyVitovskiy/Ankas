@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 public class BasketScreen extends AppCompatActivity {
     LinearLayout linear_basket;
@@ -144,8 +142,8 @@ public class BasketScreen extends AppCompatActivity {
                 }
                 Basket.setProductSystem(BasketScreen.this);
                 // Общая стоимость товаров
-                txt_sumProduct.setText(replacePrice(String.valueOf(Basket.getSumPrice())));
-                txt_sum.setText(replacePrice(String.valueOf(Basket.getSumPrice())));
+                txt_sumProduct.setText( "Общая стоимость заказа: " + replacePrice(String.valueOf(Basket.getSumPrice())));
+                txt_sum.setText("Итор: " + replacePrice(String.valueOf(Basket.getSumPrice())));
             }
         });
         // Переход к товару
