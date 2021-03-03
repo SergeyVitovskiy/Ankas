@@ -38,6 +38,8 @@ import java.util.List;
 public class MainScreen extends AppCompatActivity {
 
     private List<Category> categoryArrayList = new ArrayList<>();
+    // Кол-во товара в корзине
+    static TextView txt_countBasket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,18 +82,20 @@ public class MainScreen extends AppCompatActivity {
                 final Dialog dialog = builder.create();
                 // Обьявление компонентов диалога
                 TextView call = viewItem.findViewById(R.id.call);
-                final EditText eText_phone = findViewById(R.id.eText_phone);
+                final EditText eText_phone = viewItem.findViewById(R.id.eText_phone);
                 TextView dialog_cancle = viewItem.findViewById(R.id.dialog_cancle);
                 // Запросить обрытный звноко
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (!eText_phone.getText().toString().equals("") &&
-                                eText_phone.getText().toString().length() >=5) {
+                                eText_phone.getText().toString().length() >= 5) {
                             dialog.cancel();
                             Toast.makeText(context, "Заявка оформлена, оператор позвонит в течении 15 минут", Toast.LENGTH_LONG).show();
+                            eText_phone.setBackgroundResource(R.drawable.border_gray_light);
                         } else {
                             Toast.makeText(context, "Неверно указан номер телефона", Toast.LENGTH_LONG).show();
+                            eText_phone.setBackgroundResource(R.drawable.border_read);
                         }
                     }
                 });
@@ -265,8 +269,12 @@ public class MainScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        TextView txt_countBasket = findViewById(R.id.txt_countBasket);
+        txt_countBasket = findViewById(R.id.txt_countBasket);
         txt_countBasket.setText(String.valueOf(Basket.getCountBasketSystem(MainScreen.this)));
+    }
+    // Изменение кол-ва товара из другой формы
+    public static void updateCountBasket(){
+        txt_countBasket.setText(String.valueOf(Basket.getCountBasket()));
     }
 
     // Банер

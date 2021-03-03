@@ -45,17 +45,20 @@ public class Basket {
             if (id_ != 0)
                 addItemBasket(id_, context);
         }
+
     }
 
     public static void setContext(Context context) {
         mContext = context;
     }
 
+    public static int r = 0;
+
     // Запись в память
     public static void setProductSystem(Context context) {
         SharedPreferences.Editor sharedPreferencesEditor = context.getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
         int basketCount = getCountBasket();
-        sharedPreferencesEditor.putInt("BasketCount", basketCount);
+        sharedPreferencesEditor.putInt("BasketCount", basketCount).commit();
         for (int position = 0; position < basketCount; position++) {
             sharedPreferencesEditor.putInt(("id" + position), getBasketList().get(position).id_).commit();
         }
@@ -103,7 +106,11 @@ public class Basket {
     public static void deleteItemBasket(int position) {
         basketList.remove(position);
     }
-
+    // Отчистка корзины
+    public static void clearList(){
+        basketList.clear();
+        basketList = new ArrayList<>();
+    }
     // Получени общей стоимость товаров
     public static int getSumPrice() {
         int sum = 0;

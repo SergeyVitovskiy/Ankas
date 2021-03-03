@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,6 +62,14 @@ public class BasketScreen extends AppCompatActivity {
         txt_mail = (EditText) findViewById(R.id.txt_mail);
         txt_tell = (EditText) findViewById(R.id.txt_tell);
         txt_note = (EditText) findViewById(R.id.txt_note);
+        // Заполнение полей из память
+        SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        txt_address.setText(sharedPreferences.getString("address", ""));
+        txt_details_address.setText(sharedPreferences.getString("details_address", ""));
+        txt_surname.setText(sharedPreferences.getString("surname", ""));
+        txt_name.setText(sharedPreferences.getString("name", ""));
+        txt_mail.setText(sharedPreferences.getString("mail", ""));
+        txt_tell.setText(sharedPreferences.getString("tell", ""));
         // Кнопки получений товара
         btnDelivery();
         // Перечисление элементов
@@ -92,8 +102,8 @@ public class BasketScreen extends AppCompatActivity {
         // Общая стоимость товаров
         final TextView txt_sumProduct = findViewById(R.id.txt_sumProduct);
         final TextView txt_sum = findViewById(R.id.txt_sum);
-        txt_sum.setText(replacePrice("Общая сумма товаров: " + String.valueOf(Basket.getSumPrice())));
-        txt_sumProduct.setText(replacePrice("Итог: " + String.valueOf(Basket.getSumPrice())));
+        txt_sum.setText("Общая сумма товаров: " + replacePrice(String.valueOf(Basket.getSumPrice())));
+        txt_sumProduct.setText("Итог: " + replacePrice(String.valueOf(Basket.getSumPrice())));
         View viewItemBasket = View.inflate(this, R.layout.item_basket, null);
         // Присвоение компонентов
         ImageView image = viewItemBasket.findViewById(R.id.image);
@@ -124,8 +134,10 @@ public class BasketScreen extends AppCompatActivity {
                 Basket.setProductSystem(BasketScreen.this);
                 txt_quantity.setText(String.valueOf(Basket.getBasketList().get(position).getQuantity()));
                 txt_sumPrice.setText("Общая стоимость товара: " + Basket.getSumProduct(position));
-                txt_sumProduct.setText(replacePrice(String.valueOf(Basket.getSumPrice())));
-                txt_sum.setText(replacePrice(String.valueOf(Basket.getSumPrice())));
+                updateCount();
+                // Общая стоимость товаров
+                txt_sumProduct.setText("Общая стоимость заказа: " + replacePrice(String.valueOf(Basket.getSumPrice())));
+                txt_sum.setText("Итор: " + replacePrice(String.valueOf(Basket.getSumPrice())));
             }
         });
         txt_minus.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +146,7 @@ public class BasketScreen extends AppCompatActivity {
                 Basket.setQuantityProduct(position, -1);
                 if (Basket.getBasketList().get(position).getQuantity() == 0) {
                     Basket.deleteItemBasket(position);
+                    Basket.setProductSystem(BasketScreen.this);
                     basketItem();
                     toolBarBtn();
                 } else {
@@ -141,8 +154,9 @@ public class BasketScreen extends AppCompatActivity {
                     txt_sumPrice.setText("Общая стоимость товара: " + Basket.getSumProduct(position));
                 }
                 Basket.setProductSystem(BasketScreen.this);
+                updateCount();
                 // Общая стоимость товаров
-                txt_sumProduct.setText( "Общая стоимость заказа: " + replacePrice(String.valueOf(Basket.getSumPrice())));
+                txt_sumProduct.setText("Общая стоимость заказа: " + replacePrice(String.valueOf(Basket.getSumPrice())));
                 txt_sum.setText("Итор: " + replacePrice(String.valueOf(Basket.getSumPrice())));
             }
         });
@@ -164,6 +178,11 @@ public class BasketScreen extends AppCompatActivity {
             }
         });
         linear_basket.addView(viewItemBasket);
+    }
+
+    // Обновление кол-ва товара на других формах
+    private void updateCount() {
+        MainScreen.updateCountBasket();
     }
 
     // Обновление общей цены товаров
@@ -224,61 +243,74 @@ public class BasketScreen extends AppCompatActivity {
         btn_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Проверка ввода значений
-                int checkEditText = 0;
-                int maxCheckEditText = 4;
-                // Имя
-                if (!txt_name.getText().toString().equals("")) {
-                    txt_name.setBackgroundResource(R.drawable.border_text_gray);
-                    checkEditText++;
-                } else txt_name.setBackgroundResource(R.drawable.border_read);
-                // Фамилия
-                if (!txt_surname.getText().toString().equals("")) {
-                    txt_surname.setBackgroundResource(R.drawable.border_text_gray);
-                    checkEditText++;
-                } else txt_surname.setBackgroundResource(R.drawable.border_read);
-                // mail
-                if (!txt_mail.getText().toString().equals("") && txt_mail.getText().toString().matches("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$")) {
-                    txt_mail.setBackgroundResource(R.drawable.border_text_gray);
-                    checkEditText++;
-                } else txt_mail.setBackgroundResource(R.drawable.border_read);
-                // Телефон
-                if (!txt_tell.getText().toString().equals("")) {
-                    txt_tell.setBackgroundResource(R.drawable.border_text_gray);
-                    checkEditText++;
-                } else txt_tell.setBackgroundResource(R.drawable.border_read);
-                // Доставка
-                if (delivery.equals("courier")) {
-                    maxCheckEditText = 6;
-                    // Адрес
-                    if (!txt_address.getText().toString().equals("")) {
-                        txt_address.setBackgroundResource(R.drawable.border_text_gray);
+                if (Basket.getCountBasket() > 0) {
+                    // Проверка ввода значений
+                    int checkEditText = 0;
+                    int maxCheckEditText = 4;
+                    // Имя
+                    if (!txt_name.getText().toString().equals("")) {
+                        txt_name.setBackgroundResource(R.drawable.border_text_gray);
                         checkEditText++;
-                    } else txt_address.setBackgroundResource(R.drawable.border_read);
-                    // Дополнение к адресу
-                    if (!txt_details_address.getText().toString().equals("")) {
-                        txt_details_address.setBackgroundResource(R.drawable.border_text_gray);
+                    } else txt_name.setBackgroundResource(R.drawable.border_read);
+                    // Фамилия
+                    if (!txt_surname.getText().toString().equals("")) {
+                        txt_surname.setBackgroundResource(R.drawable.border_text_gray);
                         checkEditText++;
-                    } else txt_details_address.setBackgroundResource(R.drawable.border_read);
+                    } else txt_surname.setBackgroundResource(R.drawable.border_read);
+                    // mail
+                    if (!txt_mail.getText().toString().equals("") && txt_mail.getText().toString().matches("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$")) {
+                        txt_mail.setBackgroundResource(R.drawable.border_text_gray);
+                        checkEditText++;
+                    } else txt_mail.setBackgroundResource(R.drawable.border_read);
+                    // Телефон
+                    if (!txt_tell.getText().toString().equals("")) {
+                        txt_tell.setBackgroundResource(R.drawable.border_text_gray);
+                        checkEditText++;
+                    } else txt_tell.setBackgroundResource(R.drawable.border_read);
+                    // Доставка
+                    if (delivery.equals("courier")) {
+                        maxCheckEditText = 6;
+                        // Адрес
+                        if (!txt_address.getText().toString().equals("")) {
+                            txt_address.setBackgroundResource(R.drawable.border_text_gray);
+                            checkEditText++;
+                        } else txt_address.setBackgroundResource(R.drawable.border_read);
+                        // Дополнение к адресу
+                        if (!txt_details_address.getText().toString().equals("")) {
+                            txt_details_address.setBackgroundResource(R.drawable.border_text_gray);
+                            checkEditText++;
+                        } else txt_details_address.setBackgroundResource(R.drawable.border_read);
+                    } else {
+                        maxCheckEditText = 4;
+                    }
+                    // Отправка значений
+                    if (checkEditText >= maxCheckEditText) {
+                        // Сохранение данных пользователей
+                        SharedPreferences.Editor sharedPreferencesEditor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
+                        sharedPreferencesEditor.putString("name", txt_name.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("mail", txt_mail.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("surname", txt_surname.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("tell", txt_tell.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("surname", txt_surname.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("details_address", txt_details_address.getText().toString()).commit();
+                        sharedPreferencesEditor.putString("address", txt_address.getText().toString()).commit();
+                        new pushClient().execute(
+                                txt_name.getText().toString(),
+                                txt_surname.getText().toString(),
+                                txt_tell.getText().toString(),
+                                txt_mail.getText().toString(),
+                                txt_note.getText().toString(),
+                                delivery,
+                                txt_address.getText().toString(),
+                                txt_details_address.getText().toString());
+                        // Показ диалога
+                        dialogLoading();
+                    } else
+                        Toast.makeText(BasketScreen.this,
+                                "Не все поля заполнены корректно", Toast.LENGTH_LONG).show();
                 } else {
-                    maxCheckEditText = 4;
+                    Toast.makeText(BasketScreen.this, "Ваша корзина пуста", Toast.LENGTH_LONG);
                 }
-                // Отправка значений
-                if (checkEditText >= maxCheckEditText) {
-                    new pushClient().execute(
-                            txt_name.getText().toString(),
-                            txt_surname.getText().toString(),
-                            txt_tell.getText().toString(),
-                            txt_mail.getText().toString(),
-                            txt_note.getText().toString(),
-                            delivery,
-                            txt_address.getText().toString(),
-                            txt_details_address.getText().toString());
-                    // Показ диалога
-                    dialogLoading();
-                } else
-                    Toast.makeText(BasketScreen.this,
-                            "Не все поля заполнены корректно", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -406,6 +438,10 @@ public class BasketScreen extends AppCompatActivity {
                                 String.valueOf(Basket.getBasketList().get(i).getId_()),
                                 String.valueOf(Basket.getBasketList().get(i).getQuantity()));
                     }
+                    // Удаление элеменетов из корзины
+                    Basket.clearList();
+                    basketItem();
+                    Basket.setProductSystem(BasketScreen.this);
                     dialogLoading.cancel();
                     Toast.makeText(BasketScreen.this, "Заказ оформлен. Ожидайте звонка оператора", Toast.LENGTH_LONG).show();
                 }
@@ -417,7 +453,6 @@ public class BasketScreen extends AppCompatActivity {
 
     // Отправка товаров
     private class pushProduct extends AsyncTask<String, Void, String> {
-
         @Override
         protected String doInBackground(String... strings) {
             try {
