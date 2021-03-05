@@ -6,37 +6,66 @@
     android:layout_height="match_parent"
     android:background="@color/colorGray"
     tools:context=".MainActivity">
-
-    <include
+    <!-- Верхнее меню -->
+    <RelativeLayout
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-    <!-- Обратный звонок -->
-    <LinearLayout
-        android:id="@+id/layout_callBack"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="0dp"
-        android:background="@color/colorWhite"
-        android:gravity="bottom"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorGreen"
-            android:textSize="24sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="+7(351) 751-40-12" />
+            android:adjustViewBounds="true"
+            android:padding="5dp"
+            app:srcCompat="@drawable/logo" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/colorGreen"
-            android:text="Обратный звонок" />
-    </LinearLayout>
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/search" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/basket" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/menu" />
+
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- Категории товаров -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <FrameLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
 
 </RelativeLayout>
