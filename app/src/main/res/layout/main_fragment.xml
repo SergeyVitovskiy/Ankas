@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
     android:orientation="vertical">
+    <!-- Баннер -->
+
+    <!-- Отображение категорий -->
     <!-- Название -->
     <TextView
         style="@style/txtTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:text="Категории товаров" />
     <!-- Категории товаров -->
     <com.example.ankas.Components.ExpandableHeightGridView
         android:id="@+id/grid_category"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:numColumns="3"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        android:layout_height="wrap_content" />
 </LinearLayout>

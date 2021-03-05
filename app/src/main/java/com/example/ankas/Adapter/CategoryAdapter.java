@@ -4,8 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.ankas.Objects.Category;
+import com.example.ankas.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,6 +39,20 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        return null;
+        View viewItem = View.inflate(mContext, R.layout.item_category, null);
+        // Присвоение компонентов
+        TextView txt_name = viewItem.findViewById(R.id.txt_name);
+        ImageView image_category = viewItem.findViewById(R.id.image_category);
+        Category category = mCategoryList.get(position);
+        txt_name.setText(category.getName());
+        Picasso.get().load("http://anndroidankas.h1n.ru/image/" + category.getImage()).into(image_category);
+        // Обработка нажатия
+        viewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return viewItem;
     }
 }
