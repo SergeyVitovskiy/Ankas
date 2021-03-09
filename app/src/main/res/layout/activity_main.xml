@@ -7,65 +7,27 @@
     android:background="@color/colorGray"
     tools:context=".MainActivity">
     <!-- Верхнее меню -->
-    <RelativeLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorWhite">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:padding="5dp"
-            app:srcCompat="@drawable/logo" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/search" />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorGray" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/basket" />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorGray" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/menu" />
-
-        </LinearLayout>
-    </RelativeLayout>
-    <!-- Категории товаров -->
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+    <!-- Контент товаров -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_above="@+id/bottom_nav"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="0dp">
 
         <FrameLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </ScrollView>
-
+    <!-- Нижнее меню -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorWhite"
+        app:menu="@menu/menu_bottom_nav" />
 </RelativeLayout>

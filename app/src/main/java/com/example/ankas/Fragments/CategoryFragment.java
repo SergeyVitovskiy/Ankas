@@ -7,18 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.ankas.Adapter.CategoryAdapter;
 import com.example.ankas.Components.ExpandableHeightGridView;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class CategoryFragment extends Fragment {
     Context context;
     View MainFragmentView;
     // Категории
@@ -44,10 +41,8 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        MainFragmentView = inflater.inflate(R.layout.main_fragment, null);
+        MainFragmentView = inflater.inflate(R.layout.category_fragment, null);
         context = MainFragmentView.getContext();
-        // Баннер
-
         // Категории товаров
         categoryList = new ArrayList<>();
         grid_category = MainFragmentView.findViewById(R.id.grid_category);
@@ -58,8 +53,6 @@ public class MainFragment extends Fragment {
         // Возрат view для отрисовки
         return MainFragmentView;
     }
-
-
 
     // Получение категорий
     private class getCategory extends AsyncTask<String, Void, String> {
@@ -95,7 +88,7 @@ public class MainFragment extends Fragment {
                     // Парсинг ответа от сервера
                     JSONObject jsonObjectResult = new JSONObject(result);
                     JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
-                    for (int position = 0; position < 8; position++) {
+                    for (int position = 0; position < jsonArrayCategory.length(); position++) {
                         JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
                         Category category = new Category(
                                 jsonObjectCategory.getInt("id_"),
@@ -105,20 +98,12 @@ public class MainFragment extends Fragment {
                         );
                         categoryList.add(category);
                     }
-                    Category category = new Category(
-                            0,
-                            "Просмотреть все категории",
-                            null,
-                            "point.jpg"
-                    );
-                    categoryList.add(category);
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
                     categoryAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
             }
         }

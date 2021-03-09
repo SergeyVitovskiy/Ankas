@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray"
+    android:orientation="vertical"
+    tools:context=".CategoryAndProduct">
+
+    <include layout="@layout/toolbar" />
+    <!-- Контент -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- Название -->
+            <TextView
+                android:id="@+id/txt_title"
+                style="@style/txtTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Загрузка..." />
+            <!-- Товары и продукты -->
+            <com.example.ankas.Components.ExpandableHeightGridView
+                android:id="@+id/grid_categoryAndProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="2dp"
+                android:numColumns="3"
+                android:verticalSpacing="2dp" />
+            <!-- Нижнее меню -->
+            <include layout="@layout/bottom_info"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
