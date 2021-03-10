@@ -7,6 +7,7 @@
     android:background="@color/colorGray"
     tools:context=".MainActivity">
     <!-- https://icon-icons.com/ru/pack/Multimedia/1580 -->
+    <!-- https://icon-icons.com/ru/pack/Miscellaneous-Icons/830 -->
     <!-- Верхнее меню -->
     <include
         android:id="@+id/toolbar"
