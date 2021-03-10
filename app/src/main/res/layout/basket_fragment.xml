@@ -10,7 +10,6 @@
         android:orientation="vertical"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:layout_marginTop="20dp"
         android:background="@color/colorWhite"
         android:layout_height="wrap_content">
         <TextView
@@ -28,6 +27,8 @@
             android:background="@color/colorGreen"
             android:textColor="@color/colorWhite"/>
     </LinearLayout>
+    <!-- Купить товар -->
+    <!--  -->
     <!-- Нижнее меню -->
     <include layout="@layout/bottom_info"/>
 </LinearLayout>

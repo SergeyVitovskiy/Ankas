@@ -6,15 +6,17 @@ public class Product {
     String name;
     int price;
     int quantity;
+    String description;
     String brand_name;
     String brand_country;
     String name_image;
 
-    public Product(int id_, String name, int price, int quantity, String brand_name, String brand_country, String name_image) {
+    public Product(int id_, String name, int price, int quantity, String description, String brand_name, String brand_country, String name_image) {
         this.id_ = id_;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.description = description;
         this.brand_name = brand_name;
         this.brand_country = brand_country;
         this.name_image = name_image;
@@ -34,6 +36,10 @@ public class Product {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getBrand_name() {

@@ -26,6 +26,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:text="Загрузка..." />
+
+            <RelativeLayout
+                android:id="@+id/layout_sorting_and_filtering"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txt_filtering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:drawableRight="@drawable/ic_down"
+                    android:gravity="center"
+                    android:text="Фильтр" />
+
+                <TextView
+                    android:id="@+id/txt_sorting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:drawableRight="@drawable/ic_down_green"
+                    android:gravity="center"
+                    android:text="Сортировка"
+                    android:textColor="@color/colorGreen" />
+            </RelativeLayout>
             <!-- Товары и продукты -->
             <com.example.ankas.Components.ExpandableHeightGridView
                 android:id="@+id/grid_categoryAndProduct"
@@ -35,7 +64,7 @@
                 android:numColumns="3"
                 android:verticalSpacing="2dp" />
             <!-- Нижнее меню -->
-            <include layout="@layout/bottom_info"/>
+            <include layout="@layout/bottom_info" />
         </LinearLayout>
     </ScrollView>
 

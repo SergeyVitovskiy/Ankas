@@ -6,8 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/colorGray"
     tools:context=".MainActivity">
+    <!-- https://icon-icons.com/ru/pack/Multimedia/1580 -->
     <!-- Верхнее меню -->
-    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
     <!-- Контент товаров -->
     <ScrollView
         android:layout_width="match_parent"
@@ -29,5 +32,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="2dp"
         android:background="@color/colorWhite"
+        app:itemIconTint="@drawable/bottom_nav_color"
+        app:itemTextColor="@drawable/bottom_nav_color"
         app:menu="@menu/menu_bottom_nav" />
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.ankas.Fragments.BasketFragment;
 import com.example.ankas.Fragments.CategoryFragment;
+import com.example.ankas.Fragments.InfoFragment;
 import com.example.ankas.Fragments.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.item_user:
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.layout_content, new MainFragment()).commit();
+                                    .replace(R.id.layout_content, new InfoFragment()).commit();
                             break;
                     }
                     return true;

@@ -2,10 +2,17 @@ package com.example.ankas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ankas.Adapter.CategoryAdapter;
 import com.example.ankas.Adapter.ProductAdapter;
@@ -17,6 +24,7 @@ import com.example.ankas.Objects.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryAndProduct extends AppCompatActivity {
@@ -70,7 +79,7 @@ public class CategoryAndProduct extends AppCompatActivity {
             }
             return "null";
         }
-
+        // Парсинг ответа
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -106,6 +115,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                                     jsonObjectProduct.getString("name"),
                                     jsonObjectProduct.getInt("price"),
                                     jsonObjectProduct.getInt("quantity"),
+                                    jsonObjectProduct.getString("description"),
                                     jsonObjectProduct.getString("brand_name"),
                                     jsonObjectProduct.getString("brand_country"),
                                     jsonObjectProduct.getString("name_image")
@@ -116,6 +126,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                         grid_categoryAndProduct.setAdapter(productAdapter);
                         grid_categoryAndProduct.setNumColumns(2);
                         txt_title.setText("Товары");
+                        sortingAndFiltering(productAdapter, productList);
                     }
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
                     grid_categoryAndProduct.setExpanded(true);
@@ -133,5 +144,38 @@ public class CategoryAndProduct extends AppCompatActivity {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
+    }
+
+    // Сортировка и фильтр
+    private void sortingAndFiltering(ProductAdapter productAdapter, final List<Product> productList) {
+        RelativeLayout layout_sorting_and_filtering = findViewById(R.id.layout_sorting_and_filtering);
+        layout_sorting_and_filtering.setVisibility(View.VISIBLE);
+        TextView txt_filtering = findViewById(R.id.txt_filtering);
+        TextView txt_sorting = findViewById(R.id.txt_sorting);
+        txt_sorting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Context context = CategoryAndProduct.this;
+                PopupMenu popupMenu = new PopupMenu(context, view);
+                popupMenu.inflate(R.menu.menu_sorting);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.txt_popularity:
+                                break;
+                            case R.id.txt_ascending:
+                                break;
+                            case R.id.txt_descending:
+                                break;
+                            case R.id.txt_nameCompany:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
     }
 }

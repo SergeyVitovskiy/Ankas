@@ -22,9 +22,9 @@
     <!-- Купить и цена -->
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_height="wrap_content">
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/txt_price"
@@ -32,26 +32,26 @@
             android:layout_height="24dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
-            android:gravity="right|center_vertical"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/btn_by"
+            android:gravity="right|center_vertical"
             android:text="0000" />
 
         <Button
             android:id="@+id/btn_by"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorGreen"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
-            android:text="Купить" />
+            android:background="@color/colorGreen"
+            android:text="Купить"
+            android:textColor="@color/colorWhite" />
     </RelativeLayout>
     <!-- Бренд и наличие -->
     <RelativeLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/txt_brand"
@@ -61,15 +61,17 @@
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:layout_toStartOf="@+id/txt_available"
+            android:maxLines="1"
             android:text="Название, страна" />
 
         <TextView
             android:id="@+id/txt_available"
             android:layout_width="wrap_content"
-            android:textColor="@color/colorGreen"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="0dp"
-            android:text="В наличии" />
+            android:maxLines="1"
+            android:text="В наличии"
+            android:textColor="@color/colorGreen" />
     </RelativeLayout>
 </LinearLayout>

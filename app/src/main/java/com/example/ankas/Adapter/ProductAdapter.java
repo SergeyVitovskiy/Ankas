@@ -1,6 +1,7 @@
 package com.example.ankas.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.ankas.Objects.Category;
 import com.example.ankas.Objects.Product;
+import com.example.ankas.ProductActivity;
 import com.example.ankas.R;
 import com.squareup.picasso.Picasso;
 
@@ -40,7 +42,7 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
         View viewItem = View.inflate(mContext, R.layout.item_product, null);
         TextView txt_name = viewItem.findViewById(R.id.txt_name);
         ImageView image_product = viewItem.findViewById(R.id.image_product);
@@ -49,15 +51,15 @@ public class ProductAdapter extends BaseAdapter {
         TextView txt_brand = viewItem.findViewById(R.id.txt_brand);
         TextView txt_available = viewItem.findViewById(R.id.txt_available);
         // Заполнение элемента
-        Product product = mProductList.get(position);
+        final Product product = mProductList.get(position);
         txt_name.setText(product.getName());
         Picasso.get().load("http://anndroidankas.h1n.ru/image/" + product.getName_image())
                 .placeholder(R.drawable.ico_small)
                 .into(image_product);
         txt_price.setText(setPrice(product.getPrice()));
-        txt_brand.setText(product.getBrand_name() + ", " +product.getBrand_country());
+        txt_brand.setText(product.getBrand_name() + ", " + product.getBrand_country());
         // Кол-во товаров
-        if(product.getQuantity()>0){
+        if (product.getQuantity() > 0) {
             txt_available.setText("В наличии");
         } else {
             txt_available.setText("Под заказ");
@@ -68,13 +70,28 @@ public class ProductAdapter extends BaseAdapter {
 
             }
         });
+        // Переход к подробностям о товаре
+        image_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ProductActivity.class);
+                intent.putExtra("Id_", product.getId_())
+                        .putExtra("Name", product.getName())
+                        .putExtra("Price", product.getPrice())
+                        .putExtra("Quantity", product.getQuantity())
+                        .putExtra("Description", product.getDescription())
+                        .putExtra("Brand_country", product.getBrand_country())
+                        .putExtra("Brand_name", product.getBrand_name());
+                mContext.startActivity(intent);
+            }
+        });
         return viewItem;
     }
-
-    private String setPrice(int price){
+    // конвертация цена
+    private String setPrice(int price) {
         StringBuffer newPrice = new StringBuffer(String.valueOf(price) + " ₽");
         int position = 5;
-        while (newPrice.length() > position){
+        while (newPrice.length() > position) {
             newPrice = newPrice.insert((newPrice.length() - position), " ");
             position += 4;
         }
