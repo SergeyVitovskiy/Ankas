@@ -52,39 +52,51 @@ public class ProductAdapter extends BaseAdapter {
         TextView txt_available = viewItem.findViewById(R.id.txt_available);
         // Заполнение элемента
         final Product product = mProductList.get(position);
-        txt_name.setText(product.getName());
-        Picasso.get().load("http://anndroidankas.h1n.ru/image/" + product.getName_image())
-                .placeholder(R.drawable.ico_small)
-                .into(image_product);
-        txt_price.setText(setPrice(product.getPrice()));
-        txt_brand.setText(product.getBrand_name() + ", " + product.getBrand_country());
-        // Кол-во товаров
-        if (product.getQuantity() > 0) {
-            txt_available.setText("В наличии");
-        } else {
-            txt_available.setText("Под заказ");
-        }
-        btn_by.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        // Проверка на пустой элементт
+        if(product.getId_() != 0) {
+            txt_name.setText(product.getName());
+            Picasso.get().load("http://anndroidankas.h1n.ru/image/" + product.getName_image())
+                    .placeholder(R.drawable.ico_small)
+                    .into(image_product);
+            txt_price.setText(setPrice(product.getPrice()));
+            txt_brand.setText(product.getBrand_name() + ", " + product.getBrand_country());
+            // Кол-во товаров
+            if (product.getQuantity() > 0) {
+                txt_available.setText("В наличии");
+            } else {
+                txt_available.setText("Под заказ");
+            }
+            btn_by.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-            }
-        });
-        // Переход к подробностям о товаре
-        image_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, ProductActivity.class);
-                intent.putExtra("Id_", product.getId_())
-                        .putExtra("Name", product.getName())
-                        .putExtra("Price", product.getPrice())
-                        .putExtra("Quantity", product.getQuantity())
-                        .putExtra("Description", product.getDescription())
-                        .putExtra("Brand_country", product.getBrand_country())
-                        .putExtra("Brand_name", product.getBrand_name());
-                mContext.startActivity(intent);
-            }
-        });
+                }
+            });
+            // Переход к подробностям о товаре
+            image_product.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, ProductActivity.class);
+                    intent.putExtra("Id_", product.getId_())
+                            .putExtra("Name", product.getName())
+                            .putExtra("Price", product.getPrice())
+                            .putExtra("Quantity", product.getQuantity())
+                            .putExtra("Description", product.getDescription())
+                            .putExtra("Brand_country", product.getBrand_country())
+                            .putExtra("Brand_name", product.getBrand_name());
+                    mContext.startActivity(intent);
+                }
+            });
+        } else {
+            txt_available.setText("");
+            txt_brand.setText("");
+            txt_name.setText("");
+            txt_price.setText("");
+            btn_by.setVisibility(View.VISIBLE);
+            Picasso.get().load("http://anndroidankas.h1n.ru/image/whiteSquare.png")
+                    .placeholder(R.drawable.ico_small)
+                    .into(image_product);
+        }
         return viewItem;
     }
     // конвертация цена

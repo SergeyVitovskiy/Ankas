@@ -46,7 +46,7 @@
                     android:background="@color/colorGreen"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="В наличии"
+                    android:text="В наличии на складе"
                     android:textColor="@color/colorWhite" />
             </RelativeLayout>
             <!-- Код товара и брэнд -->

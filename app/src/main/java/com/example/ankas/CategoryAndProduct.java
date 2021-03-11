@@ -79,6 +79,7 @@ public class CategoryAndProduct extends AppCompatActivity {
             }
             return "null";
         }
+
         // Парсинг ответа
         @Override
         protected void onPostExecute(String result) {
@@ -102,6 +103,16 @@ public class CategoryAndProduct extends AppCompatActivity {
                             );
                             categoryList.add(category);
                         }
+                        // Усли не хватает на заполнение
+                        while ((categoryList.size() % 3) != 0) {
+                            Category category = new Category(
+                                    0,
+                                    "null",
+                                    "null",
+                                    "null"
+                            );
+                            categoryList.add(category);
+                        }
                         CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, CategoryAndProduct.this);
                         grid_categoryAndProduct.setAdapter(categoryAdapter);
                         txt_title.setText("Категории товаров");
@@ -119,6 +130,20 @@ public class CategoryAndProduct extends AppCompatActivity {
                                     jsonObjectProduct.getString("brand_name"),
                                     jsonObjectProduct.getString("brand_country"),
                                     jsonObjectProduct.getString("name_image")
+                            );
+                            productList.add(product);
+                        }
+                        // Усли не хватает на заполнение
+                        while ((productList.size() % 2) != 0) {
+                            Product product = new Product(
+                                    0,
+                                    "null",
+                                    0,
+                                    0,
+                                    "null",
+                                    "null",
+                                    "null",
+                                    "null"
                             );
                             productList.add(product);
                         }

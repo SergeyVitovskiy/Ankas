@@ -50,28 +50,38 @@ public class CategoryAdapter extends BaseAdapter {
         TextView txt_name = viewItem.findViewById(R.id.txt_name);
         ImageView image_category = viewItem.findViewById(R.id.image_category);
         final Category category = mCategoryList.get(position);
-        // Изменить цвет
-        if (category.getId_() == 0)
-            txt_name.setTextColor(Color.BLUE);
-        txt_name.setText(category.getName());
-        Picasso.get()
-                .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
-                .placeholder(R.drawable.ico_small)
-                .into(image_category);
-        // Обработка нажатия
-        viewItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Посмотреть все категории
-                if (category.getId_() == 0) {
-                    MainActivity.selectItem(R.id.item_category);
-                } else {
-                    Intent intent = new Intent(mContext, CategoryAndProduct.class);
-                    intent.putExtra("id_", category.getId_());
-                    mContext.startActivity(intent);
+        // Проверка на пустоту
+        if (category.getId_() == 0 && category.getName().equals("null") &&
+                category.getDescription().equals("null") && category.getImage().equals("null")) {
+            txt_name.setText("");
+            Picasso.get()
+                    .load("http://anndroidankas.h1n.ru/image/whiteSquare.png")
+                    .placeholder(R.drawable.ico_small)
+                    .into(image_category);
+        } else {
+            // Изменить цвет
+            if (category.getId_() == 0)
+                txt_name.setTextColor(Color.BLUE);
+            txt_name.setText(category.getName());
+            Picasso.get()
+                    .load("http://anndroidankas.h1n.ru/image/" + category.getImage())
+                    .placeholder(R.drawable.ico_small)
+                    .into(image_category);
+            // Обработка нажатия
+            viewItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Посмотреть все категории
+                    if (category.getId_() == 0) {
+                        MainActivity.selectItem(R.id.item_category);
+                    } else {
+                        Intent intent = new Intent(mContext, CategoryAndProduct.class);
+                        intent.putExtra("id_", category.getId_());
+                        mContext.startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
+        }
         return viewItem;
     }
 }
