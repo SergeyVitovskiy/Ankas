@@ -12,6 +12,7 @@ import com.example.ankas.Fragments.BasketFragment;
 import com.example.ankas.Fragments.CategoryFragment;
 import com.example.ankas.Fragments.InfoFragment;
 import com.example.ankas.Fragments.MainFragment;
+import com.example.ankas.Objects.Basket;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,15 +22,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Basket.getSystemList(this);
         // Нижнее меню
         bottomNav();
     }
 
     // Настройки нижнего меню
     public void bottomNav() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layout_content, new MainFragment()).commit();
+        // Получение фрагмента
+        int itemId = getIntent().getIntExtra("ItemFragment", 0);
+        switch (itemId){
+            case R.id.item_main:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, new MainFragment()).commit();
+                break;
+            case R.id.item_basket:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, new BasketFragment()).commit();
+                break;
+            default:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.layout_content, new MainFragment()).commit();
+                break;
 
+        }
         bottom_nav = findViewById(R.id.bottom_nav);
         bottom_nav.setOnNavigationItemSelectedListener(navSelectedListener);
     }

@@ -93,65 +93,11 @@ public class CategoryAndProduct extends AppCompatActivity {
                     if (jsonObjectResult.getString("Param").equals("Category")) {
                         // Категории товаров
                         JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
-                        for (int position = 0; position < jsonArrayCategory.length(); position++) {
-                            JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
-                            Category category = new Category(
-                                    jsonObjectCategory.getInt("id_"),
-                                    jsonObjectCategory.getString("name"),
-                                    jsonObjectCategory.getString("description"),
-                                    jsonObjectCategory.getString("image")
-                            );
-                            categoryList.add(category);
-                        }
-                        // Усли не хватает на заполнение
-                        while ((categoryList.size() % 3) != 0) {
-                            Category category = new Category(
-                                    0,
-                                    "null",
-                                    "null",
-                                    "null"
-                            );
-                            categoryList.add(category);
-                        }
-                        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, CategoryAndProduct.this);
-                        grid_categoryAndProduct.setAdapter(categoryAdapter);
-                        txt_title.setText("Категории товаров");
+                        parseCategory(jsonArrayCategory);
                     } else if (jsonObjectResult.getString("Param").equals("Product")) {
                         // Товары
                         JSONArray jsonArrayProduct = jsonObjectResult.getJSONArray("Product");
-                        for (int position = 0; position < jsonArrayProduct.length(); position++) {
-                            JSONObject jsonObjectProduct = jsonArrayProduct.getJSONObject(position);
-                            Product product = new Product(
-                                    jsonObjectProduct.getInt("id_"),
-                                    jsonObjectProduct.getString("name"),
-                                    jsonObjectProduct.getInt("price"),
-                                    jsonObjectProduct.getInt("quantity"),
-                                    jsonObjectProduct.getString("description"),
-                                    jsonObjectProduct.getString("brand_name"),
-                                    jsonObjectProduct.getString("brand_country"),
-                                    jsonObjectProduct.getString("name_image")
-                            );
-                            productList.add(product);
-                        }
-                        // Усли не хватает на заполнение
-                        while ((productList.size() % 2) != 0) {
-                            Product product = new Product(
-                                    0,
-                                    "null",
-                                    0,
-                                    0,
-                                    "null",
-                                    "null",
-                                    "null",
-                                    "null"
-                            );
-                            productList.add(product);
-                        }
-                        ProductAdapter productAdapter = new ProductAdapter(productList, CategoryAndProduct.this);
-                        grid_categoryAndProduct.setAdapter(productAdapter);
-                        grid_categoryAndProduct.setNumColumns(2);
-                        txt_title.setText("Товары");
-                        sortingAndFiltering(productAdapter, productList);
+                        parseProduct(jsonArrayProduct);
                     }
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
                     grid_categoryAndProduct.setExpanded(true);
@@ -164,7 +110,71 @@ public class CategoryAndProduct extends AppCompatActivity {
         }
     }
 
-    // Проверка ответа
+    // Парсинг категорий
+    private void parseCategory(JSONArray jsonArrayCategory) throws JSONException {
+        for (int position = 0; position < jsonArrayCategory.length(); position++) {
+            JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
+            Category category = new Category(
+                    jsonObjectCategory.getInt("id_"),
+                    jsonObjectCategory.getString("name"),
+                    jsonObjectCategory.getString("description"),
+                    jsonObjectCategory.getString("image")
+            );
+            categoryList.add(category);
+        }
+        // Усли не хватает на заполнение
+        while ((categoryList.size() % 3) != 0) {
+            Category category = new Category(
+                    0,
+                    "null",
+                    "null",
+                    "null"
+            );
+            categoryList.add(category);
+        }
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, CategoryAndProduct.this);
+        grid_categoryAndProduct.setAdapter(categoryAdapter);
+        txt_title.setText("Категории товаров");
+    }
+
+    // Парсинг товаров
+    private void parseProduct(JSONArray jsonArrayProduct) throws JSONException {
+        for (int position = 0; position < jsonArrayProduct.length(); position++) {
+            JSONObject jsonObjectProduct = jsonArrayProduct.getJSONObject(position);
+            Product product = new Product(
+                    jsonObjectProduct.getInt("id_"),
+                    jsonObjectProduct.getString("name"),
+                    jsonObjectProduct.getInt("price"),
+                    jsonObjectProduct.getInt("quantity"),
+                    jsonObjectProduct.getString("description"),
+                    jsonObjectProduct.getString("brand_name"),
+                    jsonObjectProduct.getString("brand_country"),
+                    jsonObjectProduct.getString("name_image")
+            );
+            productList.add(product);
+        }
+        // Усли не хватает на заполнение
+        while ((productList.size() % 2) != 0) {
+            Product product = new Product(
+                    0,
+                    "null",
+                    0,
+                    0,
+                    "null",
+                    "null",
+                    "null",
+                    "null"
+            );
+            productList.add(product);
+        }
+        ProductAdapter productAdapter = new ProductAdapter(productList, CategoryAndProduct.this);
+        grid_categoryAndProduct.setAdapter(productAdapter);
+        grid_categoryAndProduct.setNumColumns(2);
+        txt_title.setText("Товары");
+        sortingAndFiltering(productAdapter, productList);
+    }
+
+    // Проверка ответа от сервера
     private boolean checkResult(String result) {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
