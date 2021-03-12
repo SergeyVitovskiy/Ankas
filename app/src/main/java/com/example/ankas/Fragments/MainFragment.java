@@ -1,5 +1,7 @@
 package com.example.ankas.Fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,18 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.ankas.Adapter.CategoryAdapter;
 import com.example.ankas.Components.ExpandableHeightGridView;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,11 +58,11 @@ public class MainFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category.setAdapter(categoryAdapter);
         new getCategory().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/0");
+        // Обратный звонок
+        call();
         // Возрат view для отрисовки
         return MainFragmentView;
     }
-
-
 
     // Получение категорий
     private class getCategory extends AsyncTask<String, Void, String> {
@@ -117,8 +120,7 @@ public class MainFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
             }
         }
@@ -129,5 +131,51 @@ public class MainFragment extends Fragment {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
+    }
+
+    // Звонки
+    private void call() {
+        TextView txt_tell = MainFragmentView.findViewById(R.id.txt_tell);
+        TextView txt_callBack = MainFragmentView.findViewById(R.id.txt_callBack);
+        // Позвонить в компанию
+        txt_tell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        // Заказать обратный звонок
+        txt_callBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                View viewItemCall = View.inflate(context, R.layout.dialog_call_back, null);
+                builder.setView(viewItemCall);
+                Dialog dialogCallBack = builder.create();
+                EditText txt_name = viewItemCall.findViewById(R.id.txt_name);
+                EditText txt_tell = viewItemCall.findViewById(R.id.txt_tell);
+                Button btn_arrange_dialog = viewItemCall.findViewById(R.id.btn_arrange_dialog);
+                String name = txt_name.getText().toString();
+                String tell = txt_tell.getText().toString();
+                int check = 0;
+                // Проверка имени
+                if (name.length() > 2) {
+                    check++;
+                } else {
+                    Toast.makeText(context, "Заполните имя", Toast.LENGTH_LONG).show();
+                }
+                // Проверка телефона
+                if (tell.length() > 3){
+                    check++;
+                } else {
+                    Toast.makeText(context, "Заполните номер телефона", Toast.LENGTH_LONG).show();
+                }
+                // Отправка данных на сервер
+                if (check == 2){
+                    Toast.makeText(context, "Запрос в обработке, ожидайте звонка", Toast.LENGTH_LONG).show();
+                }
+                dialogCallBack.show();
+            }
+        });
     }
 }

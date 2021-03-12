@@ -113,7 +113,7 @@ public class ProductAdapter extends BaseAdapter {
     // Диалоговое окно покупки товаров
     private void btn_by(int id, String name, String image, int price) {
         // Добавление товара в корзину
-        Basket.addProductBasket(id, name,image, price);
+        Basket.addProductBasket(mContext, id, name, image, price);
         // Создание и присвоение макета к диалогу
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View viewItemDialog = View.inflate(mContext, R.layout.dialog_by, null);

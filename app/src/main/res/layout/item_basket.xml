@@ -4,9 +4,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorWhite"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -17,12 +16,25 @@
         <!-- Назвнаие -->
         <TextView
             android:id="@+id/txt_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_toStartOf="@+id/txt_delete"
+            android:layout_toEndOf="@+id/image"
             android:maxLines="4"
             android:text="Название\nНазвание\nНазвание\nНазвание"
-            android:textSize="20sp"/>
-    </LinearLayout>
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/border_gray"
+            android:gravity="center"
+            android:text="X" />
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginBottom="6dp"
@@ -43,18 +55,21 @@
             android:layout_marginEnd="5dp">
 
             <TextView
+                android:id="@+id/txt_minus"
                 android:layout_width="30dp"
                 android:gravity="center"
                 android:background="@drawable/border_gray"
                 android:layout_height="match_parent"
                 android:text="-" />
             <TextView
+                android:id="@+id/txt_quantity"
                 android:layout_width="60dp"
                 android:gravity="center"
                 android:background="@drawable/border_gray"
                 android:layout_height="match_parent"
                 android:text="1" />
             <TextView
+                android:id="@+id/txt_plus"
                 android:layout_width="30dp"
                 android:gravity="center"
                 android:background="@drawable/border_gray"
@@ -70,6 +85,7 @@
         android:layout_marginRight="10dp"
         android:background="@color/colorGray"/>
     <TextView
+        android:id="@+id/txt_sumPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"

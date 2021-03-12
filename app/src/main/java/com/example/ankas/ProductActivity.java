@@ -139,7 +139,7 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Добавление товара в корзину
-                Basket.addProductBasket(id, name, image, price);
+                Basket.addProductBasket(ProductActivity.this, id, name, image, price);
                 final Context context = ProductActivity.this;
                 // Создание и присвоение макета к диалогу
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);

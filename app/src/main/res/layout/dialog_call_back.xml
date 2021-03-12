@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/txtTitleStyle"
+            android:text="Обратный звонок"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Для заказа обратного звонка введите своё имя и свой номер телефона в свободной форме." />
+
+        <EditText
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Имя"
+            android:maxLines="50"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/txt_tell"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="+7 (999) 999 99-99"
+            android:inputType="phone"
+            android:digits="+-1234567890"
+            android:maxLength="20"
+            android:text="" />
+
+        <Button
+            android:id="@+id/btn_arrange_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@color/colorGreen"
+            android:text="Заказать звонок"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+</LinearLayout>
