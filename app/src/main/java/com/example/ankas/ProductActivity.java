@@ -66,19 +66,49 @@ public class ProductActivity extends AppCompatActivity {
         // Вывод информации
         txt_name.setText(name);
         txt_quantity.setText(quantity + "шт.");
-        txt_price.setText(setPrice(price));
+        txt_price.setText("Цена: " + setPrice(price));
         txt_idProduct.setText("Код товара: " + id_);
         txt_brand.setText(getIntent().getStringExtra("Brand_name")
                 + ", " + getIntent().getStringExtra("Brand_country"));
         // Описание товара
         if (!description.equals(null) && !description.equals(""))
             txt_description.setText(Html.fromHtml(description));
+        // Получение информации о товаре
+        new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/"+ id_);
         // Получение характеристики
         new getSpecifications().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Characteristics/" + id_);
         // Кнопка покупки товара
         btn_by(id_, name, name_image, price);
     }
+    // Получение информации о товаре
+    private class getInfoProduct extends AsyncTask<String, Void, String>{
 
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Считывание ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuffer result = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
     // Получить характеристики
     private class getSpecifications extends AsyncTask<String, Void, String> {
 

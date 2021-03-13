@@ -84,6 +84,7 @@ public class BasketAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Basket.deleteItemBasket(mContext,position);
                 BasketFragment.checkVisibleWindowNullBasket();
+                BasketFragment.sumPrice();
             }
         });
         return viewItemBasket;
@@ -94,6 +95,7 @@ public class BasketAdapter extends BaseAdapter {
         txt_quantity.setText(
                 String.valueOf(Basket.getBasketList().get(position).getQuantity()));
         txt_sumPrice.setText(setPrice(Basket.getBasketList().get(position).getSumPrice()));
+        BasketFragment.sumPrice();
     }
 
     // конвертация цена

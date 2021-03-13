@@ -43,8 +43,19 @@ public class Basket {
         saveSystemList(context);
     }
 
+    // Получить кол-во товаров в корзине
     public static int getSizeBasket() {
         return basketList.size();
+    }
+
+    // Получить общую сумму товаров в корзине
+    public static int getSumProduct() {
+        int sum = 0;
+        for (int position = 0; position < basketList.size(); position++) {
+            sum += basketList.get(position).getPrice()
+                    * basketList.get(position).getQuantity();
+        }
+        return sum;
     }
 
     // Сохранение данных в память

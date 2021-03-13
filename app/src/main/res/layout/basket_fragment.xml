@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
@@ -49,34 +50,166 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:text="Заказ товара" />
+        android:text="Оформление заказа" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
         android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
-
-        <EditText
+        <!-- Название -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Данные покупателя"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txt_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_gray"
             android:hint="Фамилия" />
 
         <EditText
+            android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_gray"
             android:hint="Имя" />
 
         <EditText
+            android:id="@+id/txt_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_gray"
             android:hint="E-mail (mail@mail.ru)" />
 
         <EditText
+            android:id="@+id/txt_tell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_gray"
             android:hint="Телефон ( +7 (999) 999 99-99 )" />
+        <!-- Название -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Выбор способа получения товара"
+            android:textSize="16sp" />
+        <!-- Выбор способа получения товара -->
+        <!-- Самовывоз -->
+        <LinearLayout
+            android:id="@+id/layout_pickUp"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_green">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                app:srcCompat="@drawable/ic_map" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Самовывоз из пункта выдачи" />
+        </LinearLayout>
+        <!-- Доставка -->
+        <LinearLayout
+            android:id="@+id/layout_delivery"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_gray">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                app:srcCompat="@drawable/ic_truck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="Доставка до адреса" />
+        </LinearLayout>
+        <!-- Примечание -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Примечание к заказу"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_note"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/border_gray"
+            android:gravity="start"
+            android:hint="Примечание" />
+
+        <!-- Общая стоимость товара -->
+        <TextView
+            android:id="@+id/txt_sumProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="right"
+            android:text="Общая стоимость товаров: 999 999 999 Р"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/colorGray" />
+        <!-- Итоговая цена -->
+        <TextView
+            android:id="@+id/sumPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="right"
+            android:text="Итог: 999 999 999 Р"
+            android:textSize="20sp" />
 
         <Button
             android:layout_width="match_parent"
@@ -84,6 +217,15 @@
             android:background="@color/colorGreen"
             android:text="Оформить закза"
             android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Нажимая ''Оформить заказ'', я подтверждаю, что ознакомлен с информацией о товаре и принимаю условия пользовательского соглашения , и даю согласие на обработку моих персональных данных."
+            android:textColor="@color/colorDarkGray"
+            android:textSize="12sp" />
     </LinearLayout>
     <!-- Нижнее меню -->
     <include layout="@layout/bottom_info" />

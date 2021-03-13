@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,10 @@ public class BasketFragment extends Fragment {
     Context context;
     ExpandableHeightGridView grid_basket;
     static BasketAdapter basketAdapter;
+    String receivingProduct;
+    // Сумма заказа
+    static TextView txt_sumProductPrice;
+    static TextView sumPrice;
 
     @Nullable
     @Override
@@ -32,15 +37,60 @@ public class BasketFragment extends Fragment {
         context = BasketFragmentView.getContext();
         addProdctBasket();
         windowNullBasket();
+        receivingProduct();
+        // Сумма товаров
+        txt_sumProductPrice = BasketFragmentView.findViewById(R.id.txt_sumProductPrice);
+        sumPrice = BasketFragmentView.findViewById(R.id.sumPrice);
+
         return BasketFragmentView;
     }
+    public static void sumPrice(){
+        txt_sumProductPrice.setText("Общая стоимость товаров: " + setPrice(Basket.getSumProduct()));
+        sumPrice.setText("Итог: " + setPrice(Basket.getSumProduct()));
+    }
+    // Выбор способа получения
+    private void receivingProduct() {
+        receivingProduct = "pickUp";
+        final LinearLayout layout_pickUp = BasketFragmentView.findViewById(R.id.layout_pickUp);
+        final LinearLayout layout_delivery = BasketFragmentView.findViewById(R.id.layout_delivery);
+        // Самовывоз
+        layout_pickUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layout_pickUp.setBackgroundResource(R.drawable.border_green);
+                layout_delivery.setBackgroundResource(R.drawable.border_gray);
+                receivingProduct = "pickUp";
+            }
+        });
+        // Доставка
+        layout_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layout_pickUp.setBackgroundResource(R.drawable.border_gray);
+                layout_delivery.setBackgroundResource(R.drawable.border_green);
+                receivingProduct = "delivery";
+            }
+        });
+    }
+
+    // Оформление заказа
+    private void createOrder(){
+        TextView txt_surname;
+        TextView txt_name;
+        TextView txt_mail;
+        TextView txt_tell;
+
+        TextView txt_note;
+    }
+
     // Вывод информации о товарах в корзине
-    private void addProdctBasket(){
+    private void addProdctBasket() {
         grid_basket = BasketFragmentView.findViewById(R.id.grid_basket);
         grid_basket.setExpanded(true);
         basketAdapter = new BasketAdapter(Basket.getBasketList(), context);
         grid_basket.setAdapter(basketAdapter);
     }
+
     // Окно при пустой корзине
     private void windowNullBasket() {
         layout_windowBasketNull = BasketFragmentView.findViewById(R.id.layout_windowBasketNull);
@@ -63,5 +113,16 @@ public class BasketFragment extends Fragment {
             layout_windowBasketNull.setVisibility(View.GONE);
         }
         basketAdapter.notifyDataSetChanged();
+    }
+
+    // конвертация цена
+    private static String setPrice(int price) {
+        StringBuffer newPrice = new StringBuffer(String.valueOf(price) + " ₽");
+        int position = 5;
+        while (newPrice.length() > position) {
+            newPrice = newPrice.insert((newPrice.length() - position), " ");
+            position += 4;
+        }
+        return newPrice.toString();
     }
 }
