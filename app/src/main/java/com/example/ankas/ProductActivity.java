@@ -71,7 +71,7 @@ public class ProductActivity extends AppCompatActivity {
         txt_brand.setText(getIntent().getStringExtra("Brand_name")
                 + ", " + getIntent().getStringExtra("Brand_country"));
         // Описание товара
-        if (!description.equals(null) && !description.equals(""))
+        if (description != null && !description.equals(""))
             txt_description.setText(Html.fromHtml(description));
         // Получение информации о товаре
         new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/"+ id_);

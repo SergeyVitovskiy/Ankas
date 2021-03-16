@@ -69,6 +69,8 @@
             android:textSize="16sp" />
 
         <EditText
+            android:maxLines="1"
+            android:maxLength="50"
             android:id="@+id/txt_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +82,8 @@
             android:hint="Фамилия" />
 
         <EditText
+            android:maxLines="1"
+            android:maxLength="50"
             android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,6 +95,8 @@
             android:hint="Имя" />
 
         <EditText
+            android:maxLines="1"
+            android:maxLength="50"
             android:id="@+id/txt_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,6 +108,8 @@
             android:hint="E-mail (mail@mail.ru)" />
 
         <EditText
+            android:maxLines="1"
+            android:maxLength="12"
             android:id="@+id/txt_tell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,19 +133,21 @@
         <LinearLayout
             android:id="@+id/layout_pickUp"
             android:layout_width="match_parent"
-            android:padding="10dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:background="@drawable/border_green">
 
             <ImageView
                 android:layout_width="26dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:layout_height="26dp"
                 app:srcCompat="@drawable/ic_map" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:text="Самовывоз из пункта выдачи" />
@@ -146,18 +156,20 @@
         <LinearLayout
             android:id="@+id/layout_delivery"
             android:layout_width="match_parent"
-            android:padding="10dp"
             android:layout_height="wrap_content"
             android:background="@drawable/border_gray">
 
             <ImageView
                 android:layout_width="26dp"
+                android:layout_gravity="center_vertical"
                 android:layout_height="26dp"
+                android:layout_marginLeft="10dp"
                 app:srcCompat="@drawable/ic_truck" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:text="Доставка до адреса" />

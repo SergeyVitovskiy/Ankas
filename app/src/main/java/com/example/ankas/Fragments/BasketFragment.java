@@ -41,7 +41,7 @@ public class BasketFragment extends Fragment {
         // Сумма товаров
         txt_sumProductPrice = BasketFragmentView.findViewById(R.id.txt_sumProductPrice);
         sumPrice = BasketFragmentView.findViewById(R.id.sumPrice);
-
+        sumPrice();
         return BasketFragmentView;
     }
     public static void sumPrice(){
