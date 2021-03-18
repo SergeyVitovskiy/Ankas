@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.ankas.Adapter.CharacteristicAdapter;
 import com.example.ankas.Components.ExpandableHeightGridView;
+import com.example.ankas.Components.MySliderImage;
 import com.example.ankas.Objects.Basket;
 import com.example.ankas.Objects.Characteristic;
 import com.squareup.picasso.Picasso;
@@ -73,15 +75,63 @@ public class ProductActivity extends AppCompatActivity {
         // Описание товара
         if (description != null && !description.equals(""))
             txt_description.setText(Html.fromHtml(description));
+        // Получение изображения
+        new getImage().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Image/" + id_);
         // Получение информации о товаре
-        new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/"+ id_);
+        new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/" + id_);
         // Получение характеристики
         new getSpecifications().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Characteristics/" + id_);
         // Кнопка покупки товара
         btn_by(id_, name, name_image, price);
     }
+
+    // Баннер
+    private class getImage extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Получение ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line = "";
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Парсинг ответа
+            if (checkResult(result)) {
+                try {
+                    List<String> listImage = new ArrayList<>();
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int position = 0; position < jsonArray.length(); position++) {
+                        JSONObject jsonObjectImage = jsonArray.getJSONObject(position);
+                        String nameImage = jsonObjectImage.getString("name_image");
+                        listImage.add(nameImage);
+                    }
+                    MySliderImage slider_image = findViewById(R.id.slider_image);
+                    slider_image.setListImage(listImage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     // Получение информации о товаре
-    private class getInfoProduct extends AsyncTask<String, Void, String>{
+    private class getInfoProduct extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
@@ -109,6 +159,7 @@ public class ProductActivity extends AppCompatActivity {
             super.onPostExecute(s);
         }
     }
+
     // Получить характеристики
     private class getSpecifications extends AsyncTask<String, Void, String> {
 
@@ -140,24 +191,26 @@ public class ProductActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            try {
-                List<Characteristic> characteristicList = new ArrayList<>();
-                JSONArray jsonArraySpecifications = new JSONArray(result);
-                for (int position = 0; position < jsonArraySpecifications.length(); position++) {
-                    JSONObject jsonObjectCharacteristic
-                            = jsonArraySpecifications.getJSONObject(position);
-                    Characteristic characteristic = new Characteristic(
-                            jsonObjectCharacteristic.getString("name"),
-                            jsonObjectCharacteristic.getString("characteristic")
-                    );
-                    characteristicList.add(characteristic);
+            if(checkResult(result)) {
+                try {
+                    List<Characteristic> characteristicList = new ArrayList<>();
+                    JSONArray jsonArraySpecifications = new JSONArray(result);
+                    for (int position = 0; position < jsonArraySpecifications.length(); position++) {
+                        JSONObject jsonObjectCharacteristic
+                                = jsonArraySpecifications.getJSONObject(position);
+                        Characteristic characteristic = new Characteristic(
+                                jsonObjectCharacteristic.getString("name"),
+                                jsonObjectCharacteristic.getString("characteristic")
+                        );
+                        characteristicList.add(characteristic);
+                    }
+                    CharacteristicAdapter characteristicAdapter =
+                            new CharacteristicAdapter(characteristicList, ProductActivity.this);
+                    grid_specifications.setExpanded(true);
+                    grid_specifications.setAdapter(characteristicAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                CharacteristicAdapter characteristicAdapter =
-                        new CharacteristicAdapter(characteristicList, ProductActivity.this);
-                grid_specifications.setExpanded(true);
-                grid_specifications.setAdapter(characteristicAdapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -218,4 +271,11 @@ public class ProductActivity extends AppCompatActivity {
         }
         return newPrice.toString();
     }
+
+        // Проверка ответа
+        private boolean checkResult(String result) {
+            if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
+                return true;
+            else return false;
+        }
 }

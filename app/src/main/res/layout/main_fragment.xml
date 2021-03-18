@@ -34,12 +34,11 @@
             android:textSize="18sp" />
     </LinearLayout>
     <!-- Баннер -->
-    <ImageView
+    <com.example.ankas.Components.MySliderImage
+        android:id="@+id/slider_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:adjustViewBounds="true"
-        app:srcCompat="@drawable/banner" />
+        android:layout_marginBottom="2dp" />
     <!-- Отображение категорий -->
     <!-- Название -->
     <TextView
@@ -64,12 +63,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:text="Популярные категории" />
+
     <LinearLayout
         android:id="@+id/layout_popular_category"
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"/>
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical" />
     <!-- Популярные товары -->
     <TextView
         style="@style/txtTitleStyle"

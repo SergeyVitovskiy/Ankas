@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Слайдер изображения -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Изображение -->
+            <ImageView
+                android:id="@+id/image_slider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/banner" />
+
+            <!-- Стрелки переключения -->
+            <ImageView
+                android:id="@+id/image_left"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/image_slider"
+                android:layout_alignBottom="@+id/image_slider"
+                android:background="@drawable/gradient_white_left"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/left" />
+
+            <ImageView
+                android:id="@+id/image_right"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/image_slider"
+                android:layout_alignBottom="@+id/image_slider"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/gradient_white_right"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/right" />
+            <!-- Поинты изображений -->
+            <LinearLayout
+                android:id="@+id/layout_point"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="10dp"
+                android:gravity="center" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

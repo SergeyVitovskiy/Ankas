@@ -25,6 +25,7 @@ import com.example.ankas.Adapter.CategoryAdapter;
 import com.example.ankas.Adapter.ProductAdapter;
 import com.example.ankas.CategoryAndProduct;
 import com.example.ankas.Components.ExpandableHeightGridView;
+import com.example.ankas.Components.MySliderImage;
 import com.example.ankas.MainActivity;
 import com.example.ankas.Objects.Basket;
 import com.example.ankas.Objects.Category;
@@ -71,6 +72,8 @@ public class MainFragment extends Fragment {
         grid_category.setExpanded(true);
         categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category.setAdapter(categoryAdapter);
+        // Баннер
+        new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
         // Категории
         new getCategory().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/0");
         // Популярные категории
@@ -81,6 +84,54 @@ public class MainFragment extends Fragment {
         call();
         // Возрат view для отрисовки
         return MainFragmentView;
+    }
+
+    // Баннер
+    private class getImageBanner extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Получение ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder result = new StringBuilder();
+                String line = "";
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Парсинг ответа
+            if(checkResult(result)) {
+                try {
+                    List<String> listImage = new ArrayList<>();
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int position = 0; position < jsonArray.length(); position++) {
+                        JSONObject jsonObjectImage = jsonArray.getJSONObject(position);
+                        String nameImage = jsonObjectImage.getString("name_image");
+                        listImage.add(nameImage);
+                        Log.d("Name image banner", nameImage);
+                    }
+                    MySliderImage slider_banner = MainFragmentView.findViewById(R.id.slider_banner);
+                    slider_banner.setListImage(listImage);
+                    slider_banner.setTimer(10000);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     // Популярные категории
@@ -186,6 +237,117 @@ public class MainFragment extends Fragment {
                 }
             } else {
                 Log.d("Ошибка:", "Не удалось получить популярные категории");
+            }
+        }
+    }
+
+    // Категорий
+    private class getCategory extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                // Подключение
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Считывание ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                StringBuffer result = new StringBuffer();
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (checkResult(result)) {
+                try {
+                    categoryList.clear();
+                    // Парсинг ответа от сервера
+                    JSONObject jsonObjectResult = new JSONObject(result);
+                    JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
+                    for (int position = 0; position < 8; position++) {
+                        JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
+                        Category category = new Category(
+                                jsonObjectCategory.getInt("id_"),
+                                jsonObjectCategory.getString("name"),
+                                jsonObjectCategory.getString("description"),
+                                jsonObjectCategory.getString("image")
+                        );
+                        categoryList.add(category);
+                    }
+                    Category category = new Category(
+                            0,
+                            "Просмотреть все категории",
+                            null,
+                            "point.jpg"
+                    );
+                    categoryList.add(category);
+                    Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
+                    categoryAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
+            }
+        }
+    }
+
+    // Получение популярных товаров
+    private class getPopularProduct extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                // Подключение
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Считывание ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                StringBuffer result = new StringBuffer();
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        // Парсинг ответа
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (checkResult(result)) {
+                try {
+                    // Парсинг ответа от сервера
+                    JSONObject jsonObjectResult = new JSONObject(result);
+                    if (jsonObjectResult.getString("Param").equals("Product")) {
+                        // Товары
+                        JSONArray jsonArrayProduct = jsonObjectResult.getJSONArray("Product");
+                        parseProduct(jsonArrayProduct);
+                        Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
+                        grid_popularProduct.setExpanded(true);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
             }
         }
     }
@@ -304,68 +466,6 @@ public class MainFragment extends Fragment {
         return newPrice.toString();
     }
 
-    // Категорий
-    private class getCategory extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                // Подключение
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                // Считывание ответа
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuffer result = new StringBuffer();
-                while ((line = reader.readLine()) != null)
-                    result.append(line);
-                return result.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "null";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (checkResult(result)) {
-                try {
-                    categoryList.clear();
-                    // Парсинг ответа от сервера
-                    JSONObject jsonObjectResult = new JSONObject(result);
-                    JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
-                    for (int position = 0; position < 8; position++) {
-                        JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
-                        Category category = new Category(
-                                jsonObjectCategory.getInt("id_"),
-                                jsonObjectCategory.getString("name"),
-                                jsonObjectCategory.getString("description"),
-                                jsonObjectCategory.getString("image")
-                        );
-                        categoryList.add(category);
-                    }
-                    Category category = new Category(
-                            0,
-                            "Просмотреть все категории",
-                            null,
-                            "point.jpg"
-                    );
-                    categoryList.add(category);
-                    Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
-                    categoryAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
-            }
-        }
-    }
-
     // Популярные товары
     private void popularProduct() {
         popularProductList = new ArrayList<>();
@@ -373,55 +473,6 @@ public class MainFragment extends Fragment {
         new getPopularProduct().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProduct/0/30");
         popularProductAdapter = new ProductAdapter(popularProductList, context);
         grid_popularProduct.setAdapter(popularProductAdapter);
-    }
-
-    // Получение популярных товаров
-    private class getPopularProduct extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                // Подключение
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                // Считывание ответа
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuffer result = new StringBuffer();
-                while ((line = reader.readLine()) != null)
-                    result.append(line);
-                return result.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "null";
-        }
-
-        // Парсинг ответа
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (checkResult(result)) {
-                try {
-                    // Парсинг ответа от сервера
-                    JSONObject jsonObjectResult = new JSONObject(result);
-                    if (jsonObjectResult.getString("Param").equals("Product")) {
-                        // Товары
-                        JSONArray jsonArrayProduct = jsonObjectResult.getJSONArray("Product");
-                        parseProduct(jsonArrayProduct);
-                        Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
-                        grid_popularProduct.setExpanded(true);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
-            }
-        }
     }
 
     // Парсинг товаров
