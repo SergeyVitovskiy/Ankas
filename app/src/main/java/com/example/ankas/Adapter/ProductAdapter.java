@@ -70,14 +70,29 @@ public class ProductAdapter extends BaseAdapter {
             } else {
                 txt_available.setText("Под заказ");
             }
-            // Купить товар
+            // Есть ли товар в корзине
+            if (Basket.checkProductBasket(product.getId_()))
+                btn_by.setText("В корзине");
+            else
+                btn_by.setText("Купить");
+            // Купить товар или перейти в корзину
             btn_by.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    btn_by(product.getId_(),
-                            product.getName(),
-                            product.getName_image(),
-                            product.getPrice());
+                    // Упить или перейти в корзину
+                    if(btn_by.getText().toString().equals("Купить")) {
+                        btn_by.setText("В корзине");
+                        btn_by(product.getId_(),
+                                product.getName(),
+                                product.getName_image(),
+                                product.getPrice());
+                    } else
+                    {
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        intent.putExtra("ItemFragment", R.id.item_basket);
+                        mContext.startActivity(intent);
+                        btn_by.setText("Купить");
+                    }
                 }
             });
             // Переход к подробностям о товаре
@@ -97,6 +112,7 @@ public class ProductAdapter extends BaseAdapter {
                 }
             });
         } else {
+            // Пустое поля для красивого вывода
             // Пустое поле
             txt_available.setText("");
             txt_brand.setText("");
@@ -107,6 +123,7 @@ public class ProductAdapter extends BaseAdapter {
                     .placeholder(R.drawable.ico_small)
                     .into(image_product);
         }
+        // Возрат элемента обратно
         return viewItem;
     }
 
@@ -149,7 +166,7 @@ public class ProductAdapter extends BaseAdapter {
         dialogBy.show();
     }
 
-    // конвертация цена
+    // Конвертация цена
     private String setPrice(int price) {
         StringBuffer newPrice = new StringBuffer(String.valueOf(price) + " ₽");
         int position = 5;

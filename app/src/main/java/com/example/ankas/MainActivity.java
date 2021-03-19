@@ -7,12 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.ankas.Fragments.BasketFragment;
 import com.example.ankas.Fragments.CategoryFragment;
 import com.example.ankas.Fragments.InfoFragment;
 import com.example.ankas.Fragments.MainFragment;
-import com.example.ankas.Objects.Basket;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,15 +23,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Верхнее меню
+        toolbar();
         // Нижнее меню
         bottomNav();
+    }
+
+    // Верхнее меню
+    private void toolbar() {
+        ImageView img_logo = findViewById(R.id.img_logo);
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottom_nav.setSelectedItemId(R.id.item_main);
+            }
+        });
     }
 
     // Настройки нижнего меню
     public void bottomNav() {
         // Получение фрагмента
         int itemId = getIntent().getIntExtra("ItemFragment", 0);
-        switch (itemId){
+        switch (itemId) {
             case R.id.item_main:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.layout_content, new MainFragment()).commit();
@@ -48,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         bottom_nav = findViewById(R.id.bottom_nav);
         bottom_nav.setOnNavigationItemSelectedListener(navSelectedListener);
     }
-
     // Обработчик нажатий нижнего меню
     BottomNavigationView.OnNavigationItemSelectedListener navSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

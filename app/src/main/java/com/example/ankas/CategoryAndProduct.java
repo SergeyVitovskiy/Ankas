@@ -3,11 +3,13 @@ package com.example.ankas;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -47,12 +49,26 @@ public class CategoryAndProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_and_product);
+        // Верхнее меню
+        toolbar();
         grid_categoryAndProduct = findViewById(R.id.grid_categoryAndProduct);
         txt_title = findViewById(R.id.txt_title);
         int id_ = getIntent().getIntExtra("id_", 0);
         categoryList = new ArrayList<>();
         productList = new ArrayList<>();
         new getCategoryAndProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/" + id_);
+    }
+    // Верхнее меню
+    private void toolbar() {
+        ImageView img_logo = findViewById(R.id.img_logo);
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CategoryAndProduct.this, MainActivity.class);
+                intent.putExtra("ItemFragment", R.id.item_main);
+                startActivity(intent);
+            }
+        });
     }
 
     // Получение товаров или категорий
@@ -170,6 +186,8 @@ public class CategoryAndProduct extends AppCompatActivity {
         ProductAdapter productAdapter = new ProductAdapter(productList, CategoryAndProduct.this);
         grid_categoryAndProduct.setAdapter(productAdapter);
         grid_categoryAndProduct.setNumColumns(2);
+        grid_categoryAndProduct.setHorizontalSpacing(0);
+        grid_categoryAndProduct.setVerticalSpacing(0);
         txt_title.setText("Товары");
         sortingAndFiltering(productAdapter, productList);
     }

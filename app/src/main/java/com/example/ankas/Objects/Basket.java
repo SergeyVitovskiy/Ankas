@@ -45,7 +45,13 @@ public class Basket {
 
     // Получить кол-во товаров в корзине
     public static int getSizeBasket() {
-        return basketList.size();
+        int size = 0;
+        try {
+            size = basketList.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
     }
 
     // Получить общую сумму товаров в корзине
@@ -56,6 +62,15 @@ public class Basket {
                     * basketList.get(position).getQuantity();
         }
         return sum;
+    }
+
+    // есть ли товар в корзине
+    public static boolean checkProductBasket(int idProduct) {
+        for (int position = 0; position < getSizeBasket(); position++) {
+            if (basketList.get(position).getId_() == idProduct)
+                return true;
+        }
+        return false;
     }
 
     // Сохранение данных в память

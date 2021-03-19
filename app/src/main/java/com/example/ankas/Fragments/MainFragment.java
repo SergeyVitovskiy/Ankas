@@ -64,8 +64,6 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         MainFragmentView = inflater.inflate(R.layout.main_fragment, null);
         context = MainFragmentView.getContext();
-        // Баннер
-
         // Категории товаров
         categoryList = new ArrayList<>();
         grid_category = MainFragmentView.findViewById(R.id.grid_category);

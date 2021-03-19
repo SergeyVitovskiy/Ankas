@@ -49,15 +49,10 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        // Верхнее меню
+        toolbar();
         // Обьявление компонентов
-        txt_name = findViewById(R.id.txt_name);
-        txt_quantity = findViewById(R.id.txt_quantity);
-        txt_price = findViewById(R.id.txt_price);
-        txt_idProduct = findViewById(R.id.txt_idProduct);
-        txt_brand = findViewById(R.id.txt_brand);
-        txt_description = findViewById(R.id.txt_description);
-        grid_specifications = findViewById(R.id.grid_specifications);
-        btn_by = findViewById(R.id.btn_by);
+        declaringComponents();
         // Получение значений с предыдущей формы
         int id_ = getIntent().getIntExtra("Id_", 0);
         String name = getIntent().getStringExtra("Name");
@@ -85,7 +80,32 @@ public class ProductActivity extends AppCompatActivity {
         btn_by(id_, name, name_image, price);
     }
 
-    // Баннер
+    // Обьявление компонентов
+    private void declaringComponents() {
+        txt_name = findViewById(R.id.txt_name);
+        txt_quantity = findViewById(R.id.txt_quantity);
+        txt_price = findViewById(R.id.txt_price);
+        txt_idProduct = findViewById(R.id.txt_idProduct);
+        txt_brand = findViewById(R.id.txt_brand);
+        txt_description = findViewById(R.id.txt_description);
+        grid_specifications = findViewById(R.id.grid_specifications);
+        btn_by = findViewById(R.id.btn_by);
+    }
+
+    // Верхнее меню
+    private void toolbar() {
+        ImageView img_logo = findViewById(R.id.img_logo);
+        img_logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductActivity.this, MainActivity.class);
+                intent.putExtra("ItemFragment", R.id.item_main);
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Изображения
     private class getImage extends AsyncTask<String, Void, String> {
 
         @Override
@@ -130,6 +150,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         }
     }
+
     // Получение информации о товаре
     private class getInfoProduct extends AsyncTask<String, Void, String> {
 
@@ -191,7 +212,7 @@ public class ProductActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(checkResult(result)) {
+            if (checkResult(result)) {
                 try {
                     List<Characteristic> characteristicList = new ArrayList<>();
                     JSONArray jsonArraySpecifications = new JSONArray(result);
@@ -272,10 +293,10 @@ public class ProductActivity extends AppCompatActivity {
         return newPrice.toString();
     }
 
-        // Проверка ответа
-        private boolean checkResult(String result) {
-            if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
-                return true;
-            else return false;
-        }
+    // Проверка ответа
+    private boolean checkResult(String result) {
+        if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
+            return true;
+        else return false;
+    }
 }

@@ -83,15 +83,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
-
+    <!-- популярные товары -->
     <com.example.ankas.Components.ExpandableHeightGridView
         android:id="@+id/grid_popularProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="2"
-        android:verticalSpacing="2dp" />
+        android:numColumns="2" />
 
     <TextView
         android:layout_width="match_parent"
