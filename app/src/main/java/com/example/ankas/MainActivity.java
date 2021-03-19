@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,11 +32,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Верхнее меню
     private void toolbar() {
+        ImageView img_search = findViewById(R.id.img_search);
         ImageView img_logo = findViewById(R.id.img_logo);
         img_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bottom_nav.setSelectedItemId(R.id.item_main);
+            }
+        });
+        img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             }
         });
     }

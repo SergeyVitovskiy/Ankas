@@ -95,11 +95,19 @@ public class ProductActivity extends AppCompatActivity {
     // Верхнее меню
     private void toolbar() {
         ImageView img_logo = findViewById(R.id.img_logo);
+        ImageView img_search = findViewById(R.id.img_search);
         img_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProductActivity.this, MainActivity.class);
                 intent.putExtra("ItemFragment", R.id.item_main);
+                startActivity(intent);
+            }
+        });
+        img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });
