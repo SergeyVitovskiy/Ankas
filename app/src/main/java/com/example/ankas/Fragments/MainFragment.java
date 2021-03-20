@@ -74,8 +74,6 @@ public class MainFragment extends Fragment {
         new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
         // Категории
         new getCategory().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/0");
-        // Популярные категории
-        new getPopularCategory().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularCategories");
         // Популярные товары
         popularProduct();
         // Обратный звонок
@@ -128,113 +126,6 @@ public class MainFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        }
-    }
-
-    // Популярные категории
-    private class getPopularCategory extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                // Параметры подключения
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                // Считывание ответа
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuffer result = new StringBuffer();
-                while ((line = reader.readLine()) != null)
-                    result.append(line);
-                return result.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "null";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (checkResult(result)) {
-                try {
-                    JSONArray jsonArrayCategory = new JSONArray(result);
-                    for (int position = 0; position < jsonArrayCategory.length(); position++) {
-                        JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
-                        int id_ = jsonObjectCategory.getInt("id_");
-                        String name = jsonObjectCategory.getString("name");
-                        new getPopularProductCategories()
-                                .execute(("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProductCategories/" + id_),
-                                        name,
-                                        "null");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    // Популярные товары по категориям
-    private class getPopularProductCategories extends AsyncTask<String, Void, String> {
-        String nameCategory;
-        String image_category;
-
-        @Override
-        protected String doInBackground(String... strings) {
-            nameCategory = strings[1];
-            image_category = strings[2];
-            try {
-                // Параметры подключения
-                URL url = new URL(strings[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                // Считывание ответа
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line = "";
-                StringBuffer result = new StringBuffer();
-                while ((line = reader.readLine()) != null)
-                    result.append(line);
-                return result.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "null";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (checkResult(result)) {
-                try {
-                    JSONArray jsonArrayProduct = new JSONArray(result);
-                    List<Product> productList = new ArrayList<>();
-                    for (int position = 0; position < jsonArrayProduct.length(); position++) {
-                        JSONObject jsonObjectProduct = jsonArrayProduct.getJSONObject(position);
-                        Product product = new Product(
-                                jsonObjectProduct.getInt("id_"),
-                                jsonObjectProduct.getString("name"),
-                                jsonObjectProduct.getInt("price"),
-                                jsonObjectProduct.getInt("quantity"),
-                                null,
-                                jsonObjectProduct.getString("brand_name"),
-                                jsonObjectProduct.getString("brand_country"),
-                                jsonObjectProduct.getString("name_image")
-                        );
-                        productList.add(product);
-                    }
-                    popularCategory(nameCategory, productList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.d("Ошибка:", "Не удалось получить популярные категории");
             }
         }
     }
@@ -350,70 +241,6 @@ public class MainFragment extends Fragment {
         }
     }
 
-    // Популярные категории
-    private void popularCategory(String nameCategory, List<Product> productList) {
-        // Компоненты на главном экране
-        LinearLayout layout_popular_category = MainFragmentView.findViewById(R.id.layout_popular_category);
-        View viewItem_popularCategory = View.inflate(context, R.layout.item_popular_category, null);
-        TextView txt_name = viewItem_popularCategory.findViewById(R.id.txt_name);
-        LinearLayout layout_product = viewItem_popularCategory.findViewById(R.id.layout_product);
-        txt_name.setText(nameCategory);
-        // Товары
-        for (int position = 0; position < productList.size(); position++) {
-            View viewItem = View.inflate(context, R.layout.item_product, null);
-            viewItem.setLayoutParams(new LinearLayout.LayoutParams(500, ViewGroup.LayoutParams.WRAP_CONTENT));
-            TextView txt_name_product = viewItem.findViewById(R.id.txt_name);
-            ImageView image_product = viewItem.findViewById(R.id.image_product);
-            TextView txt_price = viewItem.findViewById(R.id.txt_price);
-            final Button btn_by = viewItem.findViewById(R.id.btn_by);
-            TextView txt_brand = viewItem.findViewById(R.id.txt_brand);
-            TextView txt_available = viewItem.findViewById(R.id.txt_available);
-            final Product product = productList.get(position);
-            txt_name_product.setText(product.getName());
-            Picasso.get().load("http://anndroidankas.h1n.ru/image/" + product.getName_image())
-                    .placeholder(R.drawable.ico_small)
-                    .into(image_product);
-            txt_price.setText(setPrice(product.getPrice()));
-            txt_brand.setText(product.getBrand_name() + ", " + product.getBrand_country());
-            // Кол-во товаров
-            if (product.getQuantity() > 0) {
-                txt_available.setText("В наличии");
-            } else {
-                txt_available.setText("Под заказ");
-            }
-            // Купить товар
-            btn_by.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    btn_by(product.getId_(),
-                            product.getName(),
-                            product.getName_image(),
-                            product.getPrice());
-                }
-            });
-            // Переход к подробностям о товаре
-            image_product.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, ProductActivity.class);
-                    intent.putExtra("Id_", product.getId_())
-                            .putExtra("Name", product.getName())
-                            .putExtra("Price", product.getPrice())
-                            .putExtra("Quantity", product.getQuantity())
-                            .putExtra("Description", product.getDescription())
-                            .putExtra("Name_image", product.getName_image())
-                            .putExtra("Brand_country", product.getBrand_country())
-                            .putExtra("Brand_name", product.getBrand_name());
-                    context.startActivity(intent);
-                }
-            });
-            // Вывод на экран
-            layout_product.addView(viewItem);
-        }
-        // Вывод на экран
-        layout_popular_category.addView(viewItem_popularCategory);
-    }
-
     // Диалоговое окно покупки товаров
     private void btn_by(int id, String name, String image, int price) {
         // Добавление товара в корзину
@@ -451,17 +278,6 @@ public class MainFragment extends Fragment {
         });
         // Вывод диалога
         dialogBy.show();
-    }
-
-    // конвертация цена
-    private String setPrice(int price) {
-        StringBuffer newPrice = new StringBuffer(String.valueOf(price) + " ₽");
-        int position = 5;
-        while (newPrice.length() > position) {
-            newPrice = newPrice.insert((newPrice.length() - position), " ");
-            position += 4;
-        }
-        return newPrice.toString();
     }
 
     // Популярные товары

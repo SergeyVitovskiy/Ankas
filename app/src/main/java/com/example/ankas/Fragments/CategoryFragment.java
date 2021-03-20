@@ -7,6 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,8 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryFragment extends Fragment {
+    ImageView img_Loading;
+    LinearLayout layout_loading;
     Context context;
-    View MainFragmentView;
+    View CategoryFragmentView;
     // Категории
     List<Category> categoryList;
     ExpandableHeightGridView grid_category;
@@ -41,17 +47,18 @@ public class CategoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        MainFragmentView = inflater.inflate(R.layout.category_fragment, null);
-        context = MainFragmentView.getContext();
+        CategoryFragmentView = inflater.inflate(R.layout.category_fragment, null);
+        context = CategoryFragmentView.getContext();
+        loadingRotate();
         // Категории товаров
         categoryList = new ArrayList<>();
-        grid_category = MainFragmentView.findViewById(R.id.grid_category);
+        grid_category = CategoryFragmentView.findViewById(R.id.grid_category);
         grid_category.setExpanded(true);
         categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category.setAdapter(categoryAdapter);
         new getCategory().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/0");
         // Возрат view для отрисовки
-        return MainFragmentView;
+        return CategoryFragmentView;
     }
 
     // Получение категорий
@@ -100,6 +107,7 @@ public class CategoryFragment extends Fragment {
                     }
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
                     categoryAdapter.notifyDataSetChanged();
+                    layout_loading.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,5 +122,13 @@ public class CategoryFragment extends Fragment {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
+    }
+
+    // Вращение загрузки
+    private void loadingRotate(){
+        layout_loading = CategoryFragmentView.findViewById(R.id.layout_loading);
+        img_Loading = CategoryFragmentView.findViewById(R.id.img_Loading);
+        Animation rotate_center = AnimationUtils.loadAnimation(context, R.anim.rotate_center);
+        img_Loading.setAnimation(rotate_center);
     }
 }

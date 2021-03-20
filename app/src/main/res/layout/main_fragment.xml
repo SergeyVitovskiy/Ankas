@@ -56,26 +56,12 @@
         android:horizontalSpacing="2dp"
         android:numColumns="3"
         android:verticalSpacing="2dp" />
-    <!-- Популярные категории товаров -->
-    <TextView
-        style="@style/txtTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:text="Популярные категории" />
-
-    <LinearLayout
-        android:id="@+id/layout_popular_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:orientation="vertical" />
     <!-- Популярные товары -->
     <TextView
         style="@style/txtTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="1dp"
         android:text="Популярный товары" />
 
     <LinearLayout
