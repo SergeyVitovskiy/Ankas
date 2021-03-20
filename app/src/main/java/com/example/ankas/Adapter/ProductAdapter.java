@@ -91,7 +91,6 @@ public class ProductAdapter extends BaseAdapter {
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.putExtra("ItemFragment", R.id.item_basket);
                         mContext.startActivity(intent);
-                        btn_by.setText("Купить");
                     }
                 }
             });

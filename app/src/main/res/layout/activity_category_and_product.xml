@@ -26,6 +26,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:text="Загрузка..." />
+        <LinearLayout
+            android:id="@+id/layout_loading"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorWhite"
+            android:layout_height="160dp">
+            <ImageView
+                android:id="@+id/img_Loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="30dp"
+                app:srcCompat="@drawable/ico" />
+        </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/layout_sorting_and_filtering"

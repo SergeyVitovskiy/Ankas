@@ -79,30 +79,40 @@ public class MySliderImage extends RelativeLayout {
         ImageView image_right = findViewById(R.id.image_right);
         updateImageBanner();
         // Перелистывание изображения
-        // Перелистывание назад
-        image_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (positionSlider <= 0) {
-                    positionSlider = listImage.size() - 1;
-                } else {
-                    positionSlider--;
+        if(listImage.size()>1) {
+            // Показ элементов
+            image_left.setVisibility(VISIBLE);
+            image_right.setVisibility(VISIBLE);
+            // Перелистывание назад
+            image_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (positionSlider <= 0) {
+                        positionSlider = listImage.size() - 1;
+                    } else {
+                        positionSlider--;
+                    }
+                    updateImageBanner();
                 }
-                updateImageBanner();
-            }
-        });
-        // Перелистывание вперед
-        image_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (positionSlider >= listImage.size() - 1) {
-                    positionSlider = 0;
-                } else {
-                    positionSlider++;
+            });
+            // Перелистывание вперед
+            image_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (positionSlider >= listImage.size() - 1) {
+                        positionSlider = 0;
+                    } else {
+                        positionSlider++;
+                    }
+                    updateImageBanner();
                 }
-                updateImageBanner();
-            }
-        });
+            });
+        }
+        else {
+            // Скрытие элементов
+            image_left.setVisibility(GONE);
+            image_right.setVisibility(GONE);
+        }
     }
 
     // Обновление изображения

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -39,6 +41,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class CategoryAndProduct extends AppCompatActivity {
+    ImageView img_Loading;
+    LinearLayout layout_loading;
     List<Category> categoryList;
     List<Product> productList;
     ExpandableHeightGridView grid_categoryAndProduct;
@@ -51,6 +55,7 @@ public class CategoryAndProduct extends AppCompatActivity {
         setContentView(R.layout.activity_category_and_product);
         // Верхнее меню
         toolbar();
+        loadingRotate();
         grid_categoryAndProduct = findViewById(R.id.grid_categoryAndProduct);
         txt_title = findViewById(R.id.txt_title);
         int id_ = getIntent().getIntExtra("id_", 0);
@@ -58,6 +63,7 @@ public class CategoryAndProduct extends AppCompatActivity {
         productList = new ArrayList<>();
         new getCategoryAndProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/" + id_);
     }
+
     // Верхнее меню
     private void toolbar() {
         ImageView img_logo = findViewById(R.id.img_logo);
@@ -77,6 +83,14 @@ public class CategoryAndProduct extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    // Вращение загрузки
+    private void loadingRotate(){
+        layout_loading = findViewById(R.id.layout_loading);
+        img_Loading = findViewById(R.id.img_Loading);
+        Animation rotate_center = AnimationUtils.loadAnimation(this, R.anim.rotate_center);
+        img_Loading.setAnimation(rotate_center);
     }
 
     // Получение товаров или категорий
@@ -125,6 +139,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                     }
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
                     grid_categoryAndProduct.setExpanded(true);
+                    layout_loading.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

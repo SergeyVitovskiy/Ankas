@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ankas.Adapter.CharacteristicAdapter;
 import com.example.ankas.Components.ExpandableHeightGridView;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
+    MySliderImage slider_image;
     TextView txt_name;
     TextView txt_quantity;
     TextView txt_price;
@@ -53,6 +55,8 @@ public class ProductActivity extends AppCompatActivity {
         toolbar();
         // Обьявление компонентов
         declaringComponents();
+        // Сообщение об ошибке
+        messageError();
         // Получение значений с предыдущей формы
         int id_ = getIntent().getIntExtra("Id_", 0);
         String name = getIntent().getStringExtra("Name");
@@ -60,13 +64,21 @@ public class ProductActivity extends AppCompatActivity {
         int price = getIntent().getIntExtra("Price", 0);
         String description = getIntent().getStringExtra("Description");
         String name_image = getIntent().getStringExtra("Name_image");
+        List<String> image = new ArrayList<>();
+        image.add(name_image);
         // Вывод информации
+        slider_image.setListImage(image);
         txt_name.setText(name);
         txt_quantity.setText(quantity + "шт.");
         txt_price.setText("Цена: " + setPrice(price));
         txt_idProduct.setText("Код товара: " + id_);
         txt_brand.setText(getIntent().getStringExtra("Brand_name")
                 + ", " + getIntent().getStringExtra("Brand_country"));
+        // Есть ли товар в корзине
+        if (Basket.checkProductBasket(id_))
+            btn_by.setText("В корзине");
+        else
+            btn_by.setText("Купить");
         // Описание товара
         if (description != null && !description.equals(""))
             txt_description.setText(Html.fromHtml(description));
@@ -82,6 +94,7 @@ public class ProductActivity extends AppCompatActivity {
 
     // Обьявление компонентов
     private void declaringComponents() {
+        slider_image = findViewById(R.id.slider_image);
         txt_name = findViewById(R.id.txt_name);
         txt_quantity = findViewById(R.id.txt_quantity);
         txt_price = findViewById(R.id.txt_price);
@@ -150,7 +163,6 @@ public class ProductActivity extends AppCompatActivity {
                         String nameImage = jsonObjectImage.getString("name_image");
                         listImage.add(nameImage);
                     }
-                    MySliderImage slider_image = findViewById(R.id.slider_image);
                     slider_image.setListImage(listImage);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -250,42 +262,51 @@ public class ProductActivity extends AppCompatActivity {
         btn_by.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Добавление товара в корзину
-                Basket.addProductBasket(ProductActivity.this, id, name, image, price);
-                final Context context = ProductActivity.this;
-                // Создание и присвоение макета к диалогу
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                View viewItemDialog = View.inflate(context, R.layout.dialog_by, null);
-                builder.setView(viewItemDialog);
-                final Dialog dialogBy = builder.create();
-                TextView txt_name_dialog = viewItemDialog.findViewById(R.id.txt_name_dialog);
-                ImageView image_dialog = viewItemDialog.findViewById(R.id.image_dialog);
-                // Вывод данных
-                txt_name_dialog.setText(name);
-                Picasso.get().load("http://anndroidankas.h1n.ru/image/" + image)
-                        .placeholder(R.drawable.ico_small)
-                        .into(image_dialog);
-                // Продолжить покупки
-                Button btn_resume_dialog = viewItemDialog.findViewById(R.id.btn_resume_dialog);
-                btn_resume_dialog.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogBy.cancel();
-                    }
-                });
-                // Перейти к оформлению
-                Button btn_arrange_dialog = viewItemDialog.findViewById(R.id.btn_arrange_dialog);
-                btn_arrange_dialog.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialogBy.cancel();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("ItemFragment", R.id.item_basket);
-                        startActivity(intent);
-                    }
-                });
-                // Вывод диалога
-                dialogBy.show();
+                // Упить или перейти в корзину
+                if (btn_by.getText().toString().equals("Купить")) {
+                    btn_by.setText("В корзине");
+                    // Добавление товара в корзину
+                    Basket.addProductBasket(ProductActivity.this, id, name, image, price);
+                    final Context context = ProductActivity.this;
+                    // Создание и присвоение макета к диалогу
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    View viewItemDialog = View.inflate(context, R.layout.dialog_by, null);
+                    builder.setView(viewItemDialog);
+                    final Dialog dialogBy = builder.create();
+                    TextView txt_name_dialog = viewItemDialog.findViewById(R.id.txt_name_dialog);
+                    ImageView image_dialog = viewItemDialog.findViewById(R.id.image_dialog);
+                    // Вывод данных
+                    txt_name_dialog.setText(name);
+                    Picasso.get().load("http://anndroidankas.h1n.ru/image/" + image)
+                            .placeholder(R.drawable.ico_small)
+                            .into(image_dialog);
+                    // Продолжить покупки
+                    Button btn_resume_dialog = viewItemDialog.findViewById(R.id.btn_resume_dialog);
+                    btn_resume_dialog.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogBy.cancel();
+                        }
+                    });
+                    // Перейти к оформлению
+                    Button btn_arrange_dialog = viewItemDialog.findViewById(R.id.btn_arrange_dialog);
+                    btn_arrange_dialog.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogBy.cancel();
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.putExtra("ItemFragment", R.id.item_basket);
+                            startActivity(intent);
+                        }
+                    });
+                    // Вывод диалога
+                    dialogBy.show();
+                } else {
+                    Intent intent = new Intent(ProductActivity.this, MainActivity.class);
+                    intent.putExtra("ItemFragment", R.id.item_basket);
+                    startActivity(intent);
+                }
+
             }
         });
     }
@@ -299,6 +320,52 @@ public class ProductActivity extends AppCompatActivity {
             position += 4;
         }
         return newPrice.toString();
+    }
+
+    // Сообщение об ошибке
+    private void messageError() {
+        TextView txt_messageError = findViewById(R.id.txt_messageError);
+        txt_messageError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProductActivity.this);
+                final View viewItem = View.inflate(ProductActivity.this, R.layout.dialog_error_message, null);
+                builder.setView(viewItem);
+                final Dialog dialog = builder.create();
+                // Отправить запрос
+                Button btn_message_dialog = viewItem.findViewById(R.id.btn_message_dialog);
+                btn_message_dialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView txt_mail = viewItem.findViewById(R.id.txt_mail);
+                        TextView txt_message = viewItem.findViewById(R.id.txt_message);
+                        String mail = txt_mail.getText().toString();
+                        String message = txt_message.getText().toString();
+                        int check = 0;
+                        if (mail.length() > 3)
+                            check++;
+                        else {
+                            // Ошибка mail
+                            Toast.makeText(ProductActivity.this, "Некорректный E-mail", Toast.LENGTH_LONG).show();
+                        }
+                        if (message.length() >= 10) {
+                            check++;
+                        } else {
+                            // шибка сообщение
+                            Toast.makeText(ProductActivity.this, "Опишите ошибку (мин. 10 символов)", Toast.LENGTH_LONG).show();
+                        }
+                        if (check >= 2) {
+                            // Закрыть диалог
+                            Toast.makeText(ProductActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
+                            dialog.cancel();
+                        }
+                    }
+                });
+                // Вывод окна
+                dialog.show();
+            }
+        });
+
     }
 
     // Проверка ответа
