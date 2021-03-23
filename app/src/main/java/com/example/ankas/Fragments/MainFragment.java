@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,9 +67,9 @@ public class MainFragment extends Fragment {
         context = MainFragmentView.getContext();
         // Категории товаров
         categoryList = new ArrayList<>();
+        categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category = MainFragmentView.findViewById(R.id.grid_category);
         grid_category.setExpanded(true);
-        categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category.setAdapter(categoryAdapter);
         // Баннер
         new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
@@ -78,6 +79,8 @@ public class MainFragment extends Fragment {
         popularProduct();
         // Обратный звонок
         call();
+        // Нижнее меню
+        bottomMenu();
         // Возрат view для отрисовки
         return MainFragmentView;
     }
@@ -90,6 +93,7 @@ public class MainFragment extends Fragment {
             try {
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
                 connection.connect();
                 // Получение ответа
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -101,6 +105,7 @@ public class MainFragment extends Fragment {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
                 e.printStackTrace();
             }
             return "null";
@@ -110,7 +115,7 @@ public class MainFragment extends Fragment {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             // Парсинг ответа
-            if(checkResult(result)) {
+            if (checkResult(result)) {
                 try {
                     List<String> listImage = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(result);
@@ -127,6 +132,9 @@ public class MainFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+            else {
+                new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
+            }
         }
     }
 
@@ -139,6 +147,7 @@ public class MainFragment extends Fragment {
                 // Подключение
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
                 connection.connect();
                 // Считывание ответа
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -201,6 +210,7 @@ public class MainFragment extends Fragment {
                 // Подключение
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
                 connection.connect();
                 // Считывание ответа
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -371,6 +381,76 @@ public class MainFragment extends Fragment {
                     Toast.makeText(context, "Запрос в обработке, ожидайте звонка", Toast.LENGTH_LONG).show();
                 }
                 dialogCallBack.show();
+            }
+        });
+    }
+
+    // Нижнее меню
+    private void bottomMenu() {
+        // Банки
+        ImageView image_applePay = MainFragmentView.findViewById(R.id.image_applePay);
+        image_applePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_googlePay = MainFragmentView.findViewById(R.id.image_googlePay);
+        image_googlePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_mastercard = MainFragmentView.findViewById(R.id.image_mastercard);
+        image_mastercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView iamge_visa = MainFragmentView.findViewById(R.id.iamge_visa);
+        iamge_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
+                startActivity(browserIntent);
+            }
+        });
+        // Соц сетия
+        ImageView image_VK = MainFragmentView.findViewById(R.id.image_VK);
+        image_VK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_YouTube = MainFragmentView.findViewById(R.id.image_YouTube);
+        image_YouTube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Inst = MainFragmentView.findViewById(R.id.image_Inst);
+        image_Inst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Facebook = MainFragmentView.findViewById(R.id.image_Facebook);
+        image_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
+                startActivity(browserIntent);
             }
         });
     }

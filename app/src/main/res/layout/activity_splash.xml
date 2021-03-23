@@ -6,36 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txt_developer"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/bg" />
+    <LinearLayout
+        android:id="@+id/layout_logo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="bottom"
+            android:id="@+id/img_ico"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/ico" />
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="АНКАС"
-            android:textColor="@color/colorGreen"
-            android:textSize="48sp" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            app:srcCompat="@drawable/logo_txt" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_name"
+        style="@style/txtTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_logo"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="''Интернет-магазин для комерческой организации''"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/txt_developer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"
         android:gravity="right"
         android:text="Выполнил студент группы: ПР-401\nВитовсикий Сергей" />
 </RelativeLayout>

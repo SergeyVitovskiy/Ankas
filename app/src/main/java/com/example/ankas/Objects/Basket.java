@@ -116,6 +116,11 @@ public class Basket {
         basketList.remove(position);
         saveSystemList(context);
     }
+    // Чистка корзина
+    public static void deleteBasket(Context context){
+        basketList.clear();
+        saveSystemList(context);
+    }
 
     // Установка кол-во товара
     public int setQuantity(Context context, int value) {

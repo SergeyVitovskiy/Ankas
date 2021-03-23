@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
-        android:padding="5dp"
-        android:background="@color/colorWhite">
+        android:padding="5dp">
+
         <TextView
+            style="@style/txtTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/txtTitleStyle"
-            android:text="Сообщение об ошибке"/>
+            android:text="Сообщение об ошибке" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Введи сой E-mail и сообщение о найденой ошибке" />
-
+        <!-- Ввод почты -->
         <EditText
             android:id="@+id/txt_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="E-mail"
-            android:maxLines="50"
-            android:text="" />
-
+            android:maxLines="50" />
+        <!-- Ввод сообщения -->
         <EditText
             android:id="@+id/txt_message"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:gravity="start"
-            android:hint="Сообщение"
-            android:inputType="phone"
-            android:digits="+-1234567890"
-            android:background="@drawable/border_gray"
-            android:maxLength="20"
             android:layout_marginBottom="5dp"
-            android:text="" />
+            android:background="@drawable/border_gray"
+            android:gravity="start"
+            android:hint="Сообщение..." />
 
         <Button
             android:id="@+id/btn_message_dialog"
@@ -45,6 +44,13 @@
             android:layout_height="38dp"
             android:background="@color/colorGreen"
             android:text="Отправить"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/colorWhite" />
+        <Button
+            android:id="@+id/btn_cancle"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/border_green"
+            android:text="Отмена" />
     </LinearLayout>
 </LinearLayout>

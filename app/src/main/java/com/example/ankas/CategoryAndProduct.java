@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,15 +54,20 @@ public class CategoryAndProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_and_product);
-        // Верхнее меню
-        toolbar();
-        loadingRotate();
+        // Получени id
+        int id_ = getIntent().getIntExtra("id_", 0);
+        // Получени товаров или категорий
         grid_categoryAndProduct = findViewById(R.id.grid_categoryAndProduct);
         txt_title = findViewById(R.id.txt_title);
-        int id_ = getIntent().getIntExtra("id_", 0);
         categoryList = new ArrayList<>();
         productList = new ArrayList<>();
         new getCategoryAndProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/" + id_);
+        // Картинка загрузки
+        loadingRotate();
+        // Верхнее меню
+        toolbar();
+        // Нижнее меню
+        bottomMenu();
     }
 
     // Верхнее меню
@@ -86,7 +92,7 @@ public class CategoryAndProduct extends AppCompatActivity {
     }
 
     // Вращение загрузки
-    private void loadingRotate(){
+    private void loadingRotate() {
         layout_loading = findViewById(R.id.layout_loading);
         img_Loading = findViewById(R.id.img_Loading);
         Animation rotate_center = AnimationUtils.loadAnimation(this, R.anim.rotate_center);
@@ -102,6 +108,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                 // Подключение
                 URL url = new URL(strings[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
                 connection.connect();
                 // Считывание ответа
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -128,18 +135,20 @@ public class CategoryAndProduct extends AppCompatActivity {
                     productList.clear();
                     // Парсинг ответа от сервера
                     JSONObject jsonObjectResult = new JSONObject(result);
-                    if (jsonObjectResult.getString("Param").equals("Category")) {
+                    String param = jsonObjectResult.getString("Param");
+                    if (param.equals("Category")) {
                         // Категории товаров
                         JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
                         parseCategory(jsonArrayCategory);
-                    } else if (jsonObjectResult.getString("Param").equals("Product")) {
+                    } else if (param.equals("Product")) {
                         // Товары
                         JSONArray jsonArrayProduct = jsonObjectResult.getJSONArray("Product");
                         parseProduct(jsonArrayProduct);
                     }
-                    Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
-                    grid_categoryAndProduct.setExpanded(true);
                     layout_loading.setVisibility(View.GONE);
+                    Log.d("--- Выполнено ---", "Ответ выведен (" + param + ")");
+                    grid_categoryAndProduct.setExpanded(true);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -251,6 +260,76 @@ public class CategoryAndProduct extends AppCompatActivity {
                     }
                 });
                 popupMenu.show();
+            }
+        });
+    }
+
+    // Нижнее меню
+    private void bottomMenu() {
+        // Банки
+        ImageView image_applePay = findViewById(R.id.image_applePay);
+        image_applePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_googlePay = findViewById(R.id.image_googlePay);
+        image_googlePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_mastercard = findViewById(R.id.image_mastercard);
+        image_mastercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView iamge_visa = findViewById(R.id.iamge_visa);
+        iamge_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
+                startActivity(browserIntent);
+            }
+        });
+        // Соц сетия
+        ImageView image_VK = findViewById(R.id.image_VK);
+        image_VK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_YouTube = findViewById(R.id.image_YouTube);
+        image_YouTube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Inst = findViewById(R.id.image_Inst);
+        image_Inst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Facebook = findViewById(R.id.image_Facebook);
+        image_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
+                startActivity(browserIntent);
             }
         });
     }

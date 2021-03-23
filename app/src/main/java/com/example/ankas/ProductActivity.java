@@ -6,11 +6,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +38,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ProductActivity extends AppCompatActivity {
     MySliderImage slider_image;
@@ -51,14 +56,16 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        // Верхнее меню
-        toolbar();
-        // Обьявление компонентов
-        declaringComponents();
-        // Сообщение об ошибке
-        messageError();
-        // Получение значений с предыдущей формы
+        // Получени id
         int id_ = getIntent().getIntExtra("Id_", 0);
+        // Получение изображения
+        new getImage().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Image/" + id_);
+        // Получение информации о товаре
+        new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/" + id_);
+        // Получение характеристики
+        new getSpecifications().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Characteristics/" + id_);
+        // Получение и показ основной ифнормации о товаре
+        // Получение значений с предыдущей формы
         String name = getIntent().getStringExtra("Name");
         int quantity = getIntent().getIntExtra("Quantity", 0);
         int price = getIntent().getIntExtra("Price", 0);
@@ -66,6 +73,8 @@ public class ProductActivity extends AppCompatActivity {
         String name_image = getIntent().getStringExtra("Name_image");
         List<String> image = new ArrayList<>();
         image.add(name_image);
+        // Обьявление компонентов
+        declaringComponents();
         // Вывод информации
         slider_image.setListImage(image);
         txt_name.setText(name);
@@ -82,12 +91,12 @@ public class ProductActivity extends AppCompatActivity {
         // Описание товара
         if (description != null && !description.equals(""))
             txt_description.setText(Html.fromHtml(description));
-        // Получение изображения
-        new getImage().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Image/" + id_);
-        // Получение информации о товаре
-        new getInfoProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Product/" + id_);
-        // Получение характеристики
-        new getSpecifications().execute("http://anndroidankas.h1n.ru/mobile-api/Product/Characteristics/" + id_);
+        // Верхнее меню
+        toolbar();
+        // Нижнее меню
+        bottomMenu();
+        // Сообщение об ошибке
+        messageError();
         // Кнопка покупки товара
         btn_by(id_, name, name_image, price);
     }
@@ -342,7 +351,7 @@ public class ProductActivity extends AppCompatActivity {
                         String mail = txt_mail.getText().toString();
                         String message = txt_message.getText().toString();
                         int check = 0;
-                        if (mail.length() > 3)
+                        if (mail.length() > 6 && mail.matches("[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]{1,5}"))
                             check++;
                         else {
                             // Ошибка mail
@@ -356,9 +365,17 @@ public class ProductActivity extends AppCompatActivity {
                         }
                         if (check >= 2) {
                             // Закрыть диалог
-                            Toast.makeText(ProductActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
                             dialog.cancel();
+                            dialogPushMessageError();
                         }
+                    }
+                });
+                // Закрыть окно
+                Button btn_cancle = viewItem.findViewById(R.id.btn_cancle);
+                btn_cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
                     }
                 });
                 // Вывод окна
@@ -368,10 +385,112 @@ public class ProductActivity extends AppCompatActivity {
 
     }
 
+    // Диалог оформления заказа
+    private void dialogPushMessageError() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View viewItem = View.inflate(this, R.layout.dialog_loading_order, null);
+        TextView txt_name = viewItem.findViewById(R.id.txt_name);
+        ImageView img_ico = viewItem.findViewById(R.id.img_ico);
+        txt_name.setText("Отправка...");
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_center);
+        img_ico.setAnimation(animation);
+        builder.setView(viewItem);
+        final Dialog dialog = builder.create();
+        dialog.show();
+        final int[] tick = {0};
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tick[0]++;
+                        if (tick[0] >= 2) {
+                            dialog.cancel();
+                            timer.cancel();
+                            Toast.makeText(ProductActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
+    }
+
     // Проверка ответа
     private boolean checkResult(String result) {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
+    }
+
+    // Нижнее меню
+    private void bottomMenu() {
+        // Банки
+        ImageView image_applePay = findViewById(R.id.image_applePay);
+        image_applePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_googlePay = findViewById(R.id.image_googlePay);
+        image_googlePay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_mastercard = findViewById(R.id.image_mastercard);
+        image_mastercard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView iamge_visa = findViewById(R.id.iamge_visa);
+        iamge_visa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
+                startActivity(browserIntent);
+            }
+        });
+        // Соц сетия
+        ImageView image_VK = findViewById(R.id.image_VK);
+        image_VK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_YouTube = findViewById(R.id.image_YouTube);
+        image_YouTube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Inst = findViewById(R.id.image_Inst);
+        image_Inst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
+                startActivity(browserIntent);
+            }
+        });
+        ImageView image_Facebook = findViewById(R.id.image_Facebook);
+        image_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
+                startActivity(browserIntent);
+            }
+        });
     }
 }
