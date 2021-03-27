@@ -1,88 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGray"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
-
-    <LinearLayout
+    <!-- Изображение -->
+    <ImageView
+        android:id="@+id/img_product"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
-        android:layout_margin="1dp"
-        android:padding="1dp">
-
-        <TextView
-            android:id="@+id/txt_name"
-            style="@style/txtNameProductAndCategoryStyle"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:maxLines="2" />
-
-        <ImageView
-            android:id="@+id/image_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:padding="10dp"
-            android:scaleType="fitCenter" />
-        <!-- Купить и цена -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/txt_price"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="5dp"
-                android:layout_toStartOf="@+id/btn_by"
-                android:gravity="right|center_vertical"
-                android:text="0000" />
-
-            <Button
-                android:id="@+id/btn_by"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:background="@color/colorGreen"
-                android:text="Купить"
-                android:textColor="@color/colorWhite" />
-        </RelativeLayout>
-        <!-- Бренд и наличие -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/txt_brand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_toStartOf="@+id/txt_available"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Название, страна" />
-
-            <TextView
-                android:id="@+id/txt_available"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="0dp"
-                android:maxLines="1"
-                android:text="В наличии"
-                android:textColor="@color/colorGreen" />
-        </RelativeLayout>
-    </LinearLayout>
-
+        android:layout_height="120dp"
+        android:layout_weight="1"
+        app:srcCompat="@mipmap/ic_launcher" />
+    <!-- Название -->
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Название\nНазвание"
+        android:textSize="14sp" />
+    <!-- Стоимость -->
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="right"
+        android:text="999 999 999 Р/шт."
+        android:textSize="14sp" />
+    <!-- Бренд товара -->
+    <TextView
+        android:id="@+id/txt_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="Название, Название"
+        android:textSize="12sp" />
 </LinearLayout>

@@ -1,35 +1,26 @@
 package com.example.ankas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ankas.Adapter.CategoryAdapter;
-import com.example.ankas.Adapter.ProductAdapter;
-import com.example.ankas.Components.ExpandableHeightGridView;
-import com.example.ankas.Fragments.MainFragment;
+import com.example.ankas.Adapter.ComplexCategoryAdapter;
+import com.example.ankas.Adapter.ComplexProductAdapter;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.Objects.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,17 +29,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CategoryAndProduct extends AppCompatActivity {
-    ImageView img_Loading;
-    LinearLayout layout_loading;
-    List<Category> categoryList;
-    List<Product> productList;
-    ExpandableHeightGridView grid_categoryAndProduct;
-    // Название
-    TextView txt_title;
+    RecyclerView recyclerCategoryAndProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +40,20 @@ public class CategoryAndProduct extends AppCompatActivity {
         setContentView(R.layout.activity_category_and_product);
         // Получени id
         int id_ = getIntent().getIntExtra("id_", 0);
-        // Получени товаров или категорий
-        grid_categoryAndProduct = findViewById(R.id.grid_categoryAndProduct);
-        txt_title = findViewById(R.id.txt_title);
-        categoryList = new ArrayList<>();
-        productList = new ArrayList<>();
+        recyclerCategoryAndProduct = findViewById(R.id.recyclerCategoryAndProduct);
+        recyclerCategoryAndProduct.setLayoutManager(
+                new LinearLayoutManager(CategoryAndProduct.this));
+        // Запрос на сервер для получения товаров или услуг
         new getCategoryAndProduct().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/" + id_);
-        // Картинка загрузки
-        loadingRotate();
         // Верхнее меню
         toolbar();
-        // Нижнее меню
-        bottomMenu();
     }
 
     // Верхнее меню
     private void toolbar() {
         ImageView img_logo = findViewById(R.id.img_logo);
         ImageView img_search = findViewById(R.id.img_search);
+        // Переход в главное меню
         img_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +62,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // Переход в поиск
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,14 +70,6 @@ public class CategoryAndProduct extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    // Вращение загрузки
-    private void loadingRotate() {
-        layout_loading = findViewById(R.id.layout_loading);
-        img_Loading = findViewById(R.id.img_Loading);
-        Animation rotate_center = AnimationUtils.loadAnimation(this, R.anim.rotate_center);
-        img_Loading.setAnimation(rotate_center);
     }
 
     // Получение товаров или категорий
@@ -116,6 +89,7 @@ public class CategoryAndProduct extends AppCompatActivity {
                 StringBuffer result = new StringBuffer();
                 while ((line = reader.readLine()) != null)
                     result.append(line);
+                // Отправка на парсинг
                 return result.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -129,10 +103,9 @@ public class CategoryAndProduct extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            // Проверка ответа
             if (checkResult(result)) {
                 try {
-                    categoryList.clear();
-                    productList.clear();
                     // Парсинг ответа от сервера
                     JSONObject jsonObjectResult = new JSONObject(result);
                     String param = jsonObjectResult.getString("Param");
@@ -145,21 +118,19 @@ public class CategoryAndProduct extends AppCompatActivity {
                         JSONArray jsonArrayProduct = jsonObjectResult.getJSONArray("Product");
                         parseProduct(jsonArrayProduct);
                     }
-                    layout_loading.setVisibility(View.GONE);
-                    Log.d("--- Выполнено ---", "Ответ выведен (" + param + ")");
-                    grid_categoryAndProduct.setExpanded(true);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
                 Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
+                Toast.makeText(CategoryAndProduct.this, "Не удалось получить ответ от сервера", Toast.LENGTH_SHORT);
             }
         }
     }
 
     // Парсинг категорий
     private void parseCategory(JSONArray jsonArrayCategory) throws JSONException {
+        List<Category> categoryList = new ArrayList<>();
         for (int position = 0; position < jsonArrayCategory.length(); position++) {
             JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
             Category category = new Category(
@@ -170,23 +141,14 @@ public class CategoryAndProduct extends AppCompatActivity {
             );
             categoryList.add(category);
         }
-        // Усли не хватает на заполнение
-        while ((categoryList.size() % 3) != 0) {
-            Category category = new Category(
-                    0,
-                    "null",
-                    "null",
-                    "null"
-            );
-            categoryList.add(category);
-        }
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, CategoryAndProduct.this);
-        grid_categoryAndProduct.setAdapter(categoryAdapter);
-        txt_title.setText("Категории товаров");
+        ComplexCategoryAdapter complexCategoryAdapter =
+                new ComplexCategoryAdapter(CategoryAndProduct.this, categoryList);
+        recyclerCategoryAndProduct.setAdapter(complexCategoryAdapter);
     }
 
     // Парсинг товаров
     private void parseProduct(JSONArray jsonArrayProduct) throws JSONException {
+        List<Product> productList = new ArrayList<>();
         for (int position = 0; position < jsonArrayProduct.length(); position++) {
             JSONObject jsonObjectProduct = jsonArrayProduct.getJSONObject(position);
             Product product = new Product(
@@ -201,27 +163,9 @@ public class CategoryAndProduct extends AppCompatActivity {
             );
             productList.add(product);
         }
-        // Усли не хватает на заполнение
-        while ((productList.size() % 2) != 0) {
-            Product product = new Product(
-                    0,
-                    "null",
-                    0,
-                    0,
-                    "null",
-                    "null",
-                    "null",
-                    "null"
-            );
-            productList.add(product);
-        }
-        ProductAdapter productAdapter = new ProductAdapter(productList, CategoryAndProduct.this);
-        grid_categoryAndProduct.setAdapter(productAdapter);
-        grid_categoryAndProduct.setNumColumns(2);
-        grid_categoryAndProduct.setHorizontalSpacing(0);
-        grid_categoryAndProduct.setVerticalSpacing(0);
-        txt_title.setText("Товары");
-        sortingAndFiltering(productAdapter, productList);
+        ComplexProductAdapter complexProductAdapter =
+                new ComplexProductAdapter(productList, CategoryAndProduct.this);
+        recyclerCategoryAndProduct.setAdapter(complexProductAdapter);
     }
 
     // Проверка ответа от сервера
@@ -231,106 +175,4 @@ public class CategoryAndProduct extends AppCompatActivity {
         else return false;
     }
 
-    // Сортировка и фильтр
-    private void sortingAndFiltering(ProductAdapter productAdapter, final List<Product> productList) {
-        RelativeLayout layout_sorting_and_filtering = findViewById(R.id.layout_sorting_and_filtering);
-        layout_sorting_and_filtering.setVisibility(View.VISIBLE);
-        TextView txt_filtering = findViewById(R.id.txt_filtering);
-        TextView txt_sorting = findViewById(R.id.txt_sorting);
-        txt_sorting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Context context = CategoryAndProduct.this;
-                PopupMenu popupMenu = new PopupMenu(context, view);
-                popupMenu.inflate(R.menu.menu_sorting);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.txt_popularity:
-                                break;
-                            case R.id.txt_ascending:
-                                break;
-                            case R.id.txt_descending:
-                                break;
-                            case R.id.txt_nameCompany:
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
-    }
-
-    // Нижнее меню
-    private void bottomMenu() {
-        // Банки
-        ImageView image_applePay = findViewById(R.id.image_applePay);
-        image_applePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_googlePay = findViewById(R.id.image_googlePay);
-        image_googlePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_mastercard = findViewById(R.id.image_mastercard);
-        image_mastercard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView iamge_visa = findViewById(R.id.iamge_visa);
-        iamge_visa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
-                startActivity(browserIntent);
-            }
-        });
-        // Соц сетия
-        ImageView image_VK = findViewById(R.id.image_VK);
-        image_VK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_YouTube = findViewById(R.id.image_YouTube);
-        image_YouTube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Inst = findViewById(R.id.image_Inst);
-        image_Inst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Facebook = findViewById(R.id.image_Facebook);
-        image_Facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
-                startActivity(browserIntent);
-            }
-        });
-    }
 }

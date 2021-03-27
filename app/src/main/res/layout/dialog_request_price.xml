@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/colorWhite"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Запросить цену"
+        android:textColor="@color/colorGreen"
+        style="@style/txtTitleStyle" />
+    <!-- Фамилия -->
+    <LinearLayout
+        android:id="@+id/layout_surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
+        <EditText
+            android:id="@+id/eText_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:hint="Фамилия"
+            android:background="@color/colorWhite"/>
+    </LinearLayout>
+    <!-- Имя -->
+    <LinearLayout
+        android:id="@+id/layout__name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
+        <EditText
+            android:id="@+id/eText_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:hint="Имя"
+            android:background="@color/colorWhite"/>
+    </LinearLayout>
+    <!-- E-mail -->
+    <LinearLayout
+        android:id="@+id/layout_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
+        <EditText
+            android:id="@+id/eText_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:hint="E-mail"
+            android:background="@color/colorWhite"/>
+    </LinearLayout>
+    <!-- Сообщение -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/border_gray">
+        <EditText
+            android:id="@+id/eText_message"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="5dp"
+            android:gravity="start"
+            android:hint="Сообщение"
+            android:background="@color/colorWhite"/>
+    </LinearLayout>
+    <!-- Пометка перед отправкой -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/dialog_request_price"/>
+    <Button
+        android:id="@+id/btn_push"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Отправить"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@color/colorGreen"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/colorWhite"/>
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Отмена"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/border_green" />
+</LinearLayout>

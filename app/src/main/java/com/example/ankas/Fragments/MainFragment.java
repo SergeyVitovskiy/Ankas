@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.ankas.Adapter.CategoryAdapter;
-import com.example.ankas.Adapter.ProductAdapter;
-import com.example.ankas.CategoryAndProduct;
 import com.example.ankas.Components.ExpandableHeightGridView;
 import com.example.ankas.Components.MySliderImage;
 import com.example.ankas.MainActivity;
 import com.example.ankas.Objects.Basket;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.Objects.Product;
-import com.example.ankas.ProductActivity;
 import com.example.ankas.R;
 import com.squareup.picasso.Picasso;
 
@@ -54,11 +49,10 @@ public class MainFragment extends Fragment {
     // Категории
     List<Category> categoryList;
     ExpandableHeightGridView grid_category;
-    CategoryAdapter categoryAdapter;
+    //CategoryAdapter categoryAdapter;
     // Популярные товары
     ExpandableHeightGridView grid_popularProduct;
     List<Product> popularProductList;
-    ProductAdapter popularProductAdapter;
 
     @Nullable
     @Override
@@ -67,10 +61,10 @@ public class MainFragment extends Fragment {
         context = MainFragmentView.getContext();
         // Категории товаров
         categoryList = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(categoryList, context);
+        //categoryAdapter = new CategoryAdapter(categoryList, context);
         grid_category = MainFragmentView.findViewById(R.id.grid_category);
         grid_category.setExpanded(true);
-        grid_category.setAdapter(categoryAdapter);
+        //grid_category.setAdapter(categoryAdapter);
         // Баннер
         new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
         // Категории
@@ -127,7 +121,6 @@ public class MainFragment extends Fragment {
                     }
                     MySliderImage slider_banner = MainFragmentView.findViewById(R.id.slider_banner);
                     slider_banner.setListImage(listImage);
-                    slider_banner.setTimer(10000);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -191,7 +184,7 @@ public class MainFragment extends Fragment {
                     );
                     categoryList.add(category);
                     Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
-                    categoryAdapter.notifyDataSetChanged();
+                    //categoryAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -251,52 +244,14 @@ public class MainFragment extends Fragment {
         }
     }
 
-    // Диалоговое окно покупки товаров
-    private void btn_by(int id, String name, String image, int price) {
-        // Добавление товара в корзину
-        Basket.addProductBasket(context, id, name, image, price);
-        // Создание и присвоение макета к диалогу
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View viewItemDialog = View.inflate(context, R.layout.dialog_by, null);
-        builder.setView(viewItemDialog);
-        final Dialog dialogBy = builder.create();
-        TextView txt_name_dialog = viewItemDialog.findViewById(R.id.txt_name_dialog);
-        ImageView image_dialog = viewItemDialog.findViewById(R.id.image_dialog);
-        // Вывод данных
-        txt_name_dialog.setText(name);
-        Picasso.get().load("http://anndroidankas.h1n.ru/image/" + image)
-                .placeholder(R.drawable.ico_small)
-                .into(image_dialog);
-        // Продолжить покупки
-        Button btn_resume_dialog = viewItemDialog.findViewById(R.id.btn_resume_dialog);
-        btn_resume_dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBy.cancel();
-            }
-        });
-        // Перейти к оформлению
-        Button btn_arrange_dialog = viewItemDialog.findViewById(R.id.btn_arrange_dialog);
-        btn_arrange_dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBy.cancel();
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("ItemFragment", R.id.item_basket);
-                context.startActivity(intent);
-            }
-        });
-        // Вывод диалога
-        dialogBy.show();
-    }
 
     // Популярные товары
     private void popularProduct() {
         popularProductList = new ArrayList<>();
         grid_popularProduct = MainFragmentView.findViewById(R.id.grid_popularProduct);
         new getPopularProduct().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProduct/0/30");
-        popularProductAdapter = new ProductAdapter(popularProductList, context);
-        grid_popularProduct.setAdapter(popularProductAdapter);
+        //opularProductAdapter = new ProductAdapter(popularProductList, context);
+        //grid_popularProduct.setAdapter(popularProductAdapter);
     }
 
     // Парсинг товаров
@@ -329,7 +284,7 @@ public class MainFragment extends Fragment {
             );
             popularProductList.add(product);
         }
-        popularProductAdapter.notifyDataSetChanged();
+        //popularProductAdapter.notifyDataSetChanged();
     }
 
     // Проверка ответа

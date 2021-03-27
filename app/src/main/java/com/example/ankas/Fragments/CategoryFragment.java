@@ -13,15 +13,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ankas.Adapter.CategoryAdapter;
+import com.example.ankas.Adapter.ComplexCategoryAdapter;
+import com.example.ankas.CategoryAndProduct;
 import com.example.ankas.Components.ExpandableHeightGridView;
+import com.example.ankas.MainActivity;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.R;
+import com.example.ankas.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,38 +42,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
-import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
-
 public class CategoryFragment extends Fragment {
-    ImageView img_Loading;
-    LinearLayout layout_loading;
-    Context context;
-    View CategoryFragmentView;
+    Context mContext;
+    View mCategoryFragmentView;
     // Категории
-    List<Category> categoryList;
-    ExpandableHeightGridView grid_category;
-    CategoryAdapter categoryAdapter;
+    List<Category> mCategoryList;
+    RecyclerView recyclerCategory;
+    ComplexCategoryAdapter complexCategoryAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        CategoryFragmentView = inflater.inflate(R.layout.category_fragment, null);
-        context = CategoryFragmentView.getContext();
+        mCategoryFragmentView = inflater.inflate(R.layout.category_fragment, null);
+        mContext = mCategoryFragmentView.getContext();
+        // Категории товаров
+        mCategoryList = new ArrayList<>();
+        recyclerCategory = mCategoryFragmentView.findViewById(R.id.recyclerCategory);
+        recyclerCategory.setLayoutManager(new LinearLayoutManager(mContext));
+        complexCategoryAdapter = new ComplexCategoryAdapter(mContext, mCategoryList);
+        recyclerCategory.setAdapter(complexCategoryAdapter);
         // Получение категорий
         new getCategory().execute("http://anndroidankas.h1n.ru/mobile-api/Product/ProductOrCategory/0");
-        // Картинка загрузки
-        loadingRotate();
-        // Категории товаров
-        categoryList = new ArrayList<>();
-        grid_category = CategoryFragmentView.findViewById(R.id.grid_category);
-        grid_category.setExpanded(true);
-        categoryAdapter = new CategoryAdapter(categoryList, context);
-        grid_category.setAdapter(categoryAdapter);
-        // Нижнее меню
-        bottomMenu();
         // Возрат view для отрисовки
-        return CategoryFragmentView;
+        return mCategoryFragmentView;
     }
 
     // Получение категорий
@@ -87,6 +84,7 @@ public class CategoryFragment extends Fragment {
                 StringBuffer result = new StringBuffer();
                 while ((line = reader.readLine()) != null)
                     result.append(line);
+                // Отправка на парсинг
                 return result.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -99,30 +97,32 @@ public class CategoryFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            // Проверка ответа
             if (checkResult(result)) {
                 try {
-                    categoryList.clear();
+                    mCategoryList.clear();
                     // Парсинг ответа от сервера
                     JSONObject jsonObjectResult = new JSONObject(result);
                     JSONArray jsonArrayCategory = jsonObjectResult.getJSONArray("Category");
                     for (int position = 0; position < jsonArrayCategory.length(); position++) {
                         JSONObject jsonObjectCategory = jsonArrayCategory.getJSONObject(position);
+                        // Добавление товаров в лист
                         Category category = new Category(
                                 jsonObjectCategory.getInt("id_"),
                                 jsonObjectCategory.getString("name"),
                                 jsonObjectCategory.getString("description"),
                                 jsonObjectCategory.getString("image")
                         );
-                        categoryList.add(category);
+                        mCategoryList.add(category);
                     }
-                    layout_loading.setVisibility(View.GONE);
-                    Log.d("--- Выполнено ---", "Ответ от сервера получен (Категории)");
-                    categoryAdapter.notifyDataSetChanged();
+                    // Оюновление компонентов в списке
+                    complexCategoryAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
                 Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера");
+                Toast.makeText(mContext, "Не удалось получить ответ от сервера", Toast.LENGTH_SHORT);
             }
         }
     }
@@ -132,83 +132,5 @@ public class CategoryFragment extends Fragment {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
-    }
-
-    // Вращение загрузки
-    private void loadingRotate(){
-        layout_loading = CategoryFragmentView.findViewById(R.id.layout_loading);
-        img_Loading = CategoryFragmentView.findViewById(R.id.img_Loading);
-        Animation rotate_center = AnimationUtils.loadAnimation(context, R.anim.rotate_center);
-        img_Loading.setAnimation(rotate_center);
-    }
-
-    // Нижнее меню
-    private void bottomMenu() {
-        // Банки
-        ImageView image_applePay = CategoryFragmentView.findViewById(R.id.image_applePay);
-        image_applePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_googlePay = CategoryFragmentView.findViewById(R.id.image_googlePay);
-        image_googlePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_mastercard = CategoryFragmentView.findViewById(R.id.image_mastercard);
-        image_mastercard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView iamge_visa = CategoryFragmentView.findViewById(R.id.iamge_visa);
-        iamge_visa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
-                startActivity(browserIntent);
-            }
-        });
-        // Соц сетия
-        ImageView image_VK = CategoryFragmentView.findViewById(R.id.image_VK);
-        image_VK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_YouTube = CategoryFragmentView.findViewById(R.id.image_YouTube);
-        image_YouTube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Inst = CategoryFragmentView.findViewById(R.id.image_Inst);
-        image_Inst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Facebook = CategoryFragmentView.findViewById(R.id.image_Facebook);
-        image_Facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
-                startActivity(browserIntent);
-            }
-        });
     }
 }

@@ -97,8 +97,6 @@ public class ProductActivity extends AppCompatActivity {
         bottomMenu();
         // Сообщение об ошибке
         messageError();
-        // Кнопка покупки товара
-        btn_by(id_, name, name_image, price);
     }
 
     // Обьявление компонентов
@@ -263,61 +261,6 @@ public class ProductActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    // Диалоговое окно покупки товаров
-    private void btn_by(final int id, final String name, final String image, final int price) {
-        // Кнопка покупки
-        btn_by.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Упить или перейти в корзину
-                if (btn_by.getText().toString().equals("Купить")) {
-                    btn_by.setText("В корзине");
-                    // Добавление товара в корзину
-                    Basket.addProductBasket(ProductActivity.this, id, name, image, price);
-                    final Context context = ProductActivity.this;
-                    // Создание и присвоение макета к диалогу
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    View viewItemDialog = View.inflate(context, R.layout.dialog_by, null);
-                    builder.setView(viewItemDialog);
-                    final Dialog dialogBy = builder.create();
-                    TextView txt_name_dialog = viewItemDialog.findViewById(R.id.txt_name_dialog);
-                    ImageView image_dialog = viewItemDialog.findViewById(R.id.image_dialog);
-                    // Вывод данных
-                    txt_name_dialog.setText(name);
-                    Picasso.get().load("http://anndroidankas.h1n.ru/image/" + image)
-                            .placeholder(R.drawable.ico_small)
-                            .into(image_dialog);
-                    // Продолжить покупки
-                    Button btn_resume_dialog = viewItemDialog.findViewById(R.id.btn_resume_dialog);
-                    btn_resume_dialog.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialogBy.cancel();
-                        }
-                    });
-                    // Перейти к оформлению
-                    Button btn_arrange_dialog = viewItemDialog.findViewById(R.id.btn_arrange_dialog);
-                    btn_arrange_dialog.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialogBy.cancel();
-                            Intent intent = new Intent(context, MainActivity.class);
-                            intent.putExtra("ItemFragment", R.id.item_basket);
-                            startActivity(intent);
-                        }
-                    });
-                    // Вывод диалога
-                    dialogBy.show();
-                } else {
-                    Intent intent = new Intent(ProductActivity.this, MainActivity.class);
-                    intent.putExtra("ItemFragment", R.id.item_basket);
-                    startActivity(intent);
-                }
-
-            }
-        });
     }
 
     // конвертация цена

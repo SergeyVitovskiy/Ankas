@@ -4,36 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!-- Название -->
-    <TextView
-        style="@style/txtTitleStyle"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCategory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:text="Категории товаров" />
-    <!-- Категории товаров -->
-    <com.example.ankas.Components.ExpandableHeightGridView
-        android:id="@+id/grid_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" />
-
-    <LinearLayout
-        android:id="@+id/layout_loading"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorWhite"
-        android:layout_height="160dp">
-
-        <ImageView
-            android:id="@+id/img_Loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="30dp"
-            app:srcCompat="@drawable/ico" />
-    </LinearLayout>
-    <!-- Нижнее меню -->
-    <include layout="@layout/bottom_info"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
