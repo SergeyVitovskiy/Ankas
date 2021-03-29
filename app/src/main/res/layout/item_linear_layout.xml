@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/linearLayout"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <!-- Изображение -->
+        <ImageView
+            android:id="@+id/img_produc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/ic_launcher" />
+        <!-- Название -->
+        <TextView
+            android:id="@+id/txt_nam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название\nНазвание"
+            android:textSize="14sp" />
+        <!-- Стоимость -->
+        <TextView
+            android:id="@+id/txt_pric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="right"
+            android:text="999 999 Р/шт."
+            android:textSize="14sp" />
+        <!-- Бренд товара -->
+        <TextView
+            android:id="@+id/txt_brad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <!-- Изображение -->
+        <ImageView
+            android:id="@+id/img_poduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/ic_launcher" />
+        <!-- Название -->
+        <TextView
+            android:id="@+id/txt_ame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название\nНазвание"
+            android:textSize="14sp" />
+        <!-- Стоимость -->
+        <TextView
+            android:id="@+id/txt_rice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="right"
+            android:text="999 999 Р/шт."
+            android:textSize="14sp" />
+        <!-- Бренд товара -->
+        <TextView
+            android:id="@+id/tx_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <!-- Изображение -->
+        <ImageView
+            android:id="@+id/img_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/ic_launcher" />
+        <!-- Название -->
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название\nНазвание"
+            android:textSize="14sp" />
+        <!-- Стоимость -->
+        <TextView
+            android:id="@+id/txt_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="right"
+            android:text="999 999 Р/шт."
+            android:textSize="14sp" />
+        <!-- Бренд товара -->
+        <TextView
+            android:id="@+id/txt_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Название"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

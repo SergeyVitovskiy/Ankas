@@ -70,7 +70,6 @@ public class MySliderImage extends RelativeLayout {
     public void setTimer(int tick) {
         this.tick = tick;
         // Запуск таймера
-        new timerSlider().execute();
     }
 
     // Изображения
@@ -122,7 +121,6 @@ public class MySliderImage extends RelativeLayout {
             layout_point = findViewById(R.id.layout_point);
             Animation slideMovement = AnimationUtils.loadAnimation(getContext(), R.anim.slider_movement);
             image_slider.setAnimation(slideMovement);
-            image_slider.animate();
             Picasso.get().load("http://anndroidankas.h1n.ru/image/" + listImage.get(positionSlider))
                     .placeholder(R.drawable.banner)
                     .into(image_slider);
@@ -142,29 +140,4 @@ public class MySliderImage extends RelativeLayout {
         }
     }
 
-    // Таймер слайдера
-    private class timerSlider extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                Thread.sleep(tick);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (positionSlider >= listImage.size() - 1) {
-                positionSlider = 0;
-            } else {
-                positionSlider++;
-            }
-            updateImageBanner();
-            new timerSlider().execute();
-        }
-    }
 }

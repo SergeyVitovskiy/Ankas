@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ankas.Adapter.ComplexMainActivityAdapter;
+import com.example.ankas.Adapter.ComplexProductAdapter;
+import com.example.ankas.CategoryAndProduct;
 import com.example.ankas.Objects.Category;
 import com.example.ankas.Objects.Product;
 import com.example.ankas.R;
@@ -62,6 +64,8 @@ public class MainFragment extends Fragment {
         new getImageBanner().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/Banner");
         // Популярные категории
         new getPopularCategory().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularCategories");
+        // Популярные товары
+        new getPopularProduct().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProduct/0/100");
         // Возрат view для отрисовки
         return MainFragmentView;
     }
@@ -172,6 +176,67 @@ public class MainFragment extends Fragment {
             }
         }
     }
+
+    // Получение популярных товаров
+    private class getPopularProduct extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                // Подключение
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                // Считывание ответа
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                StringBuffer result = new StringBuffer();
+                while ((line = reader.readLine()) != null)
+                    result.append(line);
+                // Отправка на парсинг
+                return result.toString();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "null";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Проверка ответа
+            if (checkResult(result)) {
+                try {
+                    mProductList.clear();
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArrayProduct = jsonObject.getJSONArray("Product");
+                    for (int position = 0; position < jsonArrayProduct.length(); position++) {
+                        JSONObject jsonObjectProduct = jsonArrayProduct.getJSONObject(position);
+                        Product product = new Product(
+                                jsonObjectProduct.getInt("id_"),
+                                jsonObjectProduct.getString("name"),
+                                jsonObjectProduct.getInt("price"),
+                                jsonObjectProduct.getInt("quantity"),
+                                jsonObjectProduct.getString("description"),
+                                jsonObjectProduct.getString("brand_name"),
+                                jsonObjectProduct.getString("brand_country"),
+                                jsonObjectProduct.getString("name_image")
+                        );
+                        mProductList.add(product);
+                    }
+                    complexMainActivityAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d(" --- Ошибка ---", "Нет или неверный ответ от сервера.");
+                Toast.makeText(mContext, "Не удалось получить ответ от сервера.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     // Проверка ответа
     private boolean checkResult(String result) {
