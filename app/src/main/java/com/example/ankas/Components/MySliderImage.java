@@ -117,27 +117,28 @@ public class MySliderImage extends RelativeLayout {
 
     // Обновление изображения
     private void updateImageBanner() {
-        image_slider = findViewById(R.id.image_slider);
-        layout_point = findViewById(R.id.layout_point);
-        Animation slideMovement = AnimationUtils.loadAnimation(getContext(), R.anim.slider_movement);
-        image_slider.setAnimation(slideMovement);
-        image_slider.animate();
-        Picasso.get().load("http://anndroidankas.h1n.ru/image/" + listImage.get(positionSlider))
-                .placeholder(R.drawable.banner)
-                .into(image_slider);
-        Log.d("positionSlider", " - - " + positionSlider);
-        // Поинты
-        layout_point.removeAllViews();
-        for (int position = 0; position < listImage.size(); position++) {
-            ImageView imageView = new ImageView(getContext());
-            if (position == positionSlider) {
-                imageView.setImageResource(R.drawable.point_true);
-            } else {
-                imageView.setImageResource(R.drawable.point_false);
+        if(listImage.size()!=0) {
+            image_slider = findViewById(R.id.image_slider);
+            layout_point = findViewById(R.id.layout_point);
+            Animation slideMovement = AnimationUtils.loadAnimation(getContext(), R.anim.slider_movement);
+            image_slider.setAnimation(slideMovement);
+            image_slider.animate();
+            Picasso.get().load("http://anndroidankas.h1n.ru/image/" + listImage.get(positionSlider))
+                    .placeholder(R.drawable.banner)
+                    .into(image_slider);
+            // Поинты
+            layout_point.removeAllViews();
+            for (int position = 0; position < listImage.size(); position++) {
+                ImageView imageView = new ImageView(getContext());
+                if (position == positionSlider) {
+                    imageView.setImageResource(R.drawable.point_true);
+                } else {
+                    imageView.setImageResource(R.drawable.point_false);
+                }
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
+                imageView.setPadding(5, 0, 5, 0);
+                layout_point.addView(imageView);
             }
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
-            imageView.setPadding(5, 0, 5, 0);
-            layout_point.addView(imageView);
         }
     }
 

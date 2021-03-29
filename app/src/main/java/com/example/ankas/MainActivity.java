@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         bottom_nav = findViewById(R.id.bottom_nav);
         bottom_nav.setOnNavigationItemSelectedListener(navSelectedListener);
     }
+
     // Обработчик нажатий нижнего меню
     BottomNavigationView.OnNavigationItemSelectedListener navSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    public static void selectItem(int item) {
-        bottom_nav.setSelectedItemId(item);
+    public static void selectItem(int id){
+        bottom_nav.setSelectedItemId(id);
     }
 }

@@ -2,6 +2,7 @@ package com.example.ankas.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,17 +70,13 @@ public class ComplexCategoryAdapter extends RecyclerView.Adapter<ComplexCategory
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        openCategoryAndProduct(category.getId_());
+                        Intent intent = new Intent(mContext, CategoryAndProduct.class);
+                        intent.putExtra("id_", category.getId_());
+                        mContext.startActivity(intent);
                     }
                 });
                 break;
         }
-    }
-
-    private void openCategoryAndProduct(int id){
-        Intent intent = new Intent(mContext, CategoryAndProduct.class);
-        intent.putExtra("id_", id);
-        mContext.startActivity(intent);
     }
 
     @Override

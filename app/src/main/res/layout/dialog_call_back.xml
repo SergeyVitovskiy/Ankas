@@ -3,47 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        style="@style/txtTitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/txtTitleStyle"
-            android:text="Обратный звонок"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Для заказа обратного звонка введите своё имя и свой номер телефона в свободной форме." />
+        android:text="Обратный звонок" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Для заказа обратного звонка введите своё имя и свой номер телефона в свободной форме." />
+
+    <LinearLayout
+        android:id="@+id/layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
 
         <EditText
             android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:hint="Имя"
             android:maxLines="50"
-            android:text="" />
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_tell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
 
         <EditText
             android:id="@+id/txt_tell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:hint="+7 (999) 999 99-99"
             android:inputType="phone"
-            android:digits="+-1234567890"
             android:maxLength="20"
-            android:text="" />
-
-        <Button
-            android:id="@+id/btn_arrange_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:background="@color/colorGreen"
-            android:text="Заказать звонок"
-            android:textColor="@color/colorWhite" />
+            android:padding="5dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_call_back"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorGreen"
+        android:text="Заказать звонок"
+        android:textColor="@color/colorWhite" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_green"
+        android:text="Отмена" />
 </LinearLayout>

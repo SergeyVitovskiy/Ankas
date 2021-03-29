@@ -50,7 +50,7 @@ public class BasketFragment extends Fragment {
         BasketFragmentView = inflater.inflate(R.layout.basket_fragment, null);
         context = BasketFragmentView.getContext();
         // Добавление товаров в корзину
-        addProdctBasket();
+        addProductBasket();
         // Проверка на пустую корзину
         windowNullBasket();
         // Выбор способа получения товара
@@ -202,7 +202,7 @@ public class BasketFragment extends Fragment {
                         User.saveSystemList(context);
 
                     } else {
-                        Toast.makeText(context, "Некорректное заполнение данных", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Некорректное заполнение данных.", Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
@@ -245,7 +245,7 @@ public class BasketFragment extends Fragment {
     }
 
     // Вывод информации о товарах в корзине
-    private void addProdctBasket() {
+    private void addProductBasket() {
         grid_basket = BasketFragmentView.findViewById(R.id.grid_basket);
         grid_basket.setExpanded(true);
         basketAdapter = new BasketAdapter(Basket.getBasketList(), context);
