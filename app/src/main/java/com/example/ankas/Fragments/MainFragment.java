@@ -44,7 +44,10 @@ public class MainFragment extends Fragment {
     // Массивы
     List<String> mImageList;
     List<Category> mPopularCategory;
-    List<Product> mProductList;
+    static List<Product> mProductList;
+
+    int MIN_PRODUCT = 0;
+    int MAX_PRODUCT = 21;
 
     @Nullable
     @Override
@@ -65,7 +68,7 @@ public class MainFragment extends Fragment {
         // Популярные категории
         new getPopularCategory().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularCategories");
         // Популярные товары
-        new getPopularProduct().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProduct/0/100");
+        new getPopularProduct().execute("http://anndroidankas.h1n.ru/mobile-api/MainScreen/PopularProduct/" + MIN_PRODUCT + "/" + MAX_PRODUCT);
         // Возрат view для отрисовки
         return MainFragmentView;
     }
@@ -219,7 +222,7 @@ public class MainFragment extends Fragment {
                                 jsonObjectProduct.getString("name"),
                                 jsonObjectProduct.getInt("price"),
                                 jsonObjectProduct.getInt("quantity"),
-                                jsonObjectProduct.getString("description"),
+                                null,
                                 jsonObjectProduct.getString("brand_name"),
                                 jsonObjectProduct.getString("brand_country"),
                                 jsonObjectProduct.getString("name_image")
@@ -227,6 +230,8 @@ public class MainFragment extends Fragment {
                         mProductList.add(product);
                     }
                     complexMainActivityAdapter.notifyDataSetChanged();
+                    complexMainActivityAdapter.setProductList();
+                    Log.d("Запрос товаров :", "Запрос выполнен");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -239,7 +244,7 @@ public class MainFragment extends Fragment {
 
 
     // Проверка ответа
-    private boolean checkResult(String result) {
+    private static boolean checkResult(String result) {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
         else return false;
