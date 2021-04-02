@@ -376,6 +376,5 @@
             android:text="Нажимая ''Оформить заказ'', я подтверждаю, что ознакомлен с информацией о товаре и принимаю условия пользовательского соглашения , и даю согласие на обработку моих персональных данных."
             android:textColor="@color/colorDarkGray"
             android:textSize="12sp" />
-    </LinearLayout><!-- Нижнее меню -->
-    <include layout="@layout/bottom_info" />
+    </LinearLayout>
 </LinearLayout>

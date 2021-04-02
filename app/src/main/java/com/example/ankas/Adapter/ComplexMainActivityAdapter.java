@@ -15,18 +15,14 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ankas.Components.MySliderImage;
-import com.example.ankas.Fragments.MainFragment;
 import com.example.ankas.MainActivity;
 import com.example.ankas.Objects.Basket;
 import com.example.ankas.Objects.Category;
@@ -105,7 +101,7 @@ public class ComplexMainActivityAdapter extends RecyclerView.Adapter<ComplexMain
         View view;
         switch (viewType) {
             case TYPE_ITEM_CALL:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_call_back, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item_call_back, parent, false);
                 break;
             case TYPE_ITEM_BANNER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_slider_image, parent, false);

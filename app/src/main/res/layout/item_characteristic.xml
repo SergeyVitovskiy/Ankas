@@ -22,9 +22,10 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="Характеристики" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginRight="50dp"
-        android:background="@color/colorGray"/>
+        android:background="@color/colorGray" />
 </LinearLayout>

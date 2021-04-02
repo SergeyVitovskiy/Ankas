@@ -57,8 +57,6 @@ public class BasketFragment extends Fragment {
         receivingProduct();
         // Оформление заказа
         createOrder();
-        // Нижнее меню
-        bottomMenu();
         // Сумма товаров
         txt_sumProductPrice = BasketFragmentView.findViewById(R.id.txt_sumProductPrice);
         sumPrice = BasketFragmentView.findViewById(R.id.sumPrice);
@@ -285,75 +283,5 @@ public class BasketFragment extends Fragment {
             position += 4;
         }
         return newPrice.toString();
-    }
-
-    // Нижнее меню
-    private void bottomMenu() {
-        // Банки
-        ImageView image_applePay = BasketFragmentView.findViewById(R.id.image_applePay);
-        image_applePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apple.com/ru/apple-pay/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_googlePay = BasketFragmentView.findViewById(R.id.image_googlePay);
-        image_googlePay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pay.google.com/intl/ru_ru/about/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_mastercard = BasketFragmentView.findViewById(R.id.image_mastercard);
-        image_mastercard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mastercard.ru/ru-ru.html"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView iamge_visa = BasketFragmentView.findViewById(R.id.iamge_visa);
-        iamge_visa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.visa.com.ru/"));
-                startActivity(browserIntent);
-            }
-        });
-        // Соц сетия
-        ImageView image_VK = BasketFragmentView.findViewById(R.id.image_VK);
-        image_VK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ankas_ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_YouTube = BasketFragmentView.findViewById(R.id.image_YouTube);
-        image_YouTube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Inst = BasketFragmentView.findViewById(R.id.image_Inst);
-        image_Inst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/ankas.ru/?hl=ru"));
-                startActivity(browserIntent);
-            }
-        });
-        ImageView image_Facebook = BasketFragmentView.findViewById(R.id.image_Facebook);
-        image_Facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/ankas.ru/"));
-                startActivity(browserIntent);
-            }
-        });
     }
 }

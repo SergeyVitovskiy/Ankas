@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorGray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoActivity.ContactsActivity">
+    <TextView
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/txtTitleStyle"
+        android:text="Отдел продаж"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textColor="@color/colorDarkGray"
+        android:text="Режим работы: ПН-ПТ с 09:00 до 20:00"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:text="    +7 (351) 751-40-35 - Горелки и запчасти\n
+   +7 (351) 750-18-86 - Бытовые насосы; Оборудование для автосервиса; Строительная техника и оборудование; Станки; Общий отдел продаж\n
+   +7 (351) 751-40-12 - Оборудование для АЗС, нефтебаз, маслосменное"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:text="
+   shop@ankas.ru - Станки\n
+   d.selkov@ankas.ru - Оборудование для автосервиса\n
+   sell@ankas.ru - Строительная техника и оборудование\n
+   client@ankas.ru - Общий отдел продаж\n
+   d.hudorozhkov@ankas.ru - Оборудование для АЗС, нефтебаз, маслосменное"/>
+</LinearLayout>
