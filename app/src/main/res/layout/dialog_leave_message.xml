@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/txtTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Обратиться с проблемой"
+        android:textColor="@color/colorGreen" />
+    <!-- Номер сечта или заказа -->
+    <LinearLayout
+        android:id="@+id/layout_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
+
+        <EditText
+            android:id="@+id/eText_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:hint="Номер сечта или заказа (При наличии)"
+            android:padding="5dp" />
+    </LinearLayout>
+    <!-- Дата -->
+    <LinearLayout
+        android:id="@+id/layout_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_gray">
+
+        <EditText
+            android:id="@+id/eText_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:hint="Дата (В свободной форме)"
+            android:padding="5dp" />
+    </LinearLayout>
+    <!-- Сообщение -->
+    <LinearLayout
+        android:id="@+id/layout_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/border_gray">
+
+        <EditText
+            android:id="@+id/eText_message"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorWhite"
+            android:gravity="start"
+            android:hint="Ваше сообщение"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_push"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorGreen"
+        android:text="Отправить"
+        android:textColor="@color/colorWhite" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/border_green"
+        android:text="Отмена" />
+</LinearLayout>

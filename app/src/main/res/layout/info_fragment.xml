@@ -5,14 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorGray"
     android:orientation="vertical">
-    <!-- Полезная ифнормация -->
-    <TextView
-        android:id="@+id/txt_title"
-        style="@style/txtTitleStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:text="Полезная информация" />
     <!-- Пользователи -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +13,7 @@
         android:background="@color/colorWhite"
         android:orientation="vertical"
         android:padding="5dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="100dp"
@@ -38,21 +30,49 @@
             android:text="Авторизируйтесь или зарегистрируйтесь для более быстрого заказа товаров." />
         <!-- Авторизация -->
         <Button
+            android:id="@+id/btn_authorization"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:layout_marginBottom="5dp"
             android:background="@color/colorGreen"
-            android:text="Авторизация"
+            android:text="Вход"
             android:textColor="@color/colorWhite" />
         <!-- Регистрация -->
         <Button
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:background="@drawable/border_green"
             android:text="Регистрация"
             android:textColor="@color/colorGreen" />
     </LinearLayout>
+    <!-- Авторизированный пользователь -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:background="@color/colorWhite"
+        android:visibility="gone">
 
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/border_gray_circle"
+            app:srcCompat="@drawable/ic_user" />
+
+        <TextView
+            style="@style/txtTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Фамилия Имя" />
+    </LinearLayout>
+    <!-- Полезная ифнормация -->
+    <TextView
+        android:id="@+id/txt_title"
+        style="@style/txtTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Полезная информация" />
     <!-- Кнопки -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,6 +102,7 @@
             android:text="Серфис и поддержка" />
 
         <Button
+            android:id="@+id/btn_leaveMessage"
             style="@style/btnInfo"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -94,6 +115,7 @@
             android:text="Обмен и возрат" />
 
         <Button
+            android:id="@+id/btn_orderStatus"
             style="@style/btnInfo"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -107,18 +129,21 @@
             android:text="Получение и оплата" />
 
         <Button
+            android:id="@+id/btn_pick"
             style="@style/btnInfo"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:text="Самовывоз" />
 
         <Button
+            android:id="@+id/btn_delivery"
             style="@style/btnInfo"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:text="Доставка" />
 
         <Button
+            android:id="@+id/btn_payment"
             style="@style/btnInfo"
             android:layout_width="match_parent"
             android:layout_height="36dp"

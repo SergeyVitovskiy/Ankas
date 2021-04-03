@@ -14,6 +14,7 @@ public class User {
     String tell;
     String address;
     String details_address;
+    String token;
 
     public User(Context context) {
         getSystemList(context);

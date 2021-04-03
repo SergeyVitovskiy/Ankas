@@ -1,42 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorGray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGray"
+    android:orientation="vertical"
     tools:context=".InfoActivity.ContactsActivity">
-    <TextView
-        android:layout_marginBottom="2dp"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/txtTitleStyle"
-        android:text="Отдел продаж"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/colorDarkGray"
-        android:text="Режим работы: ПН-ПТ с 09:00 до 20:00"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="    +7 (351) 751-40-35 - Горелки и запчасти\n
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/txtTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Адрес в г. Челябинск" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/map2gis" />
+
+            <TextView
+                style="@style/txtTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Отдел продаж" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Режим работы: ПН-ПТ с 09:00 до 20:00"
+                android:textColor="@color/colorDarkGray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="    +7 (351) 751-40-35 - Горелки и запчасти\n
    +7 (351) 750-18-86 - Бытовые насосы; Оборудование для автосервиса; Строительная техника и оборудование; Станки; Общий отдел продаж\n
-   +7 (351) 751-40-12 - Оборудование для АЗС, нефтебаз, маслосменное"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="
+   +7 (351) 751-40-12 - Оборудование для АЗС, нефтебаз, маслосменное" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="
    shop@ankas.ru - Станки\n
    d.selkov@ankas.ru - Оборудование для автосервиса\n
    sell@ankas.ru - Строительная техника и оборудование\n
    client@ankas.ru - Общий отдел продаж\n
-   d.hudorozhkov@ankas.ru - Оборудование для АЗС, нефтебаз, маслосменное"/>
+   d.hudorozhkov@ankas.ru - Оборудование для АЗС, нефтебаз, маслосменное" />
+
+            <TextView
+                style="@style/txtTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Наши реквизиты" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/White"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="
+   Наименование	ООО ''АНКАС''
+   Юридический адрес:	454111, Челябинская обл, г. Челябинск, ул. Газизуллина 2Б, офис 20\n
+   Адрес в г.Челябинск:	ул. Газизуллина, 2Б\n
+   ИНН:	7451376055\n
+   КПП:	745101001\n
+   ОГРН:	1147451013819\n
+   Директор:	Черпаков Алексей Владимирович" />
+
+            <TextView
+                style="@style/txtTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Руководители направлений" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/border_gray"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Игорь Шалабодов"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Оборудование для АЗС, нефтебаз; Строительная техника и оборудование"
+                        android:textColor="@color/colorGreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Руководитель отдела продаж в Уральском филиале"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+7 (922) 127-47-70" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="igor@ankas.ru"
+                        android:textColor="@color/colorBlue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/border_gray"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Станислав Бондаренко"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Отопительное оборудование"
+                        android:textColor="@color/colorGreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Руководитель направления в Центральном филиале"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+7 (922) 730-55-91" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="stas@ankas.ru"
+                        android:textColor="@color/colorBlue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/border_gray"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Виталий Попков"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Оборудование для автосервиса; Генераторы и электродвигатели"
+                        android:textColor="@color/colorGreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Руководитель отдела продаж в Центральном филиале"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+7 (908) 588-51-47" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="vitaly@ankas.ru"
+                        android:textColor="@color/colorBlue" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/border_gray"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Алексей Томилов"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Станки; Складское и Крановое оборудование"
+                        android:textColor="@color/colorGreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Руководитель направления в Центральном филиале"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+7 (904) 971-01-81" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="tomilov@ankas.ru"
+                        android:textColor="@color/colorBlue" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/border_gray"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Игорь Тимошенко"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Оборудование для автосервиса; Расходомеры, счетчики"
+                        android:textColor="@color/colorGreen" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Старший менеджер отдела продаж в Центральном филиале"
+                        android:textColor="@color/colorDarkGray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="+7 (932) 010-14-10" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="i.timoshenko@ankas.ru"
+                        android:textColor="@color/colorBlue" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
