@@ -242,7 +242,6 @@ public class MainFragment extends Fragment {
         }
     }
 
-
     // Проверка ответа
     private static boolean checkResult(String result) {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))

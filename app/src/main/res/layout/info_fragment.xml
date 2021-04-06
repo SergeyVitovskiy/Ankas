@@ -7,6 +7,7 @@
     android:orientation="vertical">
     <!-- Пользователи -->
     <LinearLayout
+        android:id="@+id/layout_authorization"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
@@ -39,6 +40,7 @@
             android:textColor="@color/colorWhite" />
         <!-- Регистрация -->
         <Button
+            android:id="@+id/btn_registration"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@drawable/border_green"
@@ -47,6 +49,7 @@
     </LinearLayout>
     <!-- Авторизированный пользователь -->
     <LinearLayout
+        android:id="@+id/layout_authorizedUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
@@ -56,10 +59,12 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:padding="10dp"
             android:background="@drawable/border_gray_circle"
             app:srcCompat="@drawable/ic_user" />
 
         <TextView
+            android:id="@+id/txt_nameUser"
             style="@style/txtTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -178,26 +178,10 @@ public class BasketFragment extends Fragment {
                     // Самовывоз
                     if (receivingProduct.equals("pickUp") && check == 4) {
                         new timerDialogLoading().execute(1000);
-                        // Сохранение данных пользователей
-                        User.user.setSurname(surname);
-                        User.user.setName(name);
-                        User.user.setMail(mail);
-                        User.user.setTell(tell);
-                        User.user.setAddress(address);
-                        User.user.setDetails_address(details_address);
-                        User.saveSystemList(context);
                     }
                     // Доставка
                     else if (receivingProduct.equals("delivery") && check == 6) {
                         new timerDialogLoading().execute(1000);
-                        // Сохранение данных пользователей
-                        User.user.setSurname(surname);
-                        User.user.setName(name);
-                        User.user.setMail(mail);
-                        User.user.setTell(tell);
-                        User.user.setAddress(address);
-                        User.user.setDetails_address(details_address);
-                        User.saveSystemList(context);
 
                     } else {
                         Toast.makeText(context, "Некорректное заполнение данных.", Toast.LENGTH_LONG).show();

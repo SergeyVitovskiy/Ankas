@@ -24,10 +24,10 @@ public class SplashActivity extends AppCompatActivity {
         ImageView img_ico = findViewById(R.id.img_ico);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_center);
         img_ico.setAnimation(animation);
-        // Считывание данных пользователей
-        User.getSystemList(SplashActivity.this);
         // Считывание товаров в корзине из памяти устройства
         Basket.getSystemList(this);
+        // Считывание данных пользователей
+        User.getUser(SplashActivity.this);
         // Таймер загрузки
         final int[] tick = {0};
         final Timer timer = new Timer();
