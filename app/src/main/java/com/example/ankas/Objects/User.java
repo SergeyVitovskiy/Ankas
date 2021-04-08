@@ -7,22 +7,24 @@ import java.util.ArrayList;
 
 public class User {
     public static User user;
-
+    // Данные пользователя
     int id_;
     String name;
     String surname;
     String telephone;
     String mail;
     int id_role;
+    String name_role;
     String password;
 
-    public User(int id_, String name, String surname, String telephone, String mail, int id_role, String password) {
+    public User(int id_, String name, String surname, String telephone, String mail, int id_role, String name_role, String password) {
         this.id_ = id_;
         this.name = name;
         this.surname = surname;
         this.telephone = telephone;
         this.mail = mail;
         this.id_role = id_role;
+        this.name_role = name_role;
         this.password = password;
     }
 
@@ -35,6 +37,7 @@ public class User {
         editor.putString("telephone", User.user.getTelephone()).apply();
         editor.putString("mail", User.user.getMail()).apply();
         editor.putInt("id_role", User.user.getId_role()).apply();
+        editor.putString("name_role", User.user.getName_role()).apply();
         editor.putString("password", User.user.getPassword()).apply();
     }
 
@@ -47,8 +50,16 @@ public class User {
                 sharedPreferences.getString("telephone", ""),
                 sharedPreferences.getString("mail", ""),
                 sharedPreferences.getInt("id_role", 0),
+                sharedPreferences.getString("name_role", ""),
                 sharedPreferences.getString("password", "")
         );
+    }
+    // Авторизированный ли пользователь
+    public Boolean getAuthorizedUser() {
+        if (User.user.getId_role() == 2)
+            return true;
+        else
+            return false;
     }
 
     public int getId_() {
@@ -73,6 +84,10 @@ public class User {
 
     public int getId_role() {
         return id_role;
+    }
+
+    public String getName_role() {
+        return name_role;
     }
 
     public String getPassword() {

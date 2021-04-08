@@ -123,7 +123,7 @@ public class BasketFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Пустая ли корзина
-                if(Basket.getSizeBasket() != 0) {
+                if (Basket.getSizeBasket() != 0) {
                     // Считывание данных с полей ввода
                     String surname = txt_surname.getText().toString();
                     String name = txt_name.getText().toString();
@@ -177,52 +177,49 @@ public class BasketFragment extends Fragment {
                     }
                     // Самовывоз
                     if (receivingProduct.equals("pickUp") && check == 4) {
-                        new timerDialogLoading().execute(1000);
+                        saveUserInfo(surname, name, mail, tell);
                     }
                     // Доставка
                     else if (receivingProduct.equals("delivery") && check == 6) {
-                        new timerDialogLoading().execute(1000);
-
+                        saveUserInfo(surname, name, mail, tell);
                     } else {
                         Toast.makeText(context, "Некорректное заполнение данных.", Toast.LENGTH_LONG).show();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(context, "Ваша корзина пуста", Toast.LENGTH_LONG).show();
-
                 }
             }
         });
     }
-
-    // Диалог оформления заказа
-
-    // Таймер слайдера
-    private class timerDialogLoading extends AsyncTask<Integer, Void, Integer> {
+    // Создание зазказа
+    private class createOrder extends AsyncTask<String, Void, String>{
 
         @Override
-        protected Integer doInBackground(Integer... integer) {
-            return integer[0];
+        protected String doInBackground(String... strings) {
+            String id_user;
+            
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Integer result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            View viewItem = View.inflate(context, R.layout.dialog_loading_order, null);
-            ImageView img_ico = viewItem.findViewById(R.id.img_ico);
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.rotate_center);
-            img_ico.setAnimation(animation);
-            builder.setView(viewItem);
-            final Dialog dialog = builder.create();
-            dialog.show();
-            try {
-                Thread.sleep(result);
-                dialog.cancel();
-                Toast.makeText(context, "Заказ оформлен", Toast.LENGTH_LONG).show();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        }
+    }
+    // Запись данных пользователя
+    private void saveUserInfo(String surname, String name, String mail, String tell) {
+        // Пользователь не авторизирован
+        if (!User.user.getAuthorizedUser()) {
+            User.user = new User(
+                    0,
+                    name,
+                    surname,
+                    tell,
+                    mail,
+                    0,
+                    null,
+                    null
+            );
         }
     }
 

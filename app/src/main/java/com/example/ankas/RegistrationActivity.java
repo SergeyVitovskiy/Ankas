@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.example.ankas.Fragments.InfoFragment;
 import com.example.ankas.Objects.User;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -117,7 +121,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     layout_passwordReplay.setBackgroundResource(R.drawable.border_red);
                 }
                 // Проверка всех условий
-                if (check >= 6 ){
+                if (check >= 6) {
                     if (!password.equals(passwordReplay)) {
                         layout_password.setBackgroundResource(R.drawable.border_red);
                         layout_passwordReplay.setBackgroundResource(R.drawable.border_red);
@@ -148,6 +152,7 @@ public class RegistrationActivity extends AppCompatActivity {
         String mail;
         String telephone;
         String password;
+
         @Override
         protected String doInBackground(String... strings) {
             name = strings[1];
@@ -169,7 +174,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         .appendQueryParameter("surname", surname)
                         .appendQueryParameter("mail", mail)
                         .appendQueryParameter("telephone", telephone)
-                        .appendQueryParameter("password",password);
+                        .appendQueryParameter("password", password);
                 // Отправка результата
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
                 writer.write(builder.build().getEncodedQuery());
@@ -187,31 +192,43 @@ public class RegistrationActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "null";
+            return "nullError";
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(checkResult(result)){
-                User.user = new User(0,
-                        name,
-                        surname,
-                        mail,
-                        telephone,
-                        2,
-                        password);
-                User.saveUser(RegistrationActivity.this);
-                finish();
-                InfoFragment.infoUser();
+            if (checkResult(result)) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonObjectUser = jsonArray.getJSONObject(0);
+                    User.user = new User(
+                            jsonObjectUser.getInt("id_"),
+                            jsonObjectUser.getString("name"),
+                            jsonObjectUser.getString("surname"),
+                            jsonObjectUser.getString("telephone"),
+                            jsonObjectUser.getString("mail"),
+                            jsonObjectUser.getInt("id_role"),
+                            jsonObjectUser.getString("name_role"),
+                            jsonObjectUser.getString("password")
+                    );
+                    User.saveUser(RegistrationActivity.this);
+                    finish();
+                    InfoFragment.infoUser();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     // Проверка ответа
-    private static boolean checkResult(String result) {
+    private boolean checkResult(String result) {
         if (!result.equals("null") || !result.equals("[]") || !result.equals("") || !result.equals("{}"))
             return true;
-        else return false;
+        else if (result.equals("nullError")) {
+            Toast.makeText(this, "Ошибка получения данных с сервера", Toast.LENGTH_LONG).show();
+            return false;
+        } else return false;
     }
 }
